@@ -9,6 +9,9 @@
 #include <iostream>
 #include <string>
 
+SDL_Thread *thread_bullet_1=NULL;
+SDL_Thread *thread_bullet_2=NULL;
+int threadReturnValue;
 
 #ifdef MUTEX
 SDL_mutex *bufferLock = NULL;		//保护性互斥锁
@@ -35,9 +38,7 @@ void Quit(int code)
 	exit(code);
 }
 
-void print(std::string str) {
-	std::cout << str << std::endl;
-}
+
 /*========按键处理开始========*/
 int UpdateLoop(void *data) {
 	
@@ -115,7 +116,15 @@ int DrawLoop(void *data) {
 		SDL_mutexP(bufferLock);			//锁定
 #endif
 		EnemyDraw();
-		BulletDraw();
+		if(!thread_bullet_1)
+			thread_bullet_1 = SDL_CreateThread(BulletDraw_1, "bullet_1", NULL);
+		if (!thread_bullet_2)
+			thread_bullet_2 = SDL_CreateThread(BulletDraw_2, "bullet_2", NULL);
+		//BulletDraw();
+		/*if (thread_bullet_1)
+			SDL_WaitThread(thread_bullet_1,&threadReturnValue);
+		if (thread_bullet_2)
+			SDL_WaitThread(thread_bullet_2, &threadReturnValue);*/
 #ifdef MUTEX
 		SDL_mutexV(bufferLock);			//解锁
 		SDL_CondSignal(can_update);		//向update信号

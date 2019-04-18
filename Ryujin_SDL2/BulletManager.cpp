@@ -67,9 +67,25 @@ void BulletUpdate() {
 }
 
 void BulletDraw() {
-	for (int i = 0; i < BULLET_MAX; i++) {
+	for (int i = 0; i < BULLET_MAX/2; i++) {
 		if (bullet[i].isExist()) {
 			bullet[i].Draw();
 		}
 	}
+}
+int BulletDraw_1(void *data) {
+	for (int i = 0; i < BULLET_MAX / 2; i++) {
+		if (bullet[i].isExist()) {
+			bullet[i].Draw();
+		}
+	}
+	return 1;
+}
+int BulletDraw_2(void *data) {
+	for (int i = BULLET_MAX/2; i < BULLET_MAX; i++) {
+		if (bullet[i].isExist()) {
+			bullet[i].Draw();
+		}
+	}
+	return 1;
 }
