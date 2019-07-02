@@ -14,14 +14,16 @@
 Emitter* emitter = NULL;
 Bullet* bullet = NULL;
 
+
 void EmitterInit() {
 	emitter = new Emitter[EMITTER_MAX];
 	bullet = new Bullet[BULLET_MAX];
 }
 inline int search_emitter() {
 	for (int i = 0; i < EMITTER_MAX; i++) {
-		if (!emitter[i].isExist())
+		if (!emitter[i].isExist()) {
 			return i;
+		}
 	}
 	return -1;
 }
@@ -35,7 +37,7 @@ int EmitterEnter(int enemy_id) {
 }
 
 void EmitterUpdate() {
-	for (int i = 0; i < EMITTER_MAX; i++) {
+	for (int i = 0; i < EMITTER_MAX ; i++) {
 		if (emitter[i].isExist()) {
 			emitter[i].Update();
 		}
@@ -67,25 +69,9 @@ void BulletUpdate() {
 }
 
 void BulletDraw() {
-	for (int i = 0; i < BULLET_MAX/2; i++) {
+	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullet[i].isExist()) {
 			bullet[i].Draw();
 		}
 	}
-}
-int BulletDraw_1(void *data) {
-	for (int i = 0; i < BULLET_MAX / 2; i++) {
-		if (bullet[i].isExist()) {
-			bullet[i].Draw();
-		}
-	}
-	return 1;
-}
-int BulletDraw_2(void *data) {
-	for (int i = BULLET_MAX/2; i < BULLET_MAX; i++) {
-		if (bullet[i].isExist()) {
-			bullet[i].Draw();
-		}
-	}
-	return 1;
 }

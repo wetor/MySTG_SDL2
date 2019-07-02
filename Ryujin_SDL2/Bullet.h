@@ -1,7 +1,7 @@
+#pragma once
 #include "struct.h"
 #include "define.h"
 #include "Unit.h"
-#pragma once
 class Bullet :public Unit
 {
 public:
@@ -12,7 +12,7 @@ public:
 	void Update();
 	void Free();
 public:
-	bool flag = false;
+	bool flag;
 	//种类、计数器、颜色、状态、保证不消失的最短时间、效果的种类
 	int  knd, col, state, till, eff;
 	//坐标、速度、基本角度、瞬间记忆速度

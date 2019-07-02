@@ -40,8 +40,8 @@ extern	int BulletEnter(bullet_t * data);
 extern	void BulletUpdate();
 
 extern	void BulletDraw();
-extern	int BulletDraw_1(void *data);
-extern	int BulletDraw_2(void *data);
+
+
 
 
 extern	void FpsShow(int x, int y);

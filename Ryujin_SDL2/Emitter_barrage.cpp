@@ -6,6 +6,7 @@ double shotatan2(int enemy_id) {
 
 	return atan2(player->y - enemy[enemy_id].y, player->x - enemy[enemy_id].x);
 }
+
 /*double rang(double max) {
 	return (rand() % (int)(max * 1000)) / 1000.0;
 }*/
@@ -14,7 +15,7 @@ void emitter_bullet_H000(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	//for (int z = 0; z < 5; z++)
+	for (int z = 0; z < 3; z++)
 	if (t != 0) {
 		
 		bullet_t temp;
@@ -29,7 +30,8 @@ void emitter_bullet_H000(Emitter *_this) {
 		temp.spd = 3;
 		////se_flag[0] = 1;
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
 	
 
@@ -40,7 +42,6 @@ void emitter_bullet_H001(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 100 && t % 10 == 0) { //100次计数每10次计数1次
 		bullet_t temp;
 		temp.knd = enemy[enemy_id].blknd2;//子弹的登录
@@ -53,7 +54,8 @@ void emitter_bullet_H001(Emitter *_this) {
 		temp.spd = 3;//速度
 
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
 }
 //100次计数中发射10发，向着自机直线发射（记忆角度）
@@ -61,7 +63,6 @@ void emitter_bullet_H002(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 100 && t % 10 == 0) {
 		if (t == 0)
 			_this->base_angle[0] = shotatan2(enemy_id);
@@ -76,7 +77,8 @@ void emitter_bullet_H002(Emitter *_this) {
 		temp.spd = 3;
 		//se_flag[0] = 1;
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
 }
 
@@ -85,7 +87,6 @@ void emitter_bullet_H003(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 100 && t % 10 == 0) {
 		bullet_t temp;
 		temp.knd = enemy[enemy_id].blknd2;
@@ -98,7 +99,8 @@ void emitter_bullet_H003(Emitter *_this) {
 		temp.spd = 1 + 5.0 / 100 * t;
 		//se_flag[0] = 1;
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
 }
 //0.5秒一次地圆形发射
@@ -106,7 +108,6 @@ void emitter_bullet_H004(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 120 && t % 20 == 0) {
 		double angle = shotatan2(enemy_id);
 		for (int i = 0; i < 20; i++) {
@@ -122,7 +123,8 @@ void emitter_bullet_H004(Emitter *_this) {
 			temp.spd = 4;
 
 			bullet_id = BulletEnter(&temp);
-			_this->bullet_id.push_back(bullet_id);
+			_this->AddBulletID(bullet_id);
+			//_this->bullet_id.push_back(bullet_id);
 		}
 	}
 }
@@ -131,7 +133,6 @@ void emitter_bullet_H005(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 120 && t % 2 == 0) {
 		bullet_t temp;
 		temp.knd = enemy[enemy_id].blknd2;
@@ -144,7 +145,8 @@ void emitter_bullet_H005(Emitter *_this) {
 		temp.spd = 3 + rang(1.5);
 		//se_flag[0] = 1;
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
 }
 
@@ -153,7 +155,6 @@ void emitter_bullet_H006(Emitter *_this) {
 	int enemy_id = _this->enemy_id;
 	int bullet_id = 0;
 	int t = _this->frame;
-	int k;
 	if (t >= 0 && t < 120 && t % 2 == 0) {
 		bullet_t temp;
 		temp.knd = enemy[enemy_id].blknd2;
@@ -166,11 +167,17 @@ void emitter_bullet_H006(Emitter *_this) {
 		temp.spd = 4 + rang(2);
 		//se_flag[0] = 1;
 		bullet_id = BulletEnter(&temp);
-		_this->bullet_id.push_back(bullet_id);
+		_this->AddBulletID(bullet_id);
+		//_this->bullet_id.push_back(bullet_id);
 	}
+	for (int id = 0; id < SHOT_BULLET_MAX; id++) {
+		if (bullet[_this->bullet_id_list[id]].spd > 1.5)//如果速度大于1.5的话
+			bullet[_this->bullet_id_list[id]].spd -= 0.04;//减速
+		
+	}/*
 	for (auto id = _this->bullet_id.begin(); id != _this->bullet_id.end();) {//所有子弹的循环
 		if (bullet[*id].spd > 1.5)//如果速度大于1.5的话
 			bullet[*id].spd -= 0.04;//减速
-	}
+	}*/
 
 }

@@ -15,7 +15,7 @@ extern  SDL_Renderer *render;
 
 
 extern  SDL_Thread *thread_draw;
-extern  SDL_Thread *thread_draw2;
+extern  SDL_Thread *thread_emitter;
 extern  SDL_Thread *thread_update;
 extern  SDL_Thread *thread_script;
 

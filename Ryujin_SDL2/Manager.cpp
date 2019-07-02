@@ -18,7 +18,7 @@ TTF_Font *font_default = NULL;
 TTF_Font *font_mini = NULL;
 
 SDL_Thread *thread_draw = NULL;
-SDL_Thread *thread_draw2 = NULL;
+SDL_Thread *thread_emitter = NULL;
 SDL_Thread *thread_update = NULL;
 SDL_Thread *thread_script = NULL;
 
@@ -67,7 +67,7 @@ bool WindowInit() {
 	//º”‘ÿ‰÷»æ∆˜
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (render == NULL) return false;
-
+	SDL_RenderSetLogicalSize(render, WINDOW_W, WINDOW_H);
 	font_default = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 22);
 	font_mini = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 12);
 	

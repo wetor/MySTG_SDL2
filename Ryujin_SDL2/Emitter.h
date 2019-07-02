@@ -12,17 +12,16 @@ public:
 	~Emitter();
 
 	bool isExist() { return (flag == -1) ? false : true; };
+	int AddBulletID(int id);
 	void Init(int enemy_id);
 	void Update();
 public:
-	int enemy_id = -1;
-	int flag = -1;
 	//flag、种类、计数器、发射的敌人的编号
-	int  knd, frame, x, y;
+	int  enemy_id, flag, knd, frame;
 	//基本角度、基本速度
-	double base_angle[1], base_spd[1];
+	double x, y, base_angle[1], base_spd[1];
 	
-	std::deque<int> bullet_id;
+	int* bullet_id_list;
 
 };
 

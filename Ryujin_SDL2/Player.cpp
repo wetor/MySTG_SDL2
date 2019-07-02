@@ -2,9 +2,17 @@
 #include "Player.h"
 
 
-Player::Player()
+Player::Player() : Unit()
 {
-
+	this->flag = 0;
+	this->power = 0;
+	this->point = 0;
+	this->score = 0;
+	this->num = 0;
+	this->mutekicnt = 0;
+	this->shot_mode = 0;
+	this->money = 0;
+	this->slow = false;
 }
 void Player::Init()
 {
@@ -13,8 +21,8 @@ void Player::Init()
 	h = 48;
 	Unit::Init(UNIT_PLAYER);
 	
-	x = FX + FW / 2;
-	y = FY + FW - 50;
+	x = (double)FX + FW / 2.0;
+	y = (double)FY + FW - 50.0;
 }
 void Player::Update() {
 	
@@ -75,9 +83,9 @@ void Player::Update() {
 		slow = true;
 	}else
 		slow = false;
-	if (!(x + mx<FX || x + mx>FMX))
+	if (!(x + mx < (double)FX || x + mx> (double)FMX))
 		x += mx;
-	if (!(y + my<FY || y + my>FMY)) 
+	if (!(y + my< (double)FY || y + my>(double)FMY))
 		y += my;
 
 	

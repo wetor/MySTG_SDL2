@@ -2,13 +2,23 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet()
+Bullet::Bullet() : Unit()
 {
+	this->flag = false;
+	this->knd = 0;
+	this->col = 0;
+	this->state = 0;
+	this->till = 0;
+	this->eff = 0;
+	this->spd = 0;
+	this->base_angle[1] = 0;
+	this->rem_spd[1] = 0;
 }
 
 
 Bullet::~Bullet()
 {
+	Unit::Free();
 }
 void Bullet::Init(bullet_t * data) {
 	Unit::Load("b1");

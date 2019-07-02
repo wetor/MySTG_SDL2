@@ -9,17 +9,13 @@
 #include <iostream>
 #include <string>
 
-SDL_Thread *thread_bullet_1=NULL;
-SDL_Thread *thread_bullet_2=NULL;
-int threadReturnValue;
 
+#define MUTEX
 #ifdef MUTEX
-SDL_mutex *bufferLock = NULL;		//保护性互斥锁
-SDL_cond *can_update = NULL;		//条件变量
+SDL_mutex *loop_lock = NULL;		//保护性互斥锁
+SDL_cond *can_emitter = NULL;		//条件变量
 SDL_cond *can_draw = NULL;
 #endif
-static int FPS = 1000 / 60;
-static Uint32 _FPS_Timer;
 
 
 void Quit(int code)
@@ -43,21 +39,24 @@ void Quit(int code)
 int UpdateLoop(void *data) {
 	
 	while (!quit) {
-		//事件处理等
-		/*if (SDL_GetTicks() - _FPS_Timer < FPS) {
-			SDL_Delay(FPS - SDL_GetTicks() + _FPS_Timer);
-		}
-		_FPS_Timer = SDL_GetTicks();*/
-		
-		/* 实时显示子弹数
+#ifdef DEBUG
+		// 实时显示子弹数
 		int num = 0;
 		for (int i = 0; i < BULLET_MAX; i++) 
 			if (bullet[i].flag) 
 				num++;
 		printf("%d\n",num);
-		*/
-		//FpsWaitOnly();
-		FpsWait();//关联帧率显示
+#endif
+
+#ifdef MUTEX
+		SDL_mutexP(loop_lock);			//锁定
+#endif
+		FpsWait();//帧数控制
+#ifdef MUTEX
+		SDL_mutexV(loop_lock);			//解锁
+		SDL_CondSignal(can_emitter);
+		SDL_CondSignal(can_draw);
+#endif
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
@@ -79,26 +78,22 @@ int UpdateLoop(void *data) {
 			}
 		}
 		player->Update();
-#ifdef MUTEX
-		SDL_mutexP(bufferLock);			//锁定
-#endif
-		EmitterUpdate();
 		EnemyUpdate();
-#ifdef MUTEX
-		SDL_mutexV(bufferLock);			//解锁
-		SDL_CondSignal(can_draw);		//向draw发信号
-#endif
 		frame_total++;
 	}
 	return 0;
 }
-/*========绘制开始========*/
+/*
+绘制函数
+*/
 int DrawLoop(void *data) {
 
 	while (!quit) {
-		//事件处理等
+#ifdef MUTEX
+		SDL_CondWait(can_draw, loop_lock);
+#else
 		FpsWaitOnly();//仅控制帧率
-		//SDL_Delay(16);
+#endif
 		SDL_RenderClear(render);
 #ifdef DEBUG
 		/*显示边框*/
@@ -112,23 +107,9 @@ int DrawLoop(void *data) {
 		SDL_RenderDrawRect(render, &rect);
 		SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
 #endif
-#ifdef MUTEX
-		SDL_mutexP(bufferLock);			//锁定
-#endif
 		EnemyDraw();
-		if(!thread_bullet_1)
-			thread_bullet_1 = SDL_CreateThread(BulletDraw_1, "bullet_1", NULL);
-		if (!thread_bullet_2)
-			thread_bullet_2 = SDL_CreateThread(BulletDraw_2, "bullet_2", NULL);
-		//BulletDraw();
-		/*if (thread_bullet_1)
-			SDL_WaitThread(thread_bullet_1,&threadReturnValue);
-		if (thread_bullet_2)
-			SDL_WaitThread(thread_bullet_2, &threadReturnValue);*/
-#ifdef MUTEX
-		SDL_mutexV(bufferLock);			//解锁
-		SDL_CondSignal(can_update);		//向update信号
-#endif
+		BulletDraw();
+
 		player->Draw();
 		FpsShow(100, 100);
 		SDL_RenderPresent(render);
@@ -137,18 +118,24 @@ int DrawLoop(void *data) {
 
 	return 0;
 }
-int draw2(void *data) {
+/*
+弹幕计算相关 更新函数
+*/
+int EmitterLoop(void* data) {
+	static int FPS = 1000 / 60;
+	static Uint32 _FPS_Timer;
 	while (!quit) {
+		if (func_state != 100) continue;
+#ifdef MUTEX
+		SDL_CondWait(can_emitter, loop_lock);
+#else
 		if (SDL_GetTicks() - _FPS_Timer < FPS) {
 			SDL_Delay(FPS - SDL_GetTicks() + _FPS_Timer);
 		}
 		_FPS_Timer = SDL_GetTicks();
-		BulletDraw();
-		SDL_RenderPresent(render);
-	
+#endif
+		EmitterUpdate();
 	}
-
-	
 	return 0;
 }
 
@@ -157,10 +144,8 @@ int main(int argc, char* argv[])
 	if (!WindowInit())
 		SDL_Log("ERROR:%s\n", SDL_GetError());
 #ifdef MUTEX
-	//创建互斥锁
-	bufferLock = SDL_CreateMutex();
-	//创建条件变量
-	can_update = SDL_CreateCond();
+	loop_lock = SDL_CreateMutex();
+	can_emitter = SDL_CreateCond();
 	can_draw = SDL_CreateCond();
 #endif
 	while (!quit) {
@@ -191,8 +176,7 @@ int main(int argc, char* argv[])
 			printf("Func 99\n");
 			
 			thread_draw = SDL_CreateThread(DrawLoop, "draw", NULL);
-			//thread_draw2 = SDL_CreateThread(draw2, "draw2", NULL);
-			//thread_update = SDL_CreateThread(UpdateLoop, "update", NULL);
+			thread_emitter = SDL_CreateThread(EmitterLoop, "emitter", NULL);
 			func_state = 100;
 			break;
 		case 100:
