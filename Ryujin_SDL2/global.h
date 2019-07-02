@@ -2,6 +2,7 @@
 
 #include "define.h"
 #include "struct.h"
+#include "Utils.h"
 #include <SDL.h>
 #include <SDL_thread.h>
 #include <SDL_image.h>
@@ -30,4 +31,3 @@ extern  int frame_total;
 extern  map<string, SDL_Surface*> image_surface;
 extern  map<string, SDL_Texture*> image_texture;
 
-extern double rang(double ang);

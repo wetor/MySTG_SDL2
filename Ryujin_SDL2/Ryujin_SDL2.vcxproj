@@ -171,11 +171,13 @@
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="EmitterManager.cpp" />
     <ClCompile Include="Emitter_barrage.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy_pattern.cpp" />
@@ -193,6 +195,7 @@
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitManager.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

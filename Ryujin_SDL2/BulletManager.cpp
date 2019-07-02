@@ -11,67 +11,40 @@
 #include "global.h"
 #include "Manager.h"
 
-Emitter* emitter = NULL;
-Bullet* bullet = NULL;
 
+NspBullet::Bullet* bullet = NULL;
 
-void EmitterInit() {
-	emitter = new Emitter[EMITTER_MAX];
-	bullet = new Bullet[BULLET_MAX];
-}
-inline int search_emitter() {
-	for (int i = 0; i < EMITTER_MAX; i++) {
-		if (!emitter[i].isExist()) {
-			return i;
+namespace NspBullet {
+
+	inline int search_bullet() {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (!bullet[i].isExist())
+				return i;
+		}
+		return -1;
+	}
+
+	int BulletEnter(bullet_t* data) {
+
+		int k = search_bullet();
+		if (k != -1)
+			bullet[k].Init(data);
+		return k;
+	}
+
+	void BulletUpdate() {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullet[i].isExist()) {
+				bullet[i].Update();
+			}
 		}
 	}
-	return -1;
-}
 
-int EmitterEnter(int enemy_id) {
-	
-	int k = search_emitter();
-	if (k != -1)
-		emitter[k].Init(enemy_id);
-	return k;
-}
-
-void EmitterUpdate() {
-	for (int i = 0; i < EMITTER_MAX ; i++) {
-		if (emitter[i].isExist()) {
-			emitter[i].Update();
-		}
-	}
-}
-
-inline int search_bullet() {
-	for (int i = 0; i < BULLET_MAX; i++) {
-		if (!bullet[i].isExist())
-			return i;
-	}
-	return -1;
-}
-
-int BulletEnter(bullet_t * data) {
-
-	int k = search_bullet();
-	if (k != -1)
-		bullet[k].Init(data);
-	return k;
-}
-
-void BulletUpdate() {
-	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullet[i].isExist()) {
-			bullet[i].Update();
-		}
-	}
-}
-
-void BulletDraw() {
-	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullet[i].isExist()) {
-			bullet[i].Draw();
+	void BulletDraw() {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullet[i].isExist()) {
+				bullet[i].Draw();
+			}
 		}
 	}
 }

@@ -4,10 +4,10 @@
 #include <lualib.h>  
 
 
-static lua_State *L; //创建一个解释器句柄= luaL_newstate();
+static lua_State* L; //创建一个解释器句柄= luaL_newstate();
 class Script {
 public:
-
+	
 	static void Open(const char* filename);
 	static void Run();
 	static void Close();

@@ -35,8 +35,6 @@ int func_state = 0;
 bool WindowInit() {
 	//≥ı ºªØ¥∞ÃÂ+
 
-
-
 	//SDL Init
 	SDL_Init(SDL_INIT_EVERYTHING);
 	//Settings

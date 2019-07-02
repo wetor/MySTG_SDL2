@@ -24,8 +24,8 @@ void Quit(int code)
 	if (errMsg && strlen(errMsg)) {
 		SDL_Log("Error : %s\n", errMsg);
 	}
-	//TTF_CloseFont(font);
-	//TTF_CloseFont(font_mini);
+	TTF_CloseFont(font_default);
+	TTF_CloseFont(font_mini);
 	//销毁窗口、渲染器、纹理
 	if (window) SDL_DestroyWindow(window);
 	if (render) SDL_DestroyRenderer(render);
@@ -39,19 +39,11 @@ void Quit(int code)
 int UpdateLoop(void *data) {
 	
 	while (!quit) {
-#ifdef DEBUG
-		// 实时显示子弹数
-		int num = 0;
-		for (int i = 0; i < BULLET_MAX; i++) 
-			if (bullet[i].flag) 
-				num++;
-		printf("%d\n",num);
-#endif
 
 #ifdef MUTEX
 		SDL_mutexP(loop_lock);			//锁定
 #endif
-		FpsWait();//帧数控制
+		NspFps::FpsWait();//帧数控制
 #ifdef MUTEX
 		SDL_mutexV(loop_lock);			//解锁
 		SDL_CondSignal(can_emitter);
@@ -78,7 +70,7 @@ int UpdateLoop(void *data) {
 			}
 		}
 		player->Update();
-		EnemyUpdate();
+		NspEnemy::EnemyUpdate();
 		frame_total++;
 	}
 	return 0;
@@ -87,12 +79,18 @@ int UpdateLoop(void *data) {
 绘制函数
 */
 int DrawLoop(void *data) {
-
+#if !defined(MUTEX)
+	static int FPS = 1000 / 60;
+	static Uint32 _FPS_Timer;
+#endif
 	while (!quit) {
 #ifdef MUTEX
 		SDL_CondWait(can_draw, loop_lock);
 #else
-		FpsWaitOnly();//仅控制帧率
+		if (SDL_GetTicks() - _FPS_Timer < FPS) {
+			SDL_Delay(FPS - SDL_GetTicks() + _FPS_Timer);
+	}
+		_FPS_Timer = SDL_GetTicks();
 #endif
 		SDL_RenderClear(render);
 #ifdef DEBUG
@@ -107,11 +105,22 @@ int DrawLoop(void *data) {
 		SDL_RenderDrawRect(render, &rect);
 		SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
 #endif
-		EnemyDraw();
-		BulletDraw();
 
+
+		NspEnemy::EnemyDraw();
+		NspBullet::BulletDraw();
 		player->Draw();
-		FpsShow(100, 100);
+		NspFps::FpsShow(100, 100);
+#ifdef DEBUG
+		// 实时显示子弹数
+		int num = 0;
+		for (int i = 0; i < BULLET_MAX; i++)
+			if (bullet[i].flag)
+				num++;
+		NumberShow(100, 50, num);
+		//printf("%d\n",num);
+#endif
+
 		SDL_RenderPresent(render);
 	}
 
@@ -122,8 +131,10 @@ int DrawLoop(void *data) {
 弹幕计算相关 更新函数
 */
 int EmitterLoop(void* data) {
+#if !defined(MUTEX)
 	static int FPS = 1000 / 60;
 	static Uint32 _FPS_Timer;
+#endif
 	while (!quit) {
 		if (func_state != 100) continue;
 #ifdef MUTEX
@@ -134,7 +145,7 @@ int EmitterLoop(void* data) {
 		}
 		_FPS_Timer = SDL_GetTicks();
 #endif
-		EmitterUpdate();
+		NspEmitter::EmitterUpdate();
 	}
 	return 0;
 }
@@ -152,31 +163,32 @@ int main(int argc, char* argv[])
 
 		switch (func_state) {
 		case 0:
-			printf("Func 0\n");
+			LogA("ResourcesInit()");
 			ResourcesInit();
-			//lua脚本实现
+			/*lua脚本实现*/
+			LogA("ScriptLoad()");
 			Script::Open("../Ryujin_SDL2/dat/script/load.lua");
 			Script::Run();
 			Script::Close();
-
+			LogA("FuncState 0 Over");
 			func_state = 1;
 			break;
 		case 1:
-			printf("Init 1\n");
-
-			PlayerInit();
-			EnemyInit();
-			EmitterInit();
+			
+			LogA("PlayerInit()");	NspPlayer::PlayerInit();
+			LogA("EnemyInit()");	NspEnemy::EnemyInit();
+			LogA("EmitterInit()");	NspEmitter::EmitterInit();
 			for(int i=0;i<100;i++)
-				EnemyEnter();
-		
+				NspEnemy::EnemyEnter();
+			LogA("FuncState 1 Over");
 			func_state = 99;
 			break;
 		case 99:
-			printf("Func 99\n");
-			
+			LogA("ThreadInit()");
 			thread_draw = SDL_CreateThread(DrawLoop, "draw", NULL);
 			thread_emitter = SDL_CreateThread(EmitterLoop, "emitter", NULL);
+			LogA("FuncState 99 Over");
+
 			func_state = 100;
 			break;
 		case 100:
@@ -190,7 +202,7 @@ int main(int argc, char* argv[])
 		}
 
 	}
-	printf("Quit\n");
+	LogA("Quit");
 	Quit(0);
 	return 0;
 }
