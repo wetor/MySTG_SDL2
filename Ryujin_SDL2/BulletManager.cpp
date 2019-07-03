@@ -13,6 +13,7 @@
 
 
 NspBullet::Bullet* bullet = NULL;
+NspBullet::Bullet* player_bullet = NULL;
 
 namespace NspBullet {
 
@@ -44,6 +45,40 @@ namespace NspBullet {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (bullet[i].isExist()) {
 				bullet[i].Draw();
+			}
+		}
+	}
+
+
+	//----------------------------------
+	inline int search_player_bullet() {
+		for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
+			if (!player_bullet[i].isExist())
+				return i;
+		}
+		return -1;
+	}
+
+	int PlayerBulletEnter(player_bullet_t* data) {
+
+		int k = search_player_bullet();
+		if (k != -1)
+			player_bullet[k].Init(data);
+		return k;
+	}
+
+	void PlayerBulletUpdate() {
+		for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
+			if (player_bullet[i].isExist()) {
+				player_bullet[i].Update();
+			}
+		}
+	}
+
+	void PlayerBulletDraw() {
+		for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
+			if (player_bullet[i].isExist()) {
+				player_bullet[i].Draw();
 			}
 		}
 	}

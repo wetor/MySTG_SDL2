@@ -13,7 +13,7 @@ extern  NspEnemy::Enemy* enemy;
 
 extern  NspEmitter::Emitter* emitter;
 extern	NspBullet::Bullet* bullet;
-
+extern	NspBullet::Bullet* player_bullet;
 
 extern  list<enemy_order_t> enemy_order;
 extern  bool WindowInit();
@@ -37,13 +37,16 @@ namespace NspEnemy {
 }
 namespace NspEmitter {
 	extern	void EmitterInit();
-	extern	int EmitterEnter(int enemy_id);
+	extern	int	 EmitterEnter(int enemy_id);
 	extern	void EmitterUpdate();
 }
 namespace NspBullet {
-	extern	int BulletEnter(bullet_t* data);
+	extern	int  BulletEnter(bullet_t* data);
 	extern	void BulletUpdate();
 	extern	void BulletDraw();
+	extern	int  PlayerBulletEnter(player_bullet_t* data);
+	extern	void PlayerBulletUpdate();
+	extern	void PlayerBulletDraw();
 }
 namespace NspWindow {
 	extern	void FpsShow(int x, int y);

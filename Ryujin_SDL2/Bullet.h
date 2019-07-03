@@ -10,10 +10,13 @@ namespace NspBullet {
 		~Bullet();
 		bool isExist() { return flag; };
 		void Init(bullet_t* data);
+		void Init(player_bullet_t* data);
 		void Update();
 		void Free();
 	public:
 		bool flag;
+
+		int power;//player bullet
 		//种类、计数器、颜色、状态、保证不消失的最短时间、效果的种类
 		int  knd, col, state, till, eff;
 		//坐标、速度、基本角度、瞬间记忆速度

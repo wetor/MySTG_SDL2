@@ -61,7 +61,10 @@ void Unit::Draw()
 	SDL_Rect *temp_rect = new SDL_Rect({ (int)(x + 0.5) - w / 2, (int)(y + 0.5) - h / 2, w, h });
 	SDL_Point *temp_point = new SDL_Point({ (int)w / 2,(int)h / 2 });
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
-	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, unit_type == UNIT_BULLET ? angle * 180.0 / PI + 90.0 : 0, temp_point, SDL_FLIP_NONE);
+	double _angle = 0;
+	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)
+		_angle = angle * 180.0 / PI + 90.0;
+	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
 	delete temp_rect;
 	delete temp_point;
 }

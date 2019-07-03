@@ -10,6 +10,7 @@ public:
 	void Init(UNIT_TYPE unit_type = UNIT_DEFAULT);
 	void Draw();
 	void Update();
+	UNIT_TYPE GetType() {return unit_type;};
 	void Free();
 
 public:

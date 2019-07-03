@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "Player.h"
-namespace NspPlayer {
+#include "Manager.h"
 
+
+namespace NspPlayer {
+	
 	Player::Player() : Unit()
 	{
 		this->flag = 0;
-		this->power = 0;
+		this->power = 500;
 		this->point = 0;
 		this->score = 0;
 		this->num = 0;
@@ -13,6 +16,7 @@ namespace NspPlayer {
 		this->shot_mode = 0;
 		this->money = 0;
 		this->slow = false;
+		this->shot_cnt = 0;
 	}
 	void Player::Init()
 	{
@@ -21,6 +25,8 @@ namespace NspPlayer {
 
 		x = (double)FX + FW / 2.0;
 		y = (double)FY + FW - 50.0;
+
+		player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
 	}
 	void Player::Update() {
 
@@ -89,8 +95,49 @@ namespace NspPlayer {
 
 
 
+		//当按下射击按钮的时候
+		if (key_state[SDL_SCANCODE_Z]) {
+			this->shot_cnt++;
+			if (this->shot_cnt % 3 == 0) {//每3次计数射击一次
+				Shot();
+			}
+		}
+		else
+			this->shot_cnt = 0;
+
 		Unit::Update();
 
 	}
+
+	//一般射击的登录
+	void Player::Shot() {
+		static int cshot0num[2] = { 2,4 };
+		static int cshot0pos_x[4] = { -10, 10,-30, 30 };
+		static int cshot0pos_y[4] = { -30,-30,-10,-10 };
+		for (int i = 0; i < cshot0num[this->power < 200 ? 0 : 1]; i++) {
+			player_bullet_t temp;
+			temp.flag = true;
+			temp.cnt = 0;
+			temp.angle = -PI / 2;
+			temp.spd = 20;
+			if (!this->slow) {
+				temp.x = this->x + cshot0pos_x[i];
+				temp.y = this->y + cshot0pos_y[i];
+			}
+			else {	//低速，子弹靠近中间
+				temp.x = this->x + cshot0pos_x[i] / 3;
+				temp.y = this->y + cshot0pos_y[i] / 2;
+			}
+
+			temp.power = 23;
+			temp.knd = 0;
+			NspBullet::PlayerBulletEnter(&temp);
+		}
+		
+
+		//se_flag[2] = 1;//播放发射音
+	}
+
+
 
 }

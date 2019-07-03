@@ -1,6 +1,7 @@
 #pragma once
 #include "Unit.h"
 namespace NspPlayer {
+
 	class Player :
 		public Unit
 	{
@@ -9,6 +10,9 @@ namespace NspPlayer {
 		void Init();
 		void Draw() { Unit::Draw(); };
 		void Update();
+		void Shot();
+
+
 	private:
 
 		int flag;       //flag
@@ -21,8 +25,12 @@ namespace NspPlayer {
 		int shot_mode;  //射击模式
 		int money;      //金钱
 		bool slow;       //是否缓慢移动
+		int shot_cnt;    //射击的计数器
 
 
 	};
+
+
+
 
 }

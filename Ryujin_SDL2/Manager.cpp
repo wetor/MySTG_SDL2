@@ -25,6 +25,7 @@ SDL_Thread *thread_script = NULL;
 
 map<string, image_t> image_map;
 vector<string> bullet_image_list;
+vector<string> player_bullet_image_list;
 
 bool quit = false;
 //static TTF_Font *font = NULL;
@@ -72,10 +73,15 @@ bool WindowInit() {
 }
 void ResourcesInit() {
 	image_map.clear();
-
+	player_bullet_image_list.clear();
 
 	image_map["player"] = { 32,48,IMG_Load("../Ryujin_SDL2/dat/img/player/reimu.png") };
 	image_map["enemy0"] = { 32,32,IMG_Load("../Ryujin_SDL2/dat/img/enemy/0.png") };
+
+	image_map["pb0"] = { 11,55,IMG_Load("../Ryujin_SDL2/dat/img/player/bl_00.png")};
+	image_map["pb1"] = { 35,35,IMG_Load("../Ryujin_SDL2/dat/img/player/bl_01.png")};
+	player_bullet_image_list.push_back("pb0");
+	player_bullet_image_list.push_back("pb1");
 
 	image_map["b0"] = { 76,76,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b0.png") };
 	image_map["b1"] = { 22,22,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b1.png") };

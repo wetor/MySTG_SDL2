@@ -18,6 +18,13 @@ typedef struct {
 	double x, y, angle, spd, base_angle[1], rem_spd[1];
 }bullet_t;
 
+//和角色射击相关的结构体
+
+typedef struct {
+	int flag, power, cnt, knd;//flag、power、计数器、种类
+	double x, y, angle, spd;//坐标、角度、速度
+}player_bullet_t;
+
 enum RESOURCES_TYPE {
 	RES_DATA,
 	RES_IMAGE,
@@ -42,6 +49,7 @@ typedef struct {
 enum UNIT_TYPE{
 	UNIT_DEFAULT,
 	UNIT_BULLET,
+	UNIT_PLAYER_BULLET,
 	UNIT_PLAYER,
 	UNIT_ENEMY,
 	UNIT_BOSS

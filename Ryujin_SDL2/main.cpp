@@ -68,9 +68,12 @@ int UpdateLoop(void *data) {
 				break;
 			}
 		}
-		NspBullet::BulletUpdate();
+		
 		NspPlayer::PlayerUpdate();
+		NspBullet::PlayerBulletUpdate();
 		NspEnemy::EnemyUpdate();
+		NspBullet::BulletUpdate();
+
 		frame_total++;
 	}
 	return 0;
@@ -106,10 +109,11 @@ int DrawLoop(void *data) {
 		SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
 #endif
 
-
 		NspEnemy::EnemyDraw();
-		NspBullet::BulletDraw();
+		NspBullet::PlayerBulletDraw();
 		NspPlayer::PlayerDraw();
+		NspBullet::BulletDraw();
+		
 		NspWindow::FpsShow(100, 100);
 #ifdef DEBUG
 		// 实时显示子弹数
@@ -179,10 +183,10 @@ int main(int argc, char* argv[])
 			func_state = 1;
 			break;
 		case 1:
-			
-			LogA("PlayerInit()");	NspPlayer::PlayerInit();
 			LogA("EnemyInit()");	NspEnemy::EnemyInit();
 			LogA("EmitterInit()");	NspEmitter::EmitterInit();
+			LogA("PlayerInit()");	NspPlayer::PlayerInit();
+
 			for(int i=0;i<100;i++)
 				NspEnemy::EnemyEnter();
 			LogA("FuncState 1 Over");
