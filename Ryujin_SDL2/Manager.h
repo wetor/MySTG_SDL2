@@ -1,16 +1,11 @@
 #pragma once
-
-
-
-#include "Player.h"
-#include "Enemy.h"
-
-#include "Emitter.h"
 #include "Bullet.h"
-
+#include "Emitter.h"
+#include "Enemy.h"
+#include "Player.h"
 #include "struct.h"
-#include <list>
 #include <iostream>
+#include <list>
 using namespace std;
 extern  NspPlayer::Player *player;
 //extern  list<Enemy*> enemy;
@@ -30,6 +25,8 @@ extern	void NumberShow(int x, int y, int num);
 
 namespace NspPlayer {
 	extern  void PlayerInit();
+	extern  void PlayerUpdate();
+	extern  void PlayerDraw();
 }
 
 namespace NspEnemy {
@@ -47,11 +44,8 @@ namespace NspBullet {
 	extern	int BulletEnter(bullet_t* data);
 	extern	void BulletUpdate();
 	extern	void BulletDraw();
-
 }
-
-namespace NspFps {
-
+namespace NspWindow {
 	extern	void FpsShow(int x, int y);
 	extern	void FpsWait();
 }

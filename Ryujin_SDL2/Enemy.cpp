@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Enemy.h"
-#ifdef DEBUG
+
 #include <stdlib.h>
-#endif
+
 
 namespace NspEnemy {
 	
@@ -12,6 +12,7 @@ namespace NspEnemy {
 			enemy_pattern5, enemy_pattern6, enemy_pattern7, enemy_pattern8, enemy_pattern9,
 			enemy_pattern10
 	};
+
 	Enemy::Enemy()
 	{
 	}
@@ -23,8 +24,6 @@ namespace NspEnemy {
 
 	void Enemy::Init(enemy_order_t _enemy_order) {
 		Unit::Load("enemy0");
-		w = 32;
-		h = 32;
 		Unit::Init(UNIT_ENEMY);
 
 		this->flag = true;

@@ -19,7 +19,11 @@ namespace NspEmitter {
 	
 
 	void(*Emitter_barrage[EMITTER_BARRAGE_MAX])(Emitter*) = {
-			emitter_bullet_H000,emitter_bullet_H001,emitter_bullet_H002,emitter_bullet_H003,emitter_bullet_H004,emitter_bullet_H005,emitter_bullet_H006
+			emitter_bullet_H000,emitter_bullet_H001,
+			emitter_bullet_H002,emitter_bullet_H003,
+			emitter_bullet_H004,emitter_bullet_H005,
+			emitter_bullet_H006,emitter_bullet_H007,
+			emitter_bullet_H008
 	};
 
 	Emitter::Emitter()

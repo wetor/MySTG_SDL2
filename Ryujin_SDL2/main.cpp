@@ -1,10 +1,9 @@
 ﻿// Ryujin_SDL2.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
-
-
 #include "pch.h"
 #include "global.h"
 #include "Manager.h"
+
 #include "Script.h"
 #include <iostream>
 #include <string>
@@ -43,7 +42,7 @@ int UpdateLoop(void *data) {
 #ifdef MUTEX
 		SDL_mutexP(loop_lock);			//锁定
 #endif
-		NspFps::FpsWait();//帧数控制
+		NspWindow::FpsWait();//帧数控制
 #ifdef MUTEX
 		SDL_mutexV(loop_lock);			//解锁
 		SDL_CondSignal(can_emitter);
@@ -69,7 +68,8 @@ int UpdateLoop(void *data) {
 				break;
 			}
 		}
-		player->Update();
+		NspBullet::BulletUpdate();
+		NspPlayer::PlayerUpdate();
 		NspEnemy::EnemyUpdate();
 		frame_total++;
 	}
@@ -109,8 +109,8 @@ int DrawLoop(void *data) {
 
 		NspEnemy::EnemyDraw();
 		NspBullet::BulletDraw();
-		player->Draw();
-		NspFps::FpsShow(100, 100);
+		NspPlayer::PlayerDraw();
+		NspWindow::FpsShow(100, 100);
 #ifdef DEBUG
 		// 实时显示子弹数
 		int num = 0;
@@ -166,9 +166,14 @@ int main(int argc, char* argv[])
 			LogA("ResourcesInit()");
 			ResourcesInit();
 			/*lua脚本实现*/
-			LogA("ScriptLoad()");
+			LogA("** ---- Scrip ---- **");
+			/*LogA("ResourcesLoad");
+			Script::Open("../Ryujin_SDL2/dat/script/load_res.lua");
+			Script::Run();*/
+			LogA("ScriptLoad");
 			Script::Open("../Ryujin_SDL2/dat/script/load.lua");
 			Script::Run();
+			
 			Script::Close();
 			LogA("FuncState 0 Over");
 			func_state = 1;

@@ -1,0 +1,6 @@
+load_img("player",32,48,"../Ryujin_SDL2/dat/img/player/reimu.png")
+load_img("enemy0",32,32,"../Ryujin_SDL2/dat/img/enemy/0.png")
+load_img("b1",32,48,"../Ryujin_SDL2/dat/img/bullet/b1.png")
+load_img("b8",12,18,"../Ryujin_SDL2/dat/img/bullet/b8.png")
+load_img("b3",32,48,"../Ryujin_SDL2/dat/img/bullet/b3.png")
+load_img("b0",32,48,"../Ryujin_SDL2/dat/img/bullet/b0.png")

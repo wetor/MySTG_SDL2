@@ -64,4 +64,4 @@
 
 //Emitter
 #define EMITTER_MAX 60
-#define EMITTER_BARRAGE_MAX 7
+#define EMITTER_BARRAGE_MAX 9

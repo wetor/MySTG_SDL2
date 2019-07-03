@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Enemy.h"
-#include <stdlib.h>
 
+#include <stdlib.h>
 
 
 namespace NspEnemy {

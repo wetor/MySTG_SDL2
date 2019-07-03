@@ -14,5 +14,6 @@ public:
 	//待Lua调用的C++注册函数。
 	static int CreateEnemy(lua_State* L);
 	static int CreateBoss(lua_State* L);
+	static int LoadImage(lua_State* L);
 
 };

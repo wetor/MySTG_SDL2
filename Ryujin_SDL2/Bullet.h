@@ -1,6 +1,6 @@
 #pragma once
-#include "struct.h"
 #include "define.h"
+#include "struct.h"
 #include "Unit.h"
 namespace NspBullet {
 	class Bullet :public Unit

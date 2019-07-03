@@ -26,15 +26,17 @@ Unit::Unit()
 	this->type = "";				//Í¼ÏñÀàÐÍ
 }
 void Unit::Load(string type) {
-	surface = image_surface[type];
-	if (image_texture.find(type) != image_texture.end()) {
-		texture = image_texture[type];
+	surface = image_map[type].surface;
+	if (image_map[type].texture != NULL) {
+		texture = image_map[type].texture;
 	}
 	else {
 		texture = SDL_CreateTextureFromSurface(render, surface);
-		image_texture[type] = texture;
+		image_map[type].texture = texture;
 	}
 	this->type = type;
+	this->w = image_map[type].width;
+	this->h = image_map[type].height;
 }
 void Unit::Init(UNIT_TYPE unit_type) {
 

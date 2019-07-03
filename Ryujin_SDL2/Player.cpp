@@ -17,8 +17,6 @@ namespace NspPlayer {
 	void Player::Init()
 	{
 		Unit::Load("player");
-		w = 32;
-		h = 48;
 		Unit::Init(UNIT_PLAYER);
 
 		x = (double)FX + FW / 2.0;

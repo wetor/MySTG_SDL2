@@ -1,5 +1,6 @@
 #pragma once
-
+#include <iostream>
+#include <SDL.h>
 typedef struct {
 	//计数器、移动模式、敌人的种类
 	int cnt, pattern, knd;
@@ -16,11 +17,33 @@ typedef struct {
 	//坐标、角度、速度、基本角度、瞬间记忆速度
 	double x, y, angle, spd, base_angle[1], rem_spd[1];
 }bullet_t;
+
+enum RESOURCES_TYPE {
+	RES_DATA,
+	RES_IMAGE,
+	RES_SOUND,
+	RES_SCRIPT
+};
+//资源结构体
+typedef struct {
+	RESOURCES_TYPE type;
+	std::string filename;
+	std::string name;
+	int size;
+}resources_t;
+
+
+typedef struct {
+	int width, height;
+	SDL_Surface* surface = NULL;
+	SDL_Texture* texture = NULL;
+}image_t;
+
 enum UNIT_TYPE{
+	UNIT_DEFAULT,
 	UNIT_BULLET,
 	UNIT_PLAYER,
 	UNIT_ENEMY,
-	UNIT_BOSS,
-	UNIT_DEFAULT
+	UNIT_BOSS
 };
 

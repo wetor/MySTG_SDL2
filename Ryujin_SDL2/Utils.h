@@ -13,7 +13,8 @@ inline void LogA(const char* format, ...) {
 	va_start(va, format);
 	char* str = new char[512];
 	vsnprintf(str, 512, format, va);
-	va_end(va);	cout << "State: " << str << endl;
+	va_end(va);
+	cout << "State: " << str << endl;
 	delete str;
 }
 

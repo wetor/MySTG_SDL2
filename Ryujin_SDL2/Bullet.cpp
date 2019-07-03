@@ -21,18 +21,18 @@ namespace NspBullet {
 		Unit::Free();
 	}
 	void Bullet::Init(bullet_t* data) {
-		Unit::Load("b1");
-		w = 22;
-		h = 22;
-		Unit::Init(UNIT_BULLET);
-
-
 		this->knd = data->knd;
+
+		Unit::Load(bullet_image_list[this->knd]);
+		Unit::Init(UNIT_BULLET);
+		
+
+		
 		this->angle = data->angle;
 		this->flag = true;
 		this->x = data->x;
 		this->y = data->y;
-
+		this->state = data->state;
 		this->col = data->col;
 		frame_now = this->col;
 		this->frame = 0;
@@ -41,7 +41,7 @@ namespace NspBullet {
 	}
 
 	void Bullet::Update() {
-
+		Unit::Update();
 	}
 	void Bullet::Free() {
 		Unit::Free();

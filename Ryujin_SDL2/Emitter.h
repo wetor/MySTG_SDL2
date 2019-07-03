@@ -1,9 +1,7 @@
 #pragma once
-#include "struct.h"
 #include "define.h"
+#include "struct.h"
 #include <deque>
-
-
 namespace NspEmitter {
 	class Emitter
 	{
@@ -33,4 +31,6 @@ namespace NspEmitter {
 	void emitter_bullet_H004(Emitter* _this);
 	void emitter_bullet_H005(Emitter* _this);
 	void emitter_bullet_H006(Emitter* _this);
+	void emitter_bullet_H007(Emitter* _this);
+	void emitter_bullet_H008(Emitter* _this);
 }

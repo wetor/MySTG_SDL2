@@ -17,6 +17,14 @@ namespace NspPlayer {
 		player = new Player();
 		player->Init();
 	}
+	void PlayerUpdate() {
+		player->Update();
+
+	}
+	void PlayerDraw() {
+		player->Draw();
+
+	}
 }
 namespace NspEnemy {
 	void EnemyInit() {

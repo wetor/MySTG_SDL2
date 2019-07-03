@@ -2,7 +2,7 @@
 #include "Manager.h"
 
 
-namespace NspFps {
+namespace NspWindow {
 
 	#define FLAME 60
 	//fps的计数器，60帧1次记录作为基准的时刻

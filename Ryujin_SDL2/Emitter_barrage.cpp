@@ -181,11 +181,90 @@ namespace NspEmitter {
 			if (bullet[_this->bullet_id_list[id]].spd > 1.5)//如果速度大于1.5的话
 				bullet[_this->bullet_id_list[id]].spd -= 0.04;//减速
 
-		}/*
+		}
+		/*
 		for (auto id = _this->bullet_id.begin(); id != _this->bullet_id.end();) {//所有子弹的循环
 			if (bullet[*id].spd > 1.5)//如果速度大于1.5的话
 				bullet[*id].spd -= 0.04;//减速
 		}*/
 
 	}
+	//妖梦弹幕
+	void emitter_bullet_H007(Emitter* _this) {
+		int enemy_id = _this->enemy_id;
+		int bullet_id = 0;
+		int t = _this->frame;
+		if (t >= 0 && t <= 150 && t % 10 == 0) {
+			for (int i = 0; i < 20; i++) {
+				bullet_t temp;
+				temp.knd = 7;
+				temp.angle = PI2 / 20 * i;
+				temp.flag = 1;
+				temp.x = enemy[enemy_id].x + cos(PI / 2 + PI / 150 * t) * 100;
+				temp.y = enemy[enemy_id].y + sin(PI / 2 + PI / 150 * t) * 100;
+				temp.col = 2;
+				temp.cnt = 0;
+				temp.spd = 1.2;
+				bullet_id = NspBullet::BulletEnter(&temp);
+				_this->AddBulletID(bullet_id);
+			}
+			for (int i = 0; i < 20; i++) {
+				bullet_t temp;
+				temp.knd = 7;
+				temp.angle = PI2 / 20 * i;
+				temp.flag = 1;
+				temp.x = enemy[enemy_id].x + cos(PI / 2 - PI / 150 * t) * 100;
+				temp.y = enemy[enemy_id].y + sin(PI / 2 - PI / 150 * t) * 100;
+				temp.col = 4;
+				temp.cnt = 0;
+				temp.spd = 1.2;
+				bullet_id = NspBullet::BulletEnter(&temp);
+				_this->AddBulletID(bullet_id);
+				//se_flag[0] = 1;
+				
+			}
+		}
+	}
+	//诹访子大人
+	void emitter_bullet_H008(Emitter* _this) {
+		int enemy_id = _this->enemy_id;
+		int bullet_id = 0;
+		int t = _this->frame;
+		if (t >= 0 && t < 1200 && t % 90 == 0) {
+			double angle = rang(PI);
+			for (int j = 0; j < 2; j++) {//中途的时候就分裂为两部分
+				for (int i = 0; i < 60; i++) {//一次60个
+					bullet_t temp;
+					temp.knd = 8;
+					temp.angle = angle + PI2 / 60 * i;//60个圆
+					temp.flag = 1;
+					temp.x = enemy[enemy_id].x;
+					temp.y = enemy[enemy_id].y;
+					temp.col = 4;
+					temp.cnt = 0;
+					temp.state = j;//状态。0或者是1表示不同旋转。
+					temp.spd = 2;
+					bullet_id = NspBullet::BulletEnter(&temp);
+					_this->AddBulletID(bullet_id);
+				}
+			}
+			//se_flag[0] = 1;//播放发射音效
+		}
+
+		for (int id = 0; id < BULLET_MAX; id++) {
+			if (bullet[_this->bullet_id_list[id]].isExist()) {//如果有登录了的子弹
+				int i = _this->bullet_id_list[id];
+				int state = bullet[i].state;
+				int cnt = bullet[i].frame;
+				if (30 < cnt && cnt < 120) {//如果是30~120次计数
+					bullet[i].spd -= 1.2 / 90.0;//90次计数总共减去1.2
+					bullet[i].angle += (PI / 2) / 90.0 * (state ? -1 : 1);//90次计数总共倾斜90°
+				}
+			}
+		}
+
+	}
+
+
+
 }
