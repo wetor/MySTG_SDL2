@@ -69,3 +69,6 @@
 
 //自机射击的子弹的登录最大数
 #define PLAYER_BULLET_MAX 200
+
+//同时播放最多声音数
+#define SOUND_MAX 100

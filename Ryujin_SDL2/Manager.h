@@ -3,6 +3,7 @@
 #include "Emitter.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Sound.h"
 #include "struct.h"
 #include <iostream>
 #include <list>

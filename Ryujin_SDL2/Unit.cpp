@@ -61,9 +61,9 @@ void Unit::Draw()
 	SDL_Rect *temp_rect = new SDL_Rect({ (int)(x + 0.5) - w / 2, (int)(y + 0.5) - h / 2, w, h });
 	SDL_Point *temp_point = new SDL_Point({ (int)w / 2,(int)h / 2 });
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
-	double _angle = 0;
-	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)
-		_angle = angle * 180.0 / PI + 90.0;
+	double _angle = angle * 180.0 / PI;
+	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//子弹需要更改朝向
+		_angle += 90.0;
 	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
 	delete temp_rect;
 	delete temp_point;

@@ -115,5 +115,6 @@ void ResourcesInit() {
 	bullet_image_list.push_back("b13");
 	bullet_image_list.push_back("b14");
 
-
+	Sound::Load(SOUND_DEFAULT, 30, "../Ryujin_SDL2/dat/se/enemy_shot.wav");
+	Sound::Load(SOUND_DEFAULT, 50, "..//Ryujin_SDL2/dat/se/cshot.wav");
 }

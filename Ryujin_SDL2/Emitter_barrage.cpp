@@ -22,24 +22,25 @@ namespace NspEmitter {
 		int enemy_id = _this->enemy_id;
 		int bullet_id = 0;
 		int t = _this->frame;
-		for (int z = 0; z < 3; z++)
-			if (t != 0) {
+		//for (int z = 0; z < 3; z++)
+		if (t == 10) {
 
-				bullet_t temp;
+			bullet_t temp;
 
-				temp.knd = enemy[enemy_id].blknd2;
-				temp.angle = shotatan2(enemy_id);
-				temp.flag = 1;
-				temp.x = enemy[enemy_id].x;
-				temp.y = enemy[enemy_id].y;
-				temp.col = enemy[enemy_id].col;
-				temp.cnt = 0;
-				temp.spd = 3;
-				////se_flag[0] = 1;
-				bullet_id = NspBullet::BulletEnter(&temp);
-				_this->AddBulletID(bullet_id);
-				//_this->bullet_id.push_back(bullet_id);
-			}
+			temp.knd = enemy[enemy_id].blknd2;
+			temp.angle = shotatan2(enemy_id);
+			temp.flag = 1;
+			temp.x = enemy[enemy_id].x;
+			temp.y = enemy[enemy_id].y;
+			temp.col = enemy[enemy_id].col;
+			temp.cnt = 0;
+			temp.spd = 3;
+
+			bullet_id = NspBullet::BulletEnter(&temp);
+			_this->AddBulletID(bullet_id);
+			Sound::PlayMusic(0);
+			//_this->bullet_id.push_back(bullet_id);
+		}
 
 
 
@@ -63,6 +64,7 @@ namespace NspEmitter {
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
 			//_this->bullet_id.push_back(bullet_id);
+			Sound::PlayMusic(0);
 		}
 	}
 	//100次计数中发射10发，向着自机直线发射（记忆角度）
@@ -86,6 +88,7 @@ namespace NspEmitter {
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
 			//_this->bullet_id.push_back(bullet_id);
+			Sound::PlayMusic(0);
 		}
 	}
 
@@ -108,6 +111,7 @@ namespace NspEmitter {
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
 			//_this->bullet_id.push_back(bullet_id);
+			Sound::PlayMusic(0);
 		}
 	}
 	//0.5秒一次地圆形发射
@@ -132,6 +136,7 @@ namespace NspEmitter {
 				bullet_id = NspBullet::BulletEnter(&temp);
 				_this->AddBulletID(bullet_id);
 				//_this->bullet_id.push_back(bullet_id);
+				Sound::PlayMusic(0);
 			}
 		}
 	}
@@ -154,6 +159,7 @@ namespace NspEmitter {
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
 			//_this->bullet_id.push_back(bullet_id);
+			Sound::PlayMusic(0);
 		}
 	}
 
@@ -176,6 +182,7 @@ namespace NspEmitter {
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
 			//_this->bullet_id.push_back(bullet_id);
+			Sound::PlayMusic(0);
 		}
 		for (int id = 0; id < SHOT_BULLET_MAX; id++) {
 			if (bullet[_this->bullet_id_list[id]].spd > 1.5)//如果速度大于1.5的话
@@ -221,6 +228,7 @@ namespace NspEmitter {
 				bullet_id = NspBullet::BulletEnter(&temp);
 				_this->AddBulletID(bullet_id);
 				//se_flag[0] = 1;
+				Sound::PlayMusic(0);
 				
 			}
 		}
@@ -249,6 +257,7 @@ namespace NspEmitter {
 				}
 			}
 			//se_flag[0] = 1;//播放发射音效
+			Sound::PlayMusic(0);
 		}
 
 		for (int id = 0; id < BULLET_MAX; id++) {

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SDL.h>
+#include <SDL_mixer.h>
 typedef struct {
 	//计数器、移动模式、敌人的种类
 	int cnt, pattern, knd;
@@ -55,3 +56,14 @@ enum UNIT_TYPE{
 	UNIT_BOSS
 };
 
+enum SOUND_TYPE {
+	SOUND_DEFAULT,
+	SOUND_BACK_MUSIC
+};
+
+typedef struct {
+	SOUND_TYPE type;
+	Mix_Chunk* sound;
+	int volume = 50;
+	int loops = 0;
+}sound_t;

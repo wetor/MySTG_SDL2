@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL2\SDL2_mixer-2.0.4\include;C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2_mixer-2.0.4\lib;C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -170,6 +170,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Emitter.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="struct.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="Utils.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Emitter.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UnitManager.cpp" />
     <ClCompile Include="Utils.cpp" />

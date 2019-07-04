@@ -4,18 +4,20 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-using namespace std;
 
 
 
+static char* str = new char[512];
 inline void LogA(const char* format, ...) {
 	va_list va;
 	va_start(va, format);
-	char* str = new char[512];
+	
 	vsnprintf(str, 512, format, va);
+	printf("%s%s\n", "State: ", str);
+	//cout << "State: " << str << endl;
+
 	va_end(va);
-	cout << "State: " << str << endl;
-	delete str;
+	
 }
 
 

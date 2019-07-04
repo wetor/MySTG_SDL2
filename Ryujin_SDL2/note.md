@@ -16,9 +16,9 @@
 		Boss_barrage.cpp  
 # 3、子弹管理
 	BulletManager.cpp  
-	## 自机子弹
+## 自机子弹
 		Player.cpp  
-	## 敌人子弹
+## 敌人子弹
 		Shoter.cpp  
 	## BOSS子弹 ;线程优化
 		Shoter.cpp  

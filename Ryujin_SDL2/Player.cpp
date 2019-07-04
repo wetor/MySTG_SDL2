@@ -134,7 +134,7 @@ namespace NspPlayer {
 			NspBullet::PlayerBulletEnter(&temp);
 		}
 		
-
+		Sound::PlayMusic(1);
 		//se_flag[2] = 1;//≤•∑≈∑¢…‰“Ù
 	}
 

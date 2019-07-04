@@ -23,6 +23,7 @@ void Quit(int code)
 	if (errMsg && strlen(errMsg)) {
 		SDL_Log("Error : %s\n", errMsg);
 	}
+	Sound::SoundClose();
 	TTF_CloseFont(font_default);
 	TTF_CloseFont(font_mini);
 	//销毁窗口、渲染器、纹理
@@ -73,7 +74,7 @@ int UpdateLoop(void *data) {
 		NspBullet::PlayerBulletUpdate();
 		NspEnemy::EnemyUpdate();
 		NspBullet::BulletUpdate();
-
+		Sound::Update();
 		frame_total++;
 	}
 	return 0;
@@ -167,8 +168,11 @@ int main(int argc, char* argv[])
 
 		switch (func_state) {
 		case 0:
+			LogA("SoundInit()");
+			Sound::SoundInit();
 			LogA("ResourcesInit()");
 			ResourcesInit();
+			
 			/*lua脚本实现*/
 			LogA("** ---- Scrip ---- **");
 			/*LogA("ResourcesLoad");

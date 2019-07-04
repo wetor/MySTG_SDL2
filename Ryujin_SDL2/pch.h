@@ -13,7 +13,7 @@
 #pragma comment(lib, "x86/SDL2main.lib")
 #pragma comment(lib, "x86/SDL2_image.lib")
 #pragma comment(lib, "x86/SDL2_ttf.lib")
-
+#pragma comment(lib, "x86/SDL2_mixer.lib")
 #pragma comment(lib, "lua51.lib")
 
 // TODO: 添加要在此处预编译的标头
