@@ -57,11 +57,8 @@ namespace NspEnemy {
 		for (int i = 0; i < ENEMY_MAX; i++) {
 			if (enemy[i].isExist()) {
 				enemy[i].Update();
-				//emitter[enemy[i].emitter_id].Update();
-
 			}
 		}
-
 	}
 	void EnemyDraw() {
 		for (int i = 0; i < ENEMY_MAX; i++) {
@@ -70,4 +67,15 @@ namespace NspEnemy {
 			}
 		}
 	}
+#ifdef DEBUG
+	void EnemyNumberShow(int x, int y) {
+		int num = 0;
+		for (int i = 0; i < ENEMY_MAX; i++) {
+			if (enemy[i].isExist()) {
+				num++;
+			}
+		}
+		NumberShow(x, y, num);
+	}
+#endif
 }

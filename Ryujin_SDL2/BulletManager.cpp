@@ -40,7 +40,18 @@ namespace NspBullet {
 			}
 		}
 	}
+#ifdef DEBUG
+	void BulletNumberShow(int x, int y) {
+		int num = 0;
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullet[i].isExist()) {
+				num++;
+			}
+		}
+		NumberShow(x,y, num);
 
+	}
+#endif
 	void BulletDraw() {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (bullet[i].isExist()) {

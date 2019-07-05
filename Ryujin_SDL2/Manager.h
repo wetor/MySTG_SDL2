@@ -35,11 +35,17 @@ namespace NspEnemy {
 	extern  void EnemyEnter();
 	extern  void EnemyUpdate();
 	extern  void EnemyDraw();
+#ifdef DEBUG
+	extern  void EnemyNumberShow(int x, int y);
+#endif
 }
 namespace NspEmitter {
 	extern	void EmitterInit();
 	extern	int	 EmitterEnter(int enemy_id);
 	extern	void EmitterUpdate();
+#ifdef DEBUG
+	extern  void EmitterNumberShow(int x, int y);
+#endif
 }
 namespace NspBullet {
 	extern	int  BulletEnter(bullet_t* data);
@@ -48,6 +54,9 @@ namespace NspBullet {
 	extern	int  PlayerBulletEnter(player_bullet_t* data);
 	extern	void PlayerBulletUpdate();
 	extern	void PlayerBulletDraw();
+#ifdef DEBUG
+	extern  void BulletNumberShow(int x, int y);
+#endif
 }
 namespace NspWindow {
 	extern	void FpsShow(int x, int y);

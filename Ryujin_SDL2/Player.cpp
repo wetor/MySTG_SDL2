@@ -25,7 +25,7 @@ namespace NspPlayer {
 
 		x = (double)FX + FW / 2.0;
 		y = (double)FY + FW - 50.0;
-
+		this->range = 2.0;
 		player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
 	}
 	void Player::Update() {

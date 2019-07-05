@@ -34,4 +34,15 @@ namespace NspEmitter {
 			}
 		}
 	}
+#ifdef DEBUG
+	void EmitterNumberShow(int x, int y) {
+		int num = 0;
+		for (int i = 0; i < EMITTER_MAX; i++) {
+			if (emitter[i].isExist()) {
+				num++;
+			}
+		}
+		NumberShow(x, y, num);
+	}
+#endif
 }

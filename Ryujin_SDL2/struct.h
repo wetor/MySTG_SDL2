@@ -40,6 +40,11 @@ typedef struct {
 	int size;
 }resources_t;
 
+enum EMITTER_STATE {
+	EMITTER_DEFAULT,	//默认状态，正常绑定
+	EMITTER_WAIT,	//拥有者不存在，不再继续添加弹幕，等待剩余弹幕消失
+	EMITTER_CLEAR	//清理所有弹幕，销毁拥有者
+};
 
 typedef struct {
 	int width, height;

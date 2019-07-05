@@ -15,7 +15,7 @@ public:
 
 public:
 	UNIT_TYPE unit_type;		//类型
-
+	double range;					//圆形碰撞盒半径
 	int frame;					//帧计数器
 	int frame_num;				//总帧数
 	int frame_now;				//当前动画帧/序号

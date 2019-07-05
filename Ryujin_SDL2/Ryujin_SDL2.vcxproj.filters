@@ -57,6 +57,9 @@
     <ClInclude Include="Sound.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -111,6 +114,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

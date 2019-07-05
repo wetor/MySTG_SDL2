@@ -27,7 +27,7 @@ namespace NspBullet {
 
 		Unit::Load(bullet_image_list[this->knd]);
 		Unit::Init(UNIT_BULLET);
-		
+		this->range = 3.0;
 
 		
 		this->angle = data->angle;
@@ -46,7 +46,7 @@ namespace NspBullet {
 
 		Unit::Load(player_bullet_image_list[this->knd]);
 		Unit::Init(UNIT_PLAYER_BULLET);
-
+		this->range = 6.0;
 		this->angle = data->angle;
 		this->flag = true;
 		this->x = data->x;

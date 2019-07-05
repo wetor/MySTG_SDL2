@@ -12,7 +12,8 @@ namespace NspEnemy {
 		void Update();
 		void Shot();
 		bool isExist() { return flag; };
-
+		void Destroy(bool is_clear = false);
+		bool Death();
 		void SetEmitter(int emitter_id)
 		{
 			this->emitter_id = emitter_id;
@@ -21,7 +22,7 @@ namespace NspEnemy {
 	public:
 
 		int emitter_id = -1;
-
+		EMITTER_STATE emitter_state = EMITTER_DEFAULT;
 		void(*func_pattern)(Enemy*);
 
 		bool flag = false;

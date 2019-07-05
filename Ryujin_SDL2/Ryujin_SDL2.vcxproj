@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL2\SDL2_mixer-2.0.4\include;C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2_mixer-2.0.4\lib;C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -104,6 +104,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -161,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Enemy.h" />
@@ -178,6 +180,7 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="EmitterManager.cpp" />
     <ClCompile Include="Emitter_barrage.cpp" />

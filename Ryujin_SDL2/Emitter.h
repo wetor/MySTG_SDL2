@@ -9,13 +9,15 @@ namespace NspEmitter {
 		Emitter();
 		~Emitter();
 
-		bool isExist() { return (flag == -1) ? false : true; };
+		bool isExist() { return flag; };
 		int AddBulletID(int id);
 		void Init(int enemy_id);
 		void Update();
 	public:
-		//flag、种类、计数器、发射的敌人的编号
-		int  enemy_id, flag, knd, frame;
+		bool flag;
+		EMITTER_STATE state;
+		//种类、计数器、发射的敌人的编号
+		int  enemy_id, knd, frame;
 		//基本角度、基本速度
 		double x, y, base_angle[1], base_spd[1];
 

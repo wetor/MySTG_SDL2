@@ -50,8 +50,8 @@ bool WindowInit() {
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+	//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 
 
 	TTF_Init();
@@ -63,6 +63,7 @@ bool WindowInit() {
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (render == NULL) return false;
 	SDL_RenderSetLogicalSize(render, WINDOW_W, WINDOW_H);
+	SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
 	font_default = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 22);
 	font_mini = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 12);
 	
@@ -115,6 +116,8 @@ void ResourcesInit() {
 	bullet_image_list.push_back("b13");
 	bullet_image_list.push_back("b14");
 
-	Sound::Load(SOUND_DEFAULT, 30, "../Ryujin_SDL2/dat/se/enemy_shot.wav");
-	Sound::Load(SOUND_DEFAULT, 50, "..//Ryujin_SDL2/dat/se/cshot.wav");
+	Sound::Load(SOUND_DEFAULT, 30, "../Ryujin_SDL2/dat/se/enemy_shot.wav");	//0
+	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/cshot.wav");		//1
+	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/hit.wav");		//2
+	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/enemy_death.wav");//3
 }

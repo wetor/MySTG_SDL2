@@ -28,8 +28,9 @@ namespace NspEmitter {
 
 	Emitter::Emitter()
 	{
+		this->state = EMITTER_DEFAULT;
 		this->enemy_id = -1;
-		this->flag = -1;
+		this->flag = false;
 		this->knd = 0;
 		this->frame = 0;
 		this->x = 0;
@@ -55,28 +56,48 @@ namespace NspEmitter {
 	}
 	void Emitter::Init(int enemy_id) {
 
+		this->state = EMITTER_DEFAULT;
 		for (int i = 0; i < BULLET_MAX; i++) bullet_id_list[i] = -1;
 		this->enemy_id = enemy_id;
 		this->x = enemy[enemy_id].x;
 		this->y = enemy[enemy_id].y;
-		flag = 1;
-		frame = 0;
+		this->flag = true;
+		this->frame = 0;
 	}
 
 	/*
 	TODO:cpu占用
 	*/
 	void Emitter::Update() {
+		int i;
+		
+		if (enemy[enemy_id].flag && enemy[enemy_id].emitter_state == EMITTER_CLEAR) { 
+			for (int id = 0; id < BULLET_MAX; id++) {
+				i = bullet_id_list[id];
+				if (i < 0) continue;
+				if (bullet[i].flag) {
+					bullet[i].flag = false;
+					bullet[i].Free();
+					bullet_id_list[id] = -1;
+				}
+			}
+			enemy[enemy_id].flag = false;
+			this->flag = false;//销毁自身
+			return;
+		}
 
-		Emitter_barrage[enemy[enemy_id].blknd](this);
-		int i, k = 0;
-		if (!enemy[enemy_id].flag)//如果敌人被打倒的话
-			flag = 2;//将之前登录的射击的flag设置为无效
+		
+		if (!enemy[enemy_id].flag)	//所有者不存在，等待弹幕消失，然后销毁
+			state = EMITTER_WAIT;
+		else
+			Emitter_barrage[enemy[enemy_id].blknd](this);
+
+		int bullet_num = 0;
 		for (int id = 0; id < BULLET_MAX; id++) {
 			i = bullet_id_list[id];
 			if (i < 0) continue;
-			k++;
 			if (bullet[i].flag) {
+				bullet_num++;
 				bullet[i].x += cos(bullet[i].angle) * bullet[i].spd;
 				bullet[i].y += sin(bullet[i].angle) * bullet[i].spd;
 				//printf("cnt %d bullet x %lf y %lf\n",cnt, bullet[i].x, bullet[i].y);
@@ -86,12 +107,14 @@ namespace NspEmitter {
 						bullet[i].flag = false;//销毁之
 						bullet[i].Free();
 						bullet_id_list[id] = -1;
-						k = 1;
 						//printf("bullet remove enemy_id:%d bullet_id:%d\n", enemy_id,i);
 					}
 				}
 			}
 		}
+		if(bullet_num == 0 && state == EMITTER_WAIT)
+			this->flag = false;//销毁自身
+
 		//printf("bullet num :%d\n", k);
 		//查询当前显示中的子弹的熟练是否至少还有一个
 

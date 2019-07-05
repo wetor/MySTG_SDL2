@@ -24,6 +24,7 @@ Unit::Unit()
 	this->w = 0;
 	this->h = 0;					//帧宽高
 	this->type = "";				//图像类型
+	this->range = 0;
 }
 void Unit::Load(string type) {
 	surface = image_map[type].surface;
@@ -65,8 +66,17 @@ void Unit::Draw()
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//子弹需要更改朝向
 		_angle += 90.0;
 	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
+	
+	
 	delete temp_rect;
 	delete temp_point;
+#ifdef COLLIDER
+	temp_rect = new SDL_Rect({ (int)(x + 0.5) - (int)this->range  , (int)(y + 0.5) - (int)this->range ,  (int)this->range*2, (int)this->range * 2 });
+	SDL_SetRenderDrawColor(render, 0, 255, 0, 200);
+	SDL_RenderFillRect(render, temp_rect);
+	SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+	delete temp_rect;
+#endif
 }
 
 void Unit::Update()
@@ -78,5 +88,6 @@ void Unit::Free() {
 	surface = NULL;
 	texture = NULL;
 	delete frame_rect;
+
 
 }

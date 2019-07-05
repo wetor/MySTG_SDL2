@@ -3,13 +3,13 @@
 #include "pch.h"
 #include "global.h"
 #include "Manager.h"
-
+#include "Collider.h"
 #include "Script.h"
 #include <iostream>
 #include <string>
 
 
-#define MUTEX
+
 #ifdef MUTEX
 SDL_mutex *loop_lock = NULL;		//保护性互斥锁
 SDL_cond *can_emitter = NULL;		//条件变量
@@ -27,8 +27,9 @@ void Quit(int code)
 	TTF_CloseFont(font_default);
 	TTF_CloseFont(font_mini);
 	//销毁窗口、渲染器、纹理
-	if (window) SDL_DestroyWindow(window);
 	if (render) SDL_DestroyRenderer(render);
+	if (window) SDL_DestroyWindow(window);
+	
 
 	SDL_Quit();
 	exit(code);
@@ -74,7 +75,10 @@ int UpdateLoop(void *data) {
 		NspBullet::PlayerBulletUpdate();
 		NspEnemy::EnemyUpdate();
 		NspBullet::BulletUpdate();
+		Collider::PlayerShotEnemy();
 		Sound::Update();
+		
+
 		frame_total++;
 	}
 	return 0;
@@ -97,6 +101,17 @@ int DrawLoop(void *data) {
 		_FPS_Timer = SDL_GetTicks();
 #endif
 		SDL_RenderClear(render);
+
+
+
+		NspEnemy::EnemyDraw();
+		NspBullet::PlayerBulletDraw();
+		NspPlayer::PlayerDraw();
+		NspBullet::BulletDraw();
+
+		NspWindow::FpsShow(100, 100);
+
+
 #ifdef DEBUG
 		/*显示边框*/
 		SDL_SetRenderDrawColor(render, 0, 0xFF, 0, 0xFF);
@@ -108,22 +123,10 @@ int DrawLoop(void *data) {
 		rect = { RX,RY,RW,RH };
 		SDL_RenderDrawRect(render, &rect);
 		SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
-#endif
 
-		NspEnemy::EnemyDraw();
-		NspBullet::PlayerBulletDraw();
-		NspPlayer::PlayerDraw();
-		NspBullet::BulletDraw();
-		
-		NspWindow::FpsShow(100, 100);
-#ifdef DEBUG
-		// 实时显示子弹数
-		int num = 0;
-		for (int i = 0; i < BULLET_MAX; i++)
-			if (bullet[i].flag)
-				num++;
-		NumberShow(100, 50, num);
-		//printf("%d\n",num);
+		NspEnemy::EnemyNumberShow(20, 20);
+		NspEmitter::EmitterNumberShow(20, 60);
+		NspBullet::BulletNumberShow(20, 100);
 #endif
 
 		SDL_RenderPresent(render);
