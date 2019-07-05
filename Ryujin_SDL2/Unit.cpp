@@ -25,6 +25,7 @@ Unit::Unit()
 	this->h = 0;					//帧宽高
 	this->type = "";				//图像类型
 	this->range = 0;
+	this->scale = 1;
 }
 void Unit::Load(string type) {
 	surface = image_map[type].surface;
@@ -56,26 +57,41 @@ void Unit::Init(UNIT_TYPE unit_type) {
 	}
 	angle = 0;
 }
-void Unit::Draw()
+void Unit::Draw(int bright)
 {
+	if (this->frame < 0) return;			//frame为负数即等待帧数
+	double _w = this->scale * (double)this->w;
+	double _h = this->scale * (double)this->h;
 	/*TODO: 绘制单位，精度在此更改*/
-	SDL_Rect *temp_rect = new SDL_Rect({ (int)(x + 0.5) - w / 2, (int)(y + 0.5) - h / 2, w, h });
-	SDL_Point *temp_point = new SDL_Point({ (int)w / 2,(int)h / 2 });
+	SDL_Rect *temp_rect = new SDL_Rect({ (int)(x - _w / 2.0 + 0.5) , (int)(y  - _h / 2.0 + 0.5),(int)_w, (int)_h });
+	SDL_Point *temp_point = new SDL_Point({ (int)(_w / 2.0),(int)(_h / 2.0) });
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
 	double _angle = angle * 180.0 / PI;
-	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//子弹需要更改朝向
+	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//需要更改朝向
 		_angle += 90.0;
+	if (bright > 0) {
+		SDL_SetTextureAlphaMod(texture, bright);
+		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+		SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
+		SDL_SetTextureAlphaMod(texture, 255);
+		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+	}
+	
 	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
 	
-	
+	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
 	delete temp_rect;
 	delete temp_point;
+	
 #ifdef COLLIDER
+	
 	temp_rect = new SDL_Rect({ (int)(x + 0.5) - (int)this->range  , (int)(y + 0.5) - (int)this->range ,  (int)this->range*2, (int)this->range * 2 });
 	SDL_SetRenderDrawColor(render, 0, 255, 0, 200);
 	SDL_RenderFillRect(render, temp_rect);
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
 	delete temp_rect;
+	
+	
 #endif
 }
 
@@ -87,7 +103,7 @@ void Unit::Update()
 void Unit::Free() {
 	surface = NULL;
 	texture = NULL;
-	delete frame_rect;
+	//delete frame_rect;
 
 
 }

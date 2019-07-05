@@ -76,6 +76,7 @@ int UpdateLoop(void *data) {
 		NspEnemy::EnemyUpdate();
 		NspBullet::BulletUpdate();
 		Collider::PlayerShotEnemy();
+		NspEffect::EffectUpdate();
 		Sound::Update();
 		
 
@@ -103,7 +104,7 @@ int DrawLoop(void *data) {
 		SDL_RenderClear(render);
 
 
-
+		NspEffect::EffectDraw();
 		NspEnemy::EnemyDraw();
 		NspBullet::PlayerBulletDraw();
 		NspPlayer::PlayerDraw();
@@ -193,6 +194,7 @@ int main(int argc, char* argv[])
 			LogA("EnemyInit()");	NspEnemy::EnemyInit();
 			LogA("EmitterInit()");	NspEmitter::EmitterInit();
 			LogA("PlayerInit()");	NspPlayer::PlayerInit();
+			LogA("EffectInit()");	NspEffect::EffectInit();
 
 			for(int i=0;i<100;i++)
 				NspEnemy::EnemyEnter();

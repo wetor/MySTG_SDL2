@@ -2,6 +2,7 @@
 #include "Bullet.h"
 #include "Emitter.h"
 #include "Enemy.h"
+#include "Effect.h"
 #include "Player.h"
 #include "Sound.h"
 #include "struct.h"
@@ -15,6 +16,7 @@ extern  NspEnemy::Enemy* enemy;
 extern  NspEmitter::Emitter* emitter;
 extern	NspBullet::Bullet* bullet;
 extern	NspBullet::Bullet* player_bullet;
+extern	NspEffect::Effect* effect;
 
 extern  list<enemy_order_t> enemy_order;
 extern  bool WindowInit();
@@ -61,5 +63,12 @@ namespace NspBullet {
 namespace NspWindow {
 	extern	void FpsShow(int x, int y);
 	extern	void FpsWait();
+}
+
+namespace NspEffect {
+	extern	void EffectInit();
+	extern	void DeathEnter(NspEnemy::Enemy* _enemy);
+	extern	void EffectUpdate();
+	extern	void EffectDraw();
 }
 

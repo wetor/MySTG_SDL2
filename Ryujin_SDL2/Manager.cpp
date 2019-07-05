@@ -26,6 +26,7 @@ SDL_Thread *thread_script = NULL;
 map<string, image_t> image_map;
 vector<string> bullet_image_list;
 vector<string> player_bullet_image_list;
+vector<string> effect_image_list;
 
 bool quit = false;
 //static TTF_Font *font = NULL;
@@ -83,6 +84,10 @@ void ResourcesInit() {
 	image_map["pb1"] = { 35,35,IMG_Load("../Ryujin_SDL2/dat/img/player/bl_01.png")};
 	player_bullet_image_list.push_back("pb0");
 	player_bullet_image_list.push_back("pb1");
+
+	image_map["eft0"] = { 140,140,IMG_Load("../Ryujin_SDL2/dat/img/enemy/hit_effect.png") };
+	effect_image_list.push_back("eft0");
+
 
 	image_map["b0"] = { 76,76,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b0.png") };
 	image_map["b1"] = { 22,22,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b1.png") };

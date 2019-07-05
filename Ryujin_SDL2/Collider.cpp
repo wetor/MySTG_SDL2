@@ -46,6 +46,7 @@ void Collider::PlayerShotEnemy() {
 						enemy[e].hp -= player_bullet[i].power;
 						Sound::PlayMusic(2);
 						if (enemy[e].Death()) {
+							NspEffect::DeathEnter(&enemy[e]);
 							enemy[e].Destroy(false);//µ¯Ä»Í£Ö¹·¢Éä£¬²»Çå¿Õ
 							Sound::PlayMusic(3);
 						}

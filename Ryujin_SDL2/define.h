@@ -2,7 +2,7 @@
 
 #define DEBUG		//测试模式
 #define MUTEX		//同步帧率锁
-#define COLLIDER	//碰撞盒
+//#define COLLIDER	//碰撞盒
 
 //#define MUTEX		//是否开启互斥锁
 
@@ -75,3 +75,5 @@
 
 //同时播放最多声音数
 #define SOUND_MAX 100
+
+#define EFFECT_MAX 100

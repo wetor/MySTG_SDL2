@@ -13,8 +13,29 @@ namespace NspEnemy {
 			enemy_pattern10
 	};
 
-	Enemy::Enemy()
+	Enemy::Enemy() : Unit()
 	{
+		this->flag = false;
+		this->pattern = 0;
+		this->move_state = 0;
+		this->knd = 0;
+		this->sp = 0;
+		this->bltime = 0;
+		this->blknd = 0;
+		this->blknd2 = 0;
+		this->col = 0;
+		this->wait = 0;
+		this->hp = 0;
+		this->hp_max = 0;
+		this->wait = 0;
+		this->state = 0;
+		this->vx = 0;
+		this->vy = 0;
+		this->ang = 0;
+		this->back_col = 0;
+		this->wtime = 0;
+		this->item_n[0] = 0;
+		func_pattern = NULL;
 	}
 
 
@@ -45,6 +66,7 @@ namespace NspEnemy {
 		this->vx = 0;
 		this->vy = 0;
 		this->ang = 0;
+		this->back_col = 0;
 		for (int j = 0; j < 6; j++)
 			this->item_n[j] = _enemy_order.item_n[j];
 
@@ -62,7 +84,7 @@ namespace NspEnemy {
 		y += vy;
 		frame_now = move_state * 3 + (frame % (FRAME_SPEED * 3)) / FRAME_SPEED;
 		//如果敌人跑到画面外面了就销毁
-		if (x < FX - w * 2 || x > FMX + w * 2 || y < FY - h * 2 || y > FMY + h * 2) {
+		if (x < (double)FX - w * 2 || x >(double)FMX + w * 2 || y < (double)FY - h * 2 || y >(double)FMY + h * 2) {
 			Destroy();
 			this->flag = false;
 			//printf("Enemy delete enemy_frame:%d game_frame:%d\n", frame,frame_total);

@@ -27,7 +27,7 @@ namespace NspEnemy {
 
 		bool flag = false;
 		//移动模式、方向、敌人的种类、HP最大值、掉落道具
-		int  pattern, move_state, knd, hp, hp_max, item_n[6];
+		int  pattern, move_state, knd, hp, hp_max, item_n[6], back_col;;
 		//速度x分量、速度y分量、速度、角度
 		double vx, vy, sp, ang;
 		//弹幕开始时间、弹幕的种类、弹的种类、颜色、状态、待机时间、停止时间

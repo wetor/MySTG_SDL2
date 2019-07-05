@@ -165,6 +165,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Manager.h" />
@@ -182,6 +183,8 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EmitterManager.cpp" />
     <ClCompile Include="Emitter_barrage.cpp" />
     <ClCompile Include="Enemy.cpp" />

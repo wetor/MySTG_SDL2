@@ -33,4 +33,5 @@ extern  int frame_total;
 extern  map<string, image_t> image_map;
 extern  vector<string> bullet_image_list;
 extern  vector<string> player_bullet_image_list;
+extern  vector<string> effect_image_list;
 
