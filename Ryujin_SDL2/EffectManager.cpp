@@ -3,8 +3,8 @@
 #include "global.h"
 #include "Manager.h"
 
-
-NspEffect::Effect* effect = NULL;
+NspEffect::Effect effect[EFFECT_MAX];
+//NspEffect::Effect* effect = NULL;
 namespace NspEffect {
 	double rang(double ang) {
 		return (-ang + ang * 2 * (rand() % 10000) / 10000.0);
@@ -26,7 +26,7 @@ namespace NspEffect {
 		return k;
 	}
 	void EffectInit() {
-		effect = new Effect[EFFECT_MAX];
+		//effect = new Effect[EFFECT_MAX];
 	}
 
 	void DeathEnter(NspEnemy::Enemy* _enemy) {

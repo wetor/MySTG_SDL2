@@ -26,7 +26,7 @@ namespace NspPlayer {
 		x = (double)FX + FW / 2.0;
 		y = (double)FY + FW - 50.0;
 		this->range = 2.0;
-		player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
+		//player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
 	}
 	void Player::Update() {
 
@@ -52,7 +52,7 @@ namespace NspPlayer {
 					move_start = 0;
 				mx = speed;
 				if (move_start < FRAME_SPEED / 2.0 * 4) {
-					frame_now = 8 * 2 + move_start / (FRAME_SPEED / 2.0);
+					frame_now = (int)(8 * 2 + move_start / (FRAME_SPEED / 2.0));
 					move_start++;
 				}
 				else {
@@ -65,7 +65,7 @@ namespace NspPlayer {
 					move_start = 0;
 				mx = -speed;
 				if (move_start < FRAME_SPEED / 2 * 4) {
-					frame_now = 8 * 1 + move_start / (FRAME_SPEED / 2.0);
+					frame_now = (int)(8 * 1 + move_start / (FRAME_SPEED / 2.0));
 					move_start++;
 				}
 				else {

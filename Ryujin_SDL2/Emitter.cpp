@@ -37,7 +37,8 @@ namespace NspEmitter {
 		this->y = 0;
 		this->base_angle[0] = 0;
 		this->base_spd[0] = 0;
-		this->bullet_id_list = new int[BULLET_MAX];
+		SDL_memset(this->bullet_id_list, 0, sizeof(int) * BULLET_MAX);
+		//this->bullet_id_list = new int[BULLET_MAX];
 
 	}
 	int Emitter::AddBulletID(int id) {
@@ -50,14 +51,10 @@ namespace NspEmitter {
 		return 0;
 	}
 
-	Emitter::~Emitter()
-	{
-		delete bullet_id_list;
-	}
 	void Emitter::Init(int enemy_id) {
 
 		this->state = EMITTER_DEFAULT;
-		for (int i = 0; i < BULLET_MAX; i++) bullet_id_list[i] = -1;
+		SDL_memset(this->bullet_id_list, -1, sizeof(int) * BULLET_MAX);
 		this->enemy_id = enemy_id;
 		this->x = enemy[enemy_id].x;
 		this->y = enemy[enemy_id].y;

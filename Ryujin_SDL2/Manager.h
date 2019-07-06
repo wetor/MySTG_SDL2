@@ -7,16 +7,19 @@
 #include "Sound.h"
 #include "struct.h"
 #include <iostream>
+#include <memory>
 #include <list>
 using namespace std;
-extern  NspPlayer::Player *player;
-//extern  list<Enemy*> enemy;
-extern  NspEnemy::Enemy* enemy;
+//extern  NspPlayer::Player *player;
+//extern  NspEnemy::Enemy* enemy;
 
-extern  NspEmitter::Emitter* emitter;
-extern	NspBullet::Bullet* bullet;
-extern	NspBullet::Bullet* player_bullet;
-extern	NspEffect::Effect* effect;
+extern	NspPlayer::Player* player;
+extern  NspEnemy::Enemy enemy[];
+
+extern  NspEmitter::Emitter emitter[];
+extern	NspBullet::Bullet bullet[];
+extern	NspBullet::Bullet player_bullet[];
+extern	NspEffect::Effect effect[];
 
 extern  list<enemy_order_t> enemy_order;
 extern  bool WindowInit();

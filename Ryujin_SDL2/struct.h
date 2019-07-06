@@ -54,9 +54,10 @@ enum EMITTER_STATE {
 };
 
 typedef struct {
-	int width, height;
-	SDL_Surface* surface = NULL;
-	SDL_Texture* texture = NULL;
+	int width;
+	int height;
+	SDL_Surface* surface;
+	SDL_Texture* texture;
 }image_t;
 
 enum UNIT_TYPE{
@@ -77,6 +78,6 @@ enum SOUND_TYPE {
 typedef struct {
 	SOUND_TYPE type;
 	Mix_Chunk* sound;
-	int volume = 50;
-	int loops = 0;
+	int volume;
+	int loops;
 }sound_t;

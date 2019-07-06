@@ -3,12 +3,12 @@
 #include "global.h"
 #include "Manager.h"
 
-NspEmitter::Emitter* emitter = NULL;
+NspEmitter::Emitter emitter[EMITTER_MAX];
 
 namespace NspEmitter {
 	void EmitterInit() {
-		emitter = new Emitter[EMITTER_MAX];
-		bullet = new NspBullet::Bullet[BULLET_MAX];
+		//emitter = new Emitter[EMITTER_MAX];
+		//bullet = new NspBullet::Bullet[BULLET_MAX];
 	}
 	inline int search_emitter() {
 		for (int i = 0; i < EMITTER_MAX; i++) {

@@ -7,7 +7,7 @@
 
 
 
-static char* str = new char[512];
+static char str[512];
 inline void LogA(const char* format, ...) {
 	va_list va;
 	va_start(va, format);

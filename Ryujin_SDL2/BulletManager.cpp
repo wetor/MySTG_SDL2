@@ -12,8 +12,8 @@
 #include "Manager.h"
 
 
-NspBullet::Bullet* bullet = NULL;
-NspBullet::Bullet* player_bullet = NULL;
+NspBullet::Bullet bullet[BULLET_MAX];
+NspBullet::Bullet player_bullet[PLAYER_BULLET_MAX];
 
 namespace NspBullet {
 

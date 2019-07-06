@@ -8,13 +8,13 @@
 #include "global.h"
 #include "Manager.h"
 
-NspPlayer::Player *player = NULL;
-NspEnemy::Enemy* enemy = new NspEnemy::Enemy[ENEMY_MAX];
+NspPlayer::Player* player = new NspPlayer::Player();
+NspEnemy::Enemy enemy[ENEMY_MAX];
 //list<Enemy*> enemy;
 list<enemy_order_t> enemy_order;
 namespace NspPlayer {
 	void PlayerInit() {
-		player = new Player();
+		//player = new Player();
 		player->Init();
 	}
 	void PlayerUpdate() {
@@ -27,9 +27,9 @@ namespace NspPlayer {
 	}
 }
 namespace NspEnemy {
+	
 	void EnemyInit() {
-		enemy = new Enemy[ENEMY_MAX];
-
+		//enemy = new Enemy[ENEMY_MAX];
 	}
 	inline int search_enemy() {
 		for (int i = 0; i < ENEMY_MAX; i++) {

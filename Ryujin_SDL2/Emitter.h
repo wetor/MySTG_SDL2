@@ -7,8 +7,6 @@ namespace NspEmitter {
 	{
 	public:
 		Emitter();
-		~Emitter();
-
 		bool isExist() { return flag; };
 		int AddBulletID(int id);
 		void Init(int enemy_id);
@@ -21,7 +19,7 @@ namespace NspEmitter {
 		//基本角度、基本速度
 		double x, y, base_angle[1], base_spd[1];
 
-		int* bullet_id_list;
+		int bullet_id_list[BULLET_MAX];
 
 	};
 

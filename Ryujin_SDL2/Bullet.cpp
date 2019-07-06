@@ -13,7 +13,6 @@ namespace NspBullet {
 		this->spd = 0;
 		this->base_angle[1] = 0;
 		this->rem_spd[1] = 0;
-
 		this->power = 0;
 	}
 
@@ -62,7 +61,7 @@ namespace NspBullet {
 		if (this->unit_type == UNIT_PLAYER_BULLET) {
 			
 			
-			int dranx = this->spd + 11 / 2, drany = this->spd + 55 / 2;
+			double dranx = this->spd + 11.0 / 2.0, drany = this->spd + 55.0 / 2.0;
 			this->x += cos(this->angle) * this->spd;
 			this->y += sin(this->angle) * this->spd;
 			if (this->x<-dranx || this->x>(double)FMX - 50 + dranx ||

@@ -63,8 +63,8 @@ void Unit::Draw(int bright)
 	double _w = this->scale * (double)this->w;
 	double _h = this->scale * (double)this->h;
 	/*TODO: 绘制单位，精度在此更改*/
-	SDL_Rect *temp_rect = new SDL_Rect({ (int)(x - _w / 2.0 + 0.5) , (int)(y  - _h / 2.0 + 0.5),(int)_w, (int)_h });
-	SDL_Point *temp_point = new SDL_Point({ (int)(_w / 2.0),(int)(_h / 2.0) });
+	SDL_Rect temp_rect = { (int)(x - _w / 2.0 + 0.5) , (int)(y  - _h / 2.0 + 0.5),(int)_w, (int)_h };
+	SDL_Point temp_point = { (int)(_w / 2.0),(int)(_h / 2.0) };
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
 	double _angle = angle * 180.0 / PI;
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//需要更改朝向
@@ -72,24 +72,22 @@ void Unit::Draw(int bright)
 	if (bright > 0) {
 		SDL_SetTextureAlphaMod(texture, bright);
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-		SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
 		SDL_SetTextureAlphaMod(texture, 255);
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
 	}
 	
-	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], temp_rect, _angle, temp_point, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
 	
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
-	delete temp_rect;
-	delete temp_point;
+
 	
 #ifdef COLLIDER
 	
-	temp_rect = new SDL_Rect({ (int)(x + 0.5) - (int)this->range  , (int)(y + 0.5) - (int)this->range ,  (int)this->range*2, (int)this->range * 2 });
+	temp_rect ={ (int)(x + 0.5) - (int)this->range  , (int)(y + 0.5) - (int)this->range ,  (int)this->range * 2, (int)this->range * 2 };
 	SDL_SetRenderDrawColor(render, 0, 255, 0, 200);
-	SDL_RenderFillRect(render, temp_rect);
+	SDL_RenderFillRect(render, &temp_rect);
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-	delete temp_rect;
 	
 	
 #endif

@@ -27,7 +27,7 @@ namespace NspEmitter {
 
 			bullet_t temp;
 
-			temp.knd = 0;
+			temp.knd = enemy[enemy_id].blknd2;
 			temp.angle = shotatan2(enemy_id);
 			temp.flag = 1;
 			temp.x = enemy[enemy_id].x;
