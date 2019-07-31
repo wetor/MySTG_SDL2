@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DEFINE_H__
+#define __DEFINE_H__
 
 #define DEBUG		//测试模式
 #define MUTEX		//同步帧率锁
@@ -77,3 +78,5 @@
 #define SOUND_MAX 100
 
 #define EFFECT_MAX 100
+
+#endif

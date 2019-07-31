@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __BULLET_H__
+#define __BULLET_H__
+
 #include "define.h"
 #include "struct.h"
 #include "Unit.h"
@@ -23,3 +25,4 @@ namespace NspBullet {
 		double  spd, base_angle[1], rem_spd[1];
 	};
 }
+#endif

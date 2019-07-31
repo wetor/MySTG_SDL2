@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __TOOLS_H__
+#define __TOOLS_H__
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -20,5 +21,5 @@ inline void LogA(const char* format, ...) {
 	
 }
 
-
+#endif
 

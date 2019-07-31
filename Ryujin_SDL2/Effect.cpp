@@ -56,9 +56,9 @@ namespace NspEffect {
 		}
 
 	}
-	void Effect::Draw() {
+	void Effect::Render() {
 
-		Unit::Draw(this->brt);
+		Unit::Render(this->brt);
 
 	}
 }

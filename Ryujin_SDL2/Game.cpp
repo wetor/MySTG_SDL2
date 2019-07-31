@@ -27,7 +27,7 @@ void Quit(int code)
 	TTF_CloseFont(font_default);
 	TTF_CloseFont(font_mini);
 	//销毁窗口、渲染器、纹理
-	if (render) SDL_DestroyRenderer(render);
+	if (renderer) SDL_DestroyRenderer(renderer);
 	if (window) SDL_DestroyWindow(window);
 	
 
@@ -70,12 +70,13 @@ int UpdateLoop(void *data) {
 				break;
 			}
 		}
-		
+		NspEnvironment::EnvUpdate();
 		NspPlayer::PlayerUpdate();
 		NspBullet::PlayerBulletUpdate();
 		NspEnemy::EnemyUpdate();
 		NspBullet::BulletUpdate();
 		Collider::PlayerShotEnemy();
+		Collider::EnemyShotPlayer();
 		NspEffect::EffectUpdate();
 		Sound::Update();
 		
@@ -101,36 +102,49 @@ int DrawLoop(void *data) {
 	}
 		_FPS_Timer = SDL_GetTicks();
 #endif
-		SDL_RenderClear(render);
+		SDL_RenderClear(renderer);
 
+		SDL_RenderSetClipRect(renderer, &renderer_rect);
+		NspEnvironment::EnvRender();
+		NspEffect::EffectRender();
+		NspEnemy::EnemyRender();
+		NspBullet::PlayerBulletRender();
+		NspPlayer::PlayerRender();
+		NspBullet::BulletRender();
 
-		NspEffect::EffectDraw();
-		NspEnemy::EnemyDraw();
-		NspBullet::PlayerBulletDraw();
-		NspPlayer::PlayerDraw();
-		NspBullet::BulletDraw();
+		SDL_RenderSetClipRect(renderer, &window_rect);
 
 		NspWindow::FpsShow(100, 100);
 
 
 #ifdef DEBUG
 		/*显示边框*/
-		SDL_SetRenderDrawColor(render, 0, 0xFF, 0, 0xFF);
+		/*if (bright_set.brt < 255)
+		{
+			SDL_SetRenderDrawColor(render, bright_set.brt, bright_set.brt, bright_set.brt, 255);
+			SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
+			
+		}
+		*/
+		SDL_SetRenderDrawColor(renderer, 0, 0xFF, 0, 0xFF);
+
+		
+
 		SDL_Rect rect;
 		rect = { FX, FY, FW, FH };
-		SDL_RenderDrawRect(render, &rect);
+		SDL_RenderDrawRect(renderer, &rect);
 		rect = { LX,LY,LW,LH };
-		SDL_RenderDrawRect(render, &rect);
+		SDL_RenderDrawRect(renderer, &rect);
 		rect = { RX,RY,RW,RH };
-		SDL_RenderDrawRect(render, &rect);
-		SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
+		SDL_RenderDrawRect(renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
 		NspEnemy::EnemyNumberShow(20, 20);
 		NspEmitter::EmitterNumberShow(20, 60);
 		NspBullet::BulletNumberShow(20, 100);
 #endif
 
-		SDL_RenderPresent(render);
+		SDL_RenderPresent(renderer);
 	}
 
 
@@ -191,6 +205,7 @@ int main(int argc, char* argv[])
 			func_state = 1;
 			break;
 		case 1:
+			LogA("EnvInit()");		NspEnvironment::EnvInit();
 			LogA("EnemyInit()");	NspEnemy::EnemyInit();
 			LogA("EmitterInit()");	NspEmitter::EmitterInit();
 			LogA("PlayerInit()");	NspPlayer::PlayerInit();

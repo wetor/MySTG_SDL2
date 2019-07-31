@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __SOUND_H__
+#define __SOUND_H__
 #include "global.h"
 static int sound_num;
 static sound_t sound_list[SOUND_MAX];
@@ -19,4 +20,4 @@ public:
 	static void SoundClose();
 
 };
-
+#endif

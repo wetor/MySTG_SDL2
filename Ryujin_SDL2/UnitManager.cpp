@@ -9,9 +9,27 @@
 #include "Manager.h"
 
 NspPlayer::Player* player = new NspPlayer::Player();
+NspEnvironment::Environment* env = new NspEnvironment::Environment();
 NspEnemy::Enemy enemy[ENEMY_MAX];
 //list<Enemy*> enemy;
 list<enemy_order_t> enemy_order;
+bright_set_t bright_set; //»æÖÆµÄÁÁ¶È
+
+namespace NspEnvironment {
+	void EnvInit() {
+		env->Init();
+	}
+	void EnvUpdate() {
+		env->Update();
+
+	}
+	void EnvRender() {
+
+		env->Render();
+	}
+
+}
+
 namespace NspPlayer {
 	void PlayerInit() {
 		//player = new Player();
@@ -21,8 +39,8 @@ namespace NspPlayer {
 		player->Update();
 
 	}
-	void PlayerDraw() {
-		player->Draw();
+	void PlayerRender() {
+		player->Render();
 
 	}
 }
@@ -60,10 +78,10 @@ namespace NspEnemy {
 			}
 		}
 	}
-	void EnemyDraw() {
+	void EnemyRender() {
 		for (int i = 0; i < ENEMY_MAX; i++) {
 			if (enemy[i].isExist()) {
-				enemy[i].Draw();
+				enemy[i].Render();
 			}
 		}
 	}

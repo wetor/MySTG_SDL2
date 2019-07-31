@@ -33,7 +33,7 @@ void Unit::Load(string type) {
 		texture = image_map[type].texture;
 	}
 	else {
-		texture = SDL_CreateTextureFromSurface(render, surface);
+		texture = SDL_CreateTextureFromSurface(renderer, surface);
 		image_map[type].texture = texture;
 	}
 	this->type = type;
@@ -57,7 +57,7 @@ void Unit::Init(UNIT_TYPE unit_type) {
 	}
 	angle = 0;
 }
-void Unit::Draw(int bright)
+void Unit::Render(int bright)
 {
 	if (this->frame < 0) return;			//frame为负数即等待帧数
 	double _w = this->scale * (double)this->w;
@@ -65,19 +65,26 @@ void Unit::Draw(int bright)
 	/*TODO: 绘制单位，精度在此更改*/
 	SDL_Rect temp_rect = { (int)(x - _w / 2.0 + 0.5) , (int)(y  - _h / 2.0 + 0.5),(int)_w, (int)_h };
 	SDL_Point temp_point = { (int)(_w / 2.0),(int)(_h / 2.0) };
-	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
+	//SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], temp_rect);
 	double _angle = angle * 180.0 / PI;
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//需要更改朝向
 		_angle += 90.0;
 	if (bright > 0) {
 		SDL_SetTextureAlphaMod(texture, bright);
+		
+		
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-		SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
 		SDL_SetTextureAlphaMod(texture, 255);
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
 	}
-	
-	SDL_RenderCopyEx(render, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
+	//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
+	if (bright_set.brt < 255)
+	{
+		SDL_SetTextureColorMod(texture, bright_set.brt, bright_set.brt, bright_set.brt);
+		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+	}
+	SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
 	
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
 
@@ -85,9 +92,9 @@ void Unit::Draw(int bright)
 #ifdef COLLIDER
 	
 	temp_rect ={ (int)(x + 0.5) - (int)this->range  , (int)(y + 0.5) - (int)this->range ,  (int)this->range * 2, (int)this->range * 2 };
-	SDL_SetRenderDrawColor(render, 0, 255, 0, 200);
-	SDL_RenderFillRect(render, &temp_rect);
-	SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 200);
+	SDL_RenderFillRect(renderer, &temp_rect);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	
 	
 #endif

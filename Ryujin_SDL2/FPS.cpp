@@ -55,9 +55,9 @@ namespace NspWindow {
 			SDL_Surface* surf = NULL;
 			//TTF_RenderText_Solid
 			surf = TTF_RenderText_Solid(font_default, text, { 255, 0, 0,255 });
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(render, surf);
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surf);
 			SDL_Rect dst = { x,y,surf->w,surf->h };
-			SDL_RenderCopy(render, texture, NULL, &dst);
+			SDL_RenderCopy(renderer, texture, NULL, &dst);
 			SDL_FreeSurface(surf);
 			SDL_DestroyTexture(texture);
 		}

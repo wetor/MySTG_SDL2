@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Bullet.h"
-
+#include <string>
 namespace NspBullet {
 	Bullet::Bullet() : Unit()
 	{
@@ -24,9 +24,9 @@ namespace NspBullet {
 	void Bullet::Init(bullet_t* data) {
 		this->knd = data->knd;
 
-		Unit::Load(bullet_image_list[this->knd]);
+		Unit::Load(bullet_info[this->knd].id);
 		Unit::Init(UNIT_BULLET);
-		this->range = 3.0;
+		this->range = bullet_info[this->knd].range;
 
 		
 		this->angle = data->angle;

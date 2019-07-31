@@ -1,3 +1,6 @@
+/*
+Åö×²ÅÐ¶Ï
+*/
 #include "pch.h"
 #include "Collider.h"
 bool Collider::Judge(NspBullet::Bullet* bullet, Unit* unit) {
@@ -56,6 +59,22 @@ void Collider::PlayerShotEnemy() {
 			}
 		}
 	}
-
-
+}
+void Collider::EnemyShotPlayer() {
+	for (int i = 0; i < BULLET_MAX; i++) {
+		if (bullet[i].isExist()) {
+			
+			if (Judge(&bullet[i], player)) {
+				bullet[i].flag = false;
+				bullet[i].Free();
+				if (player->state == PLAYER_DEFAULT) {
+					//×´Ì¬ÎªÒ»°ã×´Ì¬£¬ÇÒ²»ÊÇÎÞµÐ×´Ì¬ÏÂ
+					player->state = PLAYER_DEATH;
+					player->frame = 0;
+					Sound::PlayMusic(4);//»÷»ÙÉù
+					return;
+				}
+			}
+		}
+	}
 }

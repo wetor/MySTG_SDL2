@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_H__
+#define __UNIT_H__
 
 #include "global.h"
 
@@ -8,7 +9,7 @@ public:
 	Unit();
 	void Load(string type);
 	void Init(UNIT_TYPE unit_type = UNIT_DEFAULT);
-	void Draw(int bright = 0);
+	void Render(int bright = 0);
 	void Update();
 	UNIT_TYPE GetType() {return unit_type;};
 	void Free();
@@ -29,3 +30,4 @@ public:
 	string type;				//ÕºœÒ¿‡–Õ
 };
 
+#endif

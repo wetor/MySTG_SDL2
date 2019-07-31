@@ -51,10 +51,10 @@ namespace NspEffect {
 			}
 		}
 	}
-	void EffectDraw() {
+	void EffectRender() {
 		for (int i = 0; i < EFFECT_MAX; i++) {
 			if (effect[i].isExist()) {
-				effect[i].Draw();
+				effect[i].Render();
 			}
 		}
 	}

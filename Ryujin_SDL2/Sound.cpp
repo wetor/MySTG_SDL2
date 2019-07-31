@@ -18,7 +18,7 @@ void Sound::Load(SOUND_TYPE type, int volume,const char* file) {
 }
 
 void Sound::PlayMusic(int sound, int loop) {
-	if (sound >= 0 && sound < SOUND_MAX && sound_list[i].sound != NULL) {
+	if (sound >= 0 && sound < SOUND_MAX && sound_list[sound].sound != NULL) {
 		sound_list[sound].loops = loop;
 		
 	}

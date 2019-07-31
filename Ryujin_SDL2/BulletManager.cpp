@@ -52,10 +52,10 @@ namespace NspBullet {
 
 	}
 #endif
-	void BulletDraw() {
+	void BulletRender() {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (bullet[i].isExist()) {
-				bullet[i].Draw();
+				bullet[i].Render();
 			}
 		}
 	}
@@ -86,10 +86,10 @@ namespace NspBullet {
 		}
 	}
 
-	void PlayerBulletDraw() {
+	void PlayerBulletRender() {
 		for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
 			if (player_bullet[i].isExist()) {
-				player_bullet[i].Draw();
+				player_bullet[i].Render();
 			}
 		}
 	}

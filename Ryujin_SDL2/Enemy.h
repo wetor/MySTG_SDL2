@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __ENEMY_H__
+#define __ENEMY_H__
 #include "Unit.h"
 namespace NspEnemy {
 	class Enemy :
@@ -8,7 +9,7 @@ namespace NspEnemy {
 		Enemy();
 		~Enemy();
 		void Init(enemy_order_t _enemy_order);
-		void Draw() { Unit::Draw(); };
+		void Render() { Unit::Render(); };
 		void Update();
 		void Shot();
 		bool isExist() { return flag; };
@@ -49,3 +50,4 @@ namespace NspEnemy {
 	void enemy_pattern10(Enemy*);
 
 }
+#endif

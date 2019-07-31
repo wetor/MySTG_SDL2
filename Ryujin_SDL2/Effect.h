@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __EFFECT_H__
+#define __EFFECT_H__
 #include "Unit.h"
 namespace NspEffect {
 	class Effect :
@@ -8,7 +9,7 @@ namespace NspEffect {
 		Effect();
 		~Effect();
 		void Init(effect_t* data);
-		void Draw();
+		void Render();
 		void Update();
 		bool isExist() { return flag; };
 	public:
@@ -17,3 +18,4 @@ namespace NspEffect {
 	};
 
 }
+#endif
