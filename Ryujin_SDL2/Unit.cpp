@@ -33,7 +33,13 @@ void Unit::Load(string type) {
 		texture = image_map[type].texture;
 	}
 	else {
+#ifdef MUTEX
+		SDL_mutexP(loop_lock);			//Ëø¶¨
+#endif
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
+#ifdef MUTEX
+		SDL_mutexV(loop_lock);
+#endif
 		image_map[type].texture = texture;
 	}
 	this->type = type;

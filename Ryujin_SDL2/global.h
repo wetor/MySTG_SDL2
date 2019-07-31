@@ -14,6 +14,11 @@
 #include <vector>
 using namespace std;
 
+
+#ifdef MUTEX
+extern  SDL_mutex* loop_lock;		//±£»¤ÐÔ»¥³âËø
+#endif
+
 extern  SDL_Rect renderer_rect;
 extern  SDL_Rect window_rect;
 
