@@ -23,32 +23,32 @@
     <ProjectGuid>{BF1B7AA4-D1C4-47FB-84CC-0ACA1242A264}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RyujinSDL2</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\SDL2\SDL2_mixer-2.0.4\include;C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\SDL2_mixer-2.0.4\lib;C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDK\SDL2\SDL2_mixer-2.0.4\include;C:\SDK\LuaJit\include;C:\SDK\SDL2\SDL2_ttf-2.0.14\include;C:\SDK\SDL2\SDL2_image-2.0.4\include;C:\SDK\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDK\SDL2\SDL2_mixer-2.0.4\lib;C:\SDK\LuaJit\lib;C:\SDK\SDL2\SDL2_ttf-2.0.14\lib;C:\SDK\SDL2\SDL2_image-2.0.4\lib;C:\SDK\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\SDL2\SDL2_mixer-2.0.4\include;C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\SDL2_mixer-2.0.4\lib;C:\LuaJit\lib;C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDK\SDL2\SDL2_mixer-2.0.4\include;C:\SDK\LuaJit\include;C:\SDK\SDL2\SDL2_ttf-2.0.14\include;C:\SDK\SDL2\SDL2_image-2.0.4\include;C:\SDK\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDK\SDL2\SDL2_mixer-2.0.4\lib;C:\SDK\LuaJit\lib;C:\SDK\SDL2\SDL2_ttf-2.0.14\lib;C:\SDK\SDL2\SDL2_image-2.0.4\lib;C:\SDK\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
