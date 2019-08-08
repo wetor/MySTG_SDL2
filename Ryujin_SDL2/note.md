@@ -23,7 +23,7 @@
 	## BOSS子弹 ;线程优化
 		Shoter.cpp  
 # 4、组件管理
-	/*https://github.com/xysz0824/CrazyStorm2.0/tree/develop/Core/Component*/
+	https://github.com/xysz0824/CrazyStorm2.0/tree/develop/Core/Component
 	Component.cpp  
 	## 发射器
 		Emitter.cpp  

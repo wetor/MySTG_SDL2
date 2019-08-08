@@ -93,7 +93,7 @@ namespace NspEnemy {
 				num++;
 			}
 		}
-		NumberShow(x, y, num);
+		NumberShow(x, y,"Enemy num", num);
 	}
 #endif
 }

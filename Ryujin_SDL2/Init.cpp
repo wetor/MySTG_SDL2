@@ -62,12 +62,12 @@ bool WindowInit() {
 	if (window == NULL) return false;
 
 	//º”‘ÿ‰÷»æ∆˜
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED );
 	if (renderer == NULL) return false;
 	SDL_RenderSetLogicalSize(renderer, WINDOW_W, WINDOW_H);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	font_default = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 22);
-	font_mini = TTF_OpenFont("../Ryujin_SDL2/dat/font/default.ttf", 12);
+	font_default = TTF_OpenFont("../Ryujin_SDL2/dat/font/font0.ttf", 22);
+	font_mini = TTF_OpenFont("../Ryujin_SDL2/dat/font/font0.ttf", 14);
 	
 	if (font_default == NULL)  return false;
 

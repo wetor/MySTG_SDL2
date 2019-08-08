@@ -42,7 +42,7 @@ namespace NspEmitter {
 				num++;
 			}
 		}
-		NumberShow(x, y, num);
+		NumberShow(x, y, "Emitter num", num);
 	}
 #endif
 }

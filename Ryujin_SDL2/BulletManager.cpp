@@ -48,7 +48,7 @@ namespace NspBullet {
 				num++;
 			}
 		}
-		NumberShow(x,y, num);
+		NumberShow(x,y, "Bullet num",num);
 
 	}
 #endif

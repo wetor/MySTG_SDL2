@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Sound.h"
 #include "struct.h"
+#include "Tools.h"
 #include <iostream>
 #include <list>
 #include <memory>
@@ -31,7 +32,7 @@ extern  list<enemy_order_t> enemy_order;
 extern  bool WindowInit();
 extern  void ResourcesInit();
 
-extern	void NumberShow(int x, int y, int num);
+
 
 namespace NspEnvironment {
 	extern  void EnvInit();

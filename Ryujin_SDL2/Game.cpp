@@ -40,7 +40,7 @@ void Quit(int code)
 int UpdateLoop(void *data) {
 	
 	while (!quit) {
-
+		Timer::Start("FPSWait");
 #ifdef MUTEX
 		SDL_mutexP(loop_lock);			//锁定
 #endif
@@ -50,6 +50,7 @@ int UpdateLoop(void *data) {
 		SDL_CondSignal(can_emitter);
 		SDL_CondSignal(can_draw);
 #endif
+		printf("%d\n", Timer::End("FPSWait"));
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
@@ -70,15 +71,23 @@ int UpdateLoop(void *data) {
 				break;
 			}
 		}
-		NspEnvironment::EnvUpdate();
-		NspPlayer::PlayerUpdate();
-		NspBullet::PlayerBulletUpdate();
-		NspEnemy::EnemyUpdate();
-		NspBullet::BulletUpdate();
+		Timer::Start("Environment");
+		NspEnvironment::EnvUpdate(); Timer::End("Environment");
+		Timer::Start("Player");
+		NspPlayer::PlayerUpdate(); Timer::End("Player");
+		Timer::Start("PlayerBullet");
+		NspBullet::PlayerBulletUpdate(); Timer::End("PlayerBullet");
+		Timer::Start("Enemy");
+		NspEnemy::EnemyUpdate(); Timer::End("Enemy");
+		Timer::Start("Bullet");
+		NspBullet::BulletUpdate(); Timer::End("Bullet");
+		Timer::Start("Collider");
 		Collider::PlayerShotEnemy();
-		Collider::EnemyShotPlayer();
-		NspEffect::EffectUpdate();
-		Sound::Update();
+		Collider::EnemyShotPlayer(); Timer::End("Collider");
+		Timer::Start("Effect");
+		NspEffect::EffectUpdate(); Timer::End("Effect");
+		Timer::Start("Sound");
+		Sound::Update(); Timer::End("Sound");
 		
 
 		frame_total++;
@@ -94,27 +103,37 @@ int DrawLoop(void *data) {
 	static Uint32 _FPS_Timer;
 #endif
 	while (!quit) {
+		Timer::Start("DrawWait");
 #ifdef MUTEX
-		SDL_CondWait(can_draw, loop_lock);
+		SDL_CondWait(can_draw, loop_lock); 
 #else
+		
 		if (SDL_GetTicks() - _FPS_Timer < FPS) {
 			SDL_Delay(FPS - SDL_GetTicks() + _FPS_Timer);
 	}
 		_FPS_Timer = SDL_GetTicks();
-#endif
-		SDL_RenderClear(renderer);
 
+#endif
+		Timer::End("DrawWait");
+		SDL_RenderClear(renderer);
+		
 		SDL_RenderSetClipRect(renderer, &renderer_rect);
-		NspEnvironment::EnvRender();
-		NspEffect::EffectRender();
-		NspEnemy::EnemyRender();
-		NspBullet::PlayerBulletRender();
-		NspPlayer::PlayerRender();
-		NspBullet::BulletRender();
+		Timer::Start("DrawEnv");
+		NspEnvironment::EnvRender(); Timer::End("DrawEnv");
+		Timer::Start("DrawEffect");
+		NspEffect::EffectRender(); Timer::End("DrawEffect");
+		Timer::Start("DrawEnemy");
+		NspEnemy::EnemyRender(); Timer::End("DrawEnemy");
+		Timer::Start("DrawPBullet");
+		NspBullet::PlayerBulletRender(); Timer::End("DrawPBullet");
+		Timer::Start("DrawPlayer");
+		NspPlayer::PlayerRender(); Timer::End("DrawPlayer");
+		Timer::Start("DrawBullet");
+		NspBullet::BulletRender(); Timer::End("DrawBullet");
 
 		SDL_RenderSetClipRect(renderer, &window_rect);
 
-		NspWindow::FpsShow(100, 100);
+		NspWindow::FpsShow(20, 20);
 
 
 #ifdef DEBUG
@@ -139,9 +158,40 @@ int DrawLoop(void *data) {
 		SDL_RenderDrawRect(renderer, &rect);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
-		NspEnemy::EnemyNumberShow(20, 20);
+		NspEnemy::EnemyNumberShow(20, 40);
 		NspEmitter::EmitterNumberShow(20, 60);
-		NspBullet::BulletNumberShow(20, 100);
+		NspBullet::BulletNumberShow(20, 80);
+		//LogA("%d", Timer::Size());
+		for (int i = 0; i < Timer::Size(); i++) {
+			
+			NumberShow(20, 150 + i * 20, Timer::Get(i), Timer::Get(Timer::Get(i)));
+		}
+		/*
+		
+		Timer::Start("Environment");
+		NspEnvironment::EnvUpdate(); Timer::End("Environment");
+		Timer::Start("Player");
+		NspPlayer::PlayerUpdate(); Timer::End("Player");
+		Timer::Start("PlayerBullet");
+		NspBullet::PlayerBulletUpdate(); Timer::End("PlayerBullet");
+		Timer::Start("Enemy");
+		NspEnemy::EnemyUpdate(); Timer::End("Enemy");
+		Timer::Start("Bullet");
+		NspBullet::BulletUpdate(); Timer::End("Bullet");
+		Timer::Start("Collider");
+		Collider::PlayerShotEnemy();
+		Collider::EnemyShotPlayer(); Timer::End("Collider");
+		Timer::Start("Effect");
+		NspEffect::EffectUpdate(); Timer::End("Effect");
+		Timer::Start("Sound");
+		Sound::Update(); Timer::End("Sound");
+		
+		*/
+
+
+
+
+
 #endif
 
 		SDL_RenderPresent(renderer);
