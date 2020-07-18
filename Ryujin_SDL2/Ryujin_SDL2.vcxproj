@@ -77,8 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\LuaJit\include;C:\SDL2\SDL2_ttf-2.0.14\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2\SDL2_ttf-2.0.14\lib;C:\SDL2\SDL2_image-2.0.4\lib;C:\SDL2\SDL2-2.0.9\lib;C:\LuaJit\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDK\LuaJit\include;C:\SDK\SDL2\SDL2_ttf-2.0.14\include;C:\SDK\SDL2\SDL2_image-2.0.4\include;C:\SDK\SDL2\SDL2-2.0.9\include;C:\SDK\SDL2\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDK\SDL2\SDL2_ttf-2.0.14\lib;C:\SDK\SDL2\SDL2_image-2.0.4\lib;C:\SDK\SDL2\SDL2-2.0.9\lib;C:\SDK\LuaJit\lib;C:\SDK\SDL2\SDL2_mixer-2.0.4\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

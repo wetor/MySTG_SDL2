@@ -64,7 +64,7 @@
 //Enemy
 #define ENEMY_MAX 30
 //Bullet
-#define BULLET_MAX 3000
+#define BULLET_MAX 6000
 
 //Emitter
 #define EMITTER_MAX 60

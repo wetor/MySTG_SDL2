@@ -14,6 +14,8 @@ SDL_Rect renderer_rect = { FX,FY,FW, FH };
 SDL_Rect window_rect = { 0,0,WINDOW_W,WINDOW_H };
 
 SDL_Window *window = NULL;
+SDL_Surface* game_surface = NULL;
+SDL_Texture* game_texture = NULL;
 SDL_Renderer *renderer = NULL;
 TTF_Font *font_default = NULL;
 TTF_Font *font_mini = NULL;
@@ -58,11 +60,17 @@ bool WindowInit() {
 
 	TTF_Init();
 
-	window = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE| SDL_WINDOW_OPENGL);
 	if (window == NULL) return false;
 
 	//加载渲染器
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED );
+	//游戏画面总的surface
+	// SDL_PIXELFORMAT_ARGB8888;
+	game_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, WINDOW_W, WINDOW_H, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+	game_texture = SDL_CreateTextureFromSurface(renderer, game_surface);
+
+
 	if (renderer == NULL) return false;
 	SDL_RenderSetLogicalSize(renderer, WINDOW_W, WINDOW_H);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);

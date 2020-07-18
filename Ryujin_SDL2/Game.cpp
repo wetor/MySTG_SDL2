@@ -12,7 +12,6 @@
 
 #ifdef MUTEX
 SDL_mutex *loop_lock = NULL;		//保护性互斥锁
-SDL_cond *can_emitter = NULL;		//条件变量
 SDL_cond *can_draw = NULL;
 #endif
 
@@ -40,17 +39,17 @@ void Quit(int code)
 int UpdateLoop(void *data) {
 	
 	while (!quit) {
-		Timer::Start("FPSWait");
+		Timer::Start("UpdateWait");
 #ifdef MUTEX
 		SDL_mutexP(loop_lock);			//锁定
 #endif
 		NspWindow::FpsWait();//帧数控制
 #ifdef MUTEX
 		SDL_mutexV(loop_lock);			//解锁
-		SDL_CondSignal(can_emitter);
 		SDL_CondSignal(can_draw);
 #endif
-		printf("%d\n", Timer::End("FPSWait"));
+		Timer::End("UpdateWait");
+		//printf("%d\n", Timer::End("FPSWait"));
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 
@@ -79,6 +78,8 @@ int UpdateLoop(void *data) {
 		NspBullet::PlayerBulletUpdate(); Timer::End("PlayerBullet");
 		Timer::Start("Enemy");
 		NspEnemy::EnemyUpdate(); Timer::End("Enemy");
+		Timer::Start("Emitter");
+		NspEmitter::EmitterUpdate(); Timer::End("Emitter");
 		Timer::Start("Bullet");
 		NspBullet::BulletUpdate(); Timer::End("Bullet");
 		Timer::Start("Collider");
@@ -131,10 +132,28 @@ int DrawLoop(void *data) {
 		Timer::Start("DrawBullet");
 		NspBullet::BulletRender(); Timer::End("DrawBullet");
 
+		
+
+
+		//设置 game_surface mode
+		Timer::Start("Draw");
+		SDL_LockSurface(game_surface);
+		SDL_UpdateTexture(game_texture, &window_rect,
+			(unsigned char*)game_surface->pixels + game_surface->pitch * window_rect.y + window_rect.x * 4,
+			game_surface->pitch);
+		SDL_UnlockSurface(game_surface);
+
+		//game_texture = SDL_CreateTextureFromSurface(renderer, game_surface);
+
+		SDL_RenderCopy(renderer, game_texture, &renderer_rect, &renderer_rect);
+		Timer::End("Draw");
+
+
+
+
 		SDL_RenderSetClipRect(renderer, &window_rect);
-
 		NspWindow::FpsShow(20, 20);
-
+		
 
 #ifdef DEBUG
 		/*显示边框*/
@@ -166,31 +185,6 @@ int DrawLoop(void *data) {
 			
 			NumberShow(20, 150 + i * 20, Timer::Get(i), Timer::Get(Timer::Get(i)));
 		}
-		/*
-		
-		Timer::Start("Environment");
-		NspEnvironment::EnvUpdate(); Timer::End("Environment");
-		Timer::Start("Player");
-		NspPlayer::PlayerUpdate(); Timer::End("Player");
-		Timer::Start("PlayerBullet");
-		NspBullet::PlayerBulletUpdate(); Timer::End("PlayerBullet");
-		Timer::Start("Enemy");
-		NspEnemy::EnemyUpdate(); Timer::End("Enemy");
-		Timer::Start("Bullet");
-		NspBullet::BulletUpdate(); Timer::End("Bullet");
-		Timer::Start("Collider");
-		Collider::PlayerShotEnemy();
-		Collider::EnemyShotPlayer(); Timer::End("Collider");
-		Timer::Start("Effect");
-		NspEffect::EffectUpdate(); Timer::End("Effect");
-		Timer::Start("Sound");
-		Sound::Update(); Timer::End("Sound");
-		
-		*/
-
-
-
-
 
 #endif
 
@@ -200,28 +194,6 @@ int DrawLoop(void *data) {
 
 	return 0;
 }
-/*
-弹幕计算相关 更新函数
-*/
-int EmitterLoop(void* data) {
-#if !defined(MUTEX)
-	static int FPS = 1000 / 60;
-	static Uint32 _FPS_Timer;
-#endif
-	while (!quit) {
-		if (func_state != 100) continue;
-#ifdef MUTEX
-		SDL_CondWait(can_emitter, loop_lock);
-#else
-		if (SDL_GetTicks() - _FPS_Timer < FPS) {
-			SDL_Delay(FPS - SDL_GetTicks() + _FPS_Timer);
-		}
-		_FPS_Timer = SDL_GetTicks();
-#endif
-		NspEmitter::EmitterUpdate();
-	}
-	return 0;
-}
 
 int main(int argc, char* argv[])
 {
@@ -229,7 +201,6 @@ int main(int argc, char* argv[])
 		SDL_Log("ERROR:%s\n", SDL_GetError());
 #ifdef MUTEX
 	loop_lock = SDL_CreateMutex();
-	can_emitter = SDL_CreateCond();
 	can_draw = SDL_CreateCond();
 #endif
 	while (!quit) {
@@ -269,7 +240,6 @@ int main(int argc, char* argv[])
 		case 99:
 			LogA("ThreadInit()");
 			thread_draw = SDL_CreateThread(DrawLoop, "draw", NULL);
-			thread_emitter = SDL_CreateThread(EmitterLoop, "emitter", NULL);
 			LogA("FuncState 99 Over");
 
 			func_state = 100;

@@ -24,6 +24,8 @@ extern  SDL_Rect window_rect;
 
 extern  SDL_Window *window;
 extern  SDL_Renderer *renderer;
+extern	SDL_Surface *game_surface;
+extern	SDL_Texture *game_texture;
 
 
 extern  SDL_Thread *thread_draw;

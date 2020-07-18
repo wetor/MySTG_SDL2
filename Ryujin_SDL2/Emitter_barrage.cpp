@@ -22,8 +22,8 @@ namespace NspEmitter {
 		int enemy_id = _this->enemy_id;
 		int bullet_id = 0;
 		int t = _this->frame;
-		//for (int z = 0; z < 3; z++)
-		if (t == 10) {
+		for (int z = 0; z < 3; z++)
+		if (t > 10) {
 
 			bullet_t temp;
 

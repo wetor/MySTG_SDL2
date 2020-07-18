@@ -29,6 +29,7 @@ Unit::Unit()
 }
 void Unit::Load(string type) {
 	surface = image_map[type].surface;
+
 	if (image_map[type].texture != NULL) {
 		texture = image_map[type].texture;
 	}
@@ -75,9 +76,14 @@ void Unit::Render(int bright)
 	double _angle = angle * 180.0 / PI;
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//需要更改朝向
 		_angle += 90.0;
+	
+	//使用blitSurface
+	SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+
+	// 使用renderCopy
+#if 0
 	if (bright > 0) {
 		SDL_SetTextureAlphaMod(texture, bright);
-		
 		
 		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 		SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
@@ -93,7 +99,7 @@ void Unit::Render(int bright)
 	SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
 	
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
-
+#endif
 	
 #ifdef COLLIDER
 	
