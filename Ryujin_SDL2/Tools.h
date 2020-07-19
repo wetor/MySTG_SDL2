@@ -7,6 +7,26 @@
 #include <SDL.h>
 #include <map>
 using namespace std;
+struct TimerData {
+	TimerData() :type(""), name(""), time(0), start(0) {};
+	TimerData(string type, string name, int start = 0, int time = 0) :type(type), name(name), time(start), start(time) {};
+
+	TimerData operator=(TimerData data) {
+		type = data.type;
+		name = data.name;
+		time = data.time;
+		start = data.start;
+		return *this;
+	}
+	string type;
+	string name;
+	int time;
+	int start;
+};
+
+
+
+extern	void NumberShow(int x, int y, TimerData data);
 extern	void NumberShow(int x, int y, string info, int num);
 extern	void NumberShow(int x, int y, string info, double num);
 
@@ -20,14 +40,18 @@ inline void LogA(const char* format, ...) {
 	va_end(va);
 }
 
+
 class Timer {
 public:
 	static void Start();
 	static void Start(string name);
+	static void Start(string type, string name);
 	static int End();
 	static int End(string name);
-	static int Get(string name);
-	static string Get(int index);
+	static int End(string type, string name);
+	static TimerData Get(string name);
+	static TimerData Get(string type, string name);
+	static TimerData Get(int index);
 	static int Size();
 private:
 	

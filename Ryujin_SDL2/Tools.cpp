@@ -15,24 +15,37 @@ void RenderText(int x, int y, SDL_Color col ,char* text) {
 }
 
 //在x,y的位置显示数字
-void NumberShow(int x, int y, string info, int num) {
+void NumberShow(int x, int y, TimerData data) {
+	//printf("%d\n", y);
+	static char text[30];
+	snprintf(text, 30, "%-22s:[%2d]", data.name.c_str(), data.time);
+	SDL_Color color = { 0,0,0,255 };
+	if (data.type == "Draw")
+		color = { 0,255,0,255 };// g
+	else if (data.type == "Update")
+		color = { 0,128,255,255 };//b
+	
 
-	static char text[26];
-	snprintf(text, 26, "%-16s:[%4d]", info.c_str(), num);
-	RenderText(x, y, num>=5 ? SDL_Color({ 0, 255, 0, 255 }) : SDL_Color({ 255, 0, 0,255 }),text);
+	RenderText(x, y, color ,text);
 	
 }
+//在x,y的位置显示数字
+void NumberShow(int x, int y, string info, int num) {
 
+	static char text[30];
+	snprintf(text, 30, "%-20s:[%4d]", info.c_str(), num);
+	RenderText(x, y, SDL_Color({ 255, 128, 0, 255 }), text);
+
+}
 void NumberShow(int x, int y, string info, double num) {
-	static char text[26];
-	snprintf(text, 26, "%-14s:[%2.3f]", info.c_str(), num);
+	static char text[30];
+	snprintf(text, 30, "%-18s:[%2.3f]", info.c_str(), num);
 	RenderText(x, y, { 255, 0, 0,255 }, text);
 
 }
 
 Uint32 _time;
-map<string, int> time_table;
-map<string, int> time_start;
+map<string, TimerData> table;
 map<int, string> name_list;
 
 void Timer::Start() {
@@ -44,28 +57,43 @@ int Timer::End() {
 	return (int)(_time - t);
 }
 void Timer::Start(string name) {
-	name_list[time_start.size()] = name;
-	time_start[name] = SDL_GetTicks();
-}
-int Timer::End(string name) {
-	Uint32 t = _time;
-	_time = SDL_GetTicks();
-	time_table[name] = (int)(_time - t);
-	return time_table[name];
-}
-string Timer::Get(int index) {
-	return name_list[index];
-}
-int Timer::Get(string name) {
-	int t = time_table[name];
-	if (t > 0) {
-		time_table[name] = -1;
-		return t;
+	if (table.find(name) == table.end()) {
+		table[name] = TimerData("default", name, SDL_GetTicks());
+		name_list[name_list.size()] = name;
 	}
-	else
-		return 0;
+	else {
+		table[name].start = SDL_GetTicks();
+	}
 	
 }
+void Timer::Start(string type, string name) {
+	
+	if (table.find(type + name) == table.end()) {
+		table[type + name] = TimerData(type, name, SDL_GetTicks());
+		name_list[name_list.size()] = type + name;
+	}
+	else {
+		table[type + name].start = SDL_GetTicks();
+	}
+	
+}
+int Timer::End(string name) {
+	table[name].time = (int)(SDL_GetTicks() - table[name].start);
+	return table[name].time;
+}
+int Timer::End(string type, string name) {
+	return End(type + name);
+}
+TimerData Timer::Get(int index) {
+	return table[name_list[index]];
+}
+TimerData Timer::Get(string name) {
+	return table[name];
+	
+}
+TimerData Timer::Get(string type, string name) {
+	return table[type+name];
+}
 int Timer::Size() { 
-	return time_start.size();
+	return name_list.size();
 }

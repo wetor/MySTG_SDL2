@@ -46,6 +46,7 @@ bool WindowInit() {
 	//Settings
 
 
+
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -57,10 +58,11 @@ bool WindowInit() {
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 
+	//SDL_SetHint(SDL_HINT_RENDER_DIRECT3D_THREADSAFE, "0");
 
 	TTF_Init();
 
-	window = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE| SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE);
 	if (window == NULL) return false;
 
 	//º”‘ÿ‰÷»æ∆˜

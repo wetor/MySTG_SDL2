@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\SDK\SDL2\SDL2_mixer-2.0.4\include;C:\SDK\LuaJit\include;C:\SDK\SDL2\SDL2_ttf-2.0.14\include;C:\SDK\SDL2\SDL2_image-2.0.4\include;C:\SDK\SDL2\SDL2-2.0.9\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDK\SDL2\SDL2_mixer-2.0.4\lib;C:\SDK\LuaJit\lib;C:\SDK\SDL2\SDL2_ttf-2.0.14\lib;C:\SDK\SDL2\SDL2_image-2.0.4\lib;C:\SDK\SDL2\SDL2-2.0.9\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDK\SDL2\SDL2_gfx-1.0.4\include;C:\SDK\SDL2\SDL2_mixer-2.0.4\include;C:\SDK\LuaJit\include;C:\SDK\SDL2\SDL2_ttf-2.0.14\include;C:\SDK\SDL2\SDL2_image-2.0.4\include;C:\SDK\SDL2\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDK\SDL2\SDL2_gfx-1.0.4\lib;C:\SDK\SDL2\SDL2_mixer-2.0.4\lib;C:\SDK\LuaJit\lib;C:\SDK\SDL2\SDL2_ttf-2.0.14\lib;C:\SDK\SDL2\SDL2_image-2.0.4\lib;C:\SDK\SDL2\SDL2-2.0.12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

@@ -7,7 +7,11 @@
 
 #include "pch.h"
 #include "Unit.h"
-
+extern "C"
+{
+#include <SDL2_gfxPrimitives.h>
+#include <SDL2_rotozoom.h>
+}
 
 Unit::Unit()
 {
@@ -70,36 +74,65 @@ void Unit::Render(int bright)
 	double _w = this->scale * (double)this->w;
 	double _h = this->scale * (double)this->h;
 	/*TODO: 绘制单位，精度在此更改*/
-	SDL_Rect temp_rect = { (int)(x - _w / 2.0 + 0.5) , (int)(y  - _h / 2.0 + 0.5),(int)_w, (int)_h };
-	SDL_Point temp_point = { (int)(_w / 2.0),(int)(_h / 2.0) };
+	
 	//SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], temp_rect);
 	double _angle = angle * 180.0 / PI;
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_PLAYER_BULLET)	//需要更改朝向
 		_angle += 90.0;
-	
-	//使用blitSurface
-	SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
 
-	// 使用renderCopy
-#if 0
-	if (bright > 0) {
-		SDL_SetTextureAlphaMod(texture, bright);
-		
-		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-		SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
-		SDL_SetTextureAlphaMod(texture, 255);
-		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+	if (1) {
+
+		SDL_FRect temp_rect = { x - _w / 2.0 + 0.5 , y - _h / 2.0 + 0.5,_w, _h };
+		SDL_FPoint temp_point = { _w / 2.0,_h / 2.0 };
+		// 使用renderCopy
+		if (bright > 0) {
+			SDL_SetTextureAlphaMod(texture, bright);
+			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+			SDL_RenderCopyExF(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
+			SDL_SetTextureAlphaMod(texture, 255);
+			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+		}
+		//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
+		if (bright_set.brt < 255)
+		{
+			SDL_SetTextureColorMod(texture, bright_set.brt, bright_set.brt, bright_set.brt);
+			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+		}
+		SDL_RenderCopyExF(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
+
+		//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
+
 	}
-	//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
-	if (bright_set.brt < 255)
-	{
-		SDL_SetTextureColorMod(texture, bright_set.brt, bright_set.brt, bright_set.brt);
-		SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+	else {
+		//使用blitSurface
+		SDL_Rect temp_rect = { (int)(x - _w / 2.0 + 0.5) , (int)(y - _h / 2.0 + 0.5),(int)_w, (int)_h };
+		SDL_Point temp_point = { (int)(_w / 2.0),(int)(_h / 2.0) };
+		if (bright > 0) {
+			SDL_SetSurfaceAlphaMod(surface, bright);
+			SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+			//SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+			//SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
+			//SDL_SetSurfaceAlphaMod(surface, 255);
+			//SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_ADD);
+		}
+		//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
+		if (bright_set.brt < 255)
+		{
+			SDL_SetSurfaceColorMod(surface, bright_set.brt, bright_set.brt, bright_set.brt);
+			SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+		}
+		if (unit_type == UNIT_BULLET) {
+			SDL_Surface* temp = rotozoomSurface(surface, 0, 1.0, SMOOTHING_OFF);
+			SDL_BlitSurface(temp, &frame_rect[frame_now], game_surface, &temp_rect);
+			SDL_FreeSurface(temp);
+		}
+		else
+
+			SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+
 	}
-	SDL_RenderCopyEx(renderer, texture, &frame_rect[frame_now], &temp_rect, _angle, &temp_point, SDL_FLIP_NONE);
-	
-	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
-#endif
+
+
 	
 #ifdef COLLIDER
 	
