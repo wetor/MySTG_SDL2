@@ -19,7 +19,7 @@ namespace NspEffect {
 	void  Effect::Init(effect_t* data) {
 		/*
 		int flag, cnt, col, knd, img, eff, brt;
-		double x, y, r, ang;
+		float x, y, r, ang;
 		*/
 
 		this->knd = data->knd;
@@ -44,7 +44,7 @@ namespace NspEffect {
 		switch (this->knd) {//根据效果的种类进行分歧
 		case 0://0号的处理
 
-			this->scale += 0.04;//逐渐把效果的大小变大
+			this->scale += 0.04f;//逐渐把效果的大小变大
 			if (this->frame > 10)//如果计数为10以上
 				this->brt -= 25;//将亮度降低
 			if (this->frame > 20)//效果为20以上

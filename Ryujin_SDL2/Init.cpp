@@ -145,7 +145,7 @@ void ResourcesInit() {
 	bullet_info.push_back({ "b8", 12, 18, 10, 1.5 });
 	bullet_info.push_back({ "b9", 13, 19, 3, 2.0 });
 
-	for (int i = 0; i < bullet_info.size(); i++) {
+	for (int i = 0; i < (int)bullet_info.size(); i++) {
 		image_map[bullet_info[i].id] = { bullet_info[i].w, bullet_info[i].h, IMG_Load(("../Ryujin_SDL2/dat/img/bullet/" + bullet_info[i].id + ".png").c_str()) };
 	}
 

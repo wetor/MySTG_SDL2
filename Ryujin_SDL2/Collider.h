@@ -6,6 +6,7 @@ class Collider
 public:
 	static bool Judge(NspBullet::Bullet *bullet,Unit* unit);
 	static void PlayerShotEnemy();
+	static void PlayerBombEnemy();
 	static void EnemyShotPlayer();
 };
 

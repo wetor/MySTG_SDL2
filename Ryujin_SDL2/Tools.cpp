@@ -37,7 +37,7 @@ void NumberShow(int x, int y, string info, int num) {
 	RenderText(x, y, SDL_Color({ 255, 128, 0, 255 }), text);
 
 }
-void NumberShow(int x, int y, string info, double num) {
+void NumberShow(int x, int y, string info, float num) {
 	static char text[30];
 	snprintf(text, 30, "%-18s:[%2.3f]", info.c_str(), num);
 	RenderText(x, y, { 255, 0, 0,255 }, text);

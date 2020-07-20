@@ -6,21 +6,21 @@
 bool Collider::Judge(NspBullet::Bullet* bullet, Unit* unit) {
 	int j;
 	if (bullet->frame > 0) { //如果射击的子弹的轨道至少计算过1次
-		double x = bullet->x - unit->x; //敌人和自机射击的子弹的距离
-		double y = bullet->y - unit->y;
+		float x = bullet->x - unit->x; //敌人和自机射击的子弹的距离
+		float y = bullet->y - unit->y;
 		//防止溢出
 
 		/*if (bullet.knd >= bullet_RANGE_MAX || unit.knd >= unit_RANGE_MAX)
 			printfDx("out_judge_bullet溢出");*/
 
 		//敌人的碰撞判定和自机射击的子弹的碰撞判定的合计范围
-		double r = bullet->range + unit->range;
+		float r = bullet->range + unit->range;
 		//如果有必要计算中间的话
 		if (bullet->spd > r) {
 			//保存1帧之前的位置
-			double pre_x = bullet->x + cos(bullet->angle + PI) * bullet->spd;
-			double pre_y = bullet->y + sin(bullet->angle + PI) * bullet->spd;
-			double px, py;
+			float pre_x = bullet->x + cos(bullet->angle + PI) * bullet->spd;
+			float pre_y = bullet->y + sin(bullet->angle + PI) * bullet->spd;
+			float px, py;
 			for (j = 0; j < bullet->spd / r; j++) {//前进部分÷碰撞判定部分次循环
 				px = pre_x - unit->x;
 				py = pre_y - unit->y;
@@ -56,6 +56,20 @@ void Collider::PlayerShotEnemy() {
 						
 					}
 				}
+			}
+		}
+	}
+}
+void Collider::PlayerBombEnemy() {
+	if (player->bomb_flag != 1) return;
+	for (int e = 0; e < ENEMY_MAX; e++) {
+		if (enemy[e].isExist()) {
+			enemy[e].hp -= player->power / 20;
+			//Sound::PlayMusic(2);
+			if (enemy[e].Death()) {
+				NspEffect::DeathEnter(&enemy[e]);
+				enemy[e].Destroy(false);//弹幕停止发射，不清空
+				Sound::PlayMusic(3);
 			}
 		}
 	}

@@ -84,7 +84,7 @@ namespace NspEnemy {
 		y += vy;
 		frame_now = move_state * 3 + (frame % (FRAME_SPEED * 3)) / FRAME_SPEED;
 		//如果敌人跑到画面外面了就销毁
-		if (x < (double)FX - w * 2 || x >(double)FMX + w * 2 || y < (double)FY - h * 2 || y >(double)FMY + h * 2) {
+		if (x < (float)FX - w * 2 || x >(float)FMX + w * 2 || y < (float)FY - h * 2 || y >(float)FMY + h * 2) {
 			Destroy();
 			this->flag = false;
 			//printf("Enemy delete enemy_frame:%d game_frame:%d\n", frame,frame_total);

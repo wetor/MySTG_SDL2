@@ -96,6 +96,7 @@ int UpdateLoop(void *data) {
 		
 		Timer::Start("Update", "Collider");
 		Collider::PlayerShotEnemy();
+		Collider::PlayerBombEnemy();
 		Collider::EnemyShotPlayer(); 
 		Timer::End("Update", "Collider");
 		

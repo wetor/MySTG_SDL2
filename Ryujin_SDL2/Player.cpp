@@ -4,10 +4,11 @@
 
 
 namespace NspPlayer {
-	
+
 	Player::Player() : Unit()
 	{
 		this->flag = 0;
+		this->bomb_flag = 0;
 		this->power = 500;
 		this->point = 0;
 		this->score = 0;
@@ -31,14 +32,18 @@ namespace NspPlayer {
 		int t_w = image_map["center"].surface->w;
 		int t_h = image_map["center"].surface->h;
 		slow_center_size = { 0 , 0, t_w, t_h };
-		slow_center_point = { t_w / 2, t_h / 2};
-		x = (double)FX + FW / 2.0;
-		y = (double)FY + FW - 50.0;
-		this->range = 2.0;
+		slow_center_point = { t_w / 2.0f, t_h / 2.0f};
+		slow_center_rect = { 0,0,(float)t_w, (float)t_h };
+		x = (float)FX + FW / 2.0f;
+		y = (float)FY + FW - 50.0f;
+		this->range = 2.0f;
 		//player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
+
+		
 	}
 
 	int Player::GetControl() {
+		SDL_PumpEvents();
 		const Uint8* key_state = SDL_GetKeyboardState(NULL);
 		int num = 0;
 		memset(key, false, sizeof(bool) * 7);
@@ -62,19 +67,19 @@ namespace NspPlayer {
 	void Player::Update() {
 		static int move_start = 0;
 		static int prev_state = 0;
-		double mx = 0.0, my = 0.0, speed = 4.5f;
+		float mx = 0.0, my = 0.0, speed = 4.5f;
 		int key_num = GetControl();
 
 		if (this->state == PLAYER_DEATH) { //刚死亡的瞬间
 			this->state = PLAYER_INVINCIBLE_MOVE;//进入无敌状态
-			this->x = (double)FMX / 2.0;//设置坐标
-			this->y = (double)FMY + this->h;
+			this->x = (float)FMX / 2.0f;//设置坐标
+			this->y = (float)FMY + this->h;
 			this->invincible_cnt = 0;
 		}
 
 		if (this->state == PLAYER_INVINCIBLE_MOVE) {
-			this->y -= 1.5;//将角色往上移动
-			if (this->invincible_cnt > 60 || ((this->y < (double)FMY) && key_num!=0)) {
+			this->y -= 1.5f;//将角色往上移动
+			if (this->invincible_cnt > 60 || ((this->y < (float)FMY) && key_num!=0)) {
 				this->state = PLAYER_INVINCIBLE;
 			}
 		}
@@ -87,35 +92,35 @@ namespace NspPlayer {
 		frame_now = (frame % (FRAME_SPEED * 8)) / FRAME_SPEED;
 
 		if ((key[RIGHT] || key[LEFT]) && (key[DOWN] || key[UP]))
-			speed /= sqrt(2.0);
+			speed /= sqrt(2.0f);
 		if (!key[RIGHT] && !key[LEFT])
 			prev_state = 0;
 		if (!(key[RIGHT] && key[LEFT])) {
 			if (key[RIGHT]) {
-				if (prev_state != SDL_SCANCODE_RIGHT)
+				if (prev_state != RIGHT)
 					move_start = 0;
 				mx = speed;
-				if (move_start < FRAME_SPEED / 2.0 * 4) {
-					frame_now = (int)(8 * 2 + move_start / (FRAME_SPEED / 2.0));
+				if (move_start < FRAME_SPEED / 2.0f * 4) {
+					frame_now = (int)(8 * 2 + move_start / (FRAME_SPEED / 2.0f));
 					move_start++;
 				}
 				else {
 					frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 2 + 4;
 				}
-				prev_state = SDL_SCANCODE_RIGHT;
+				prev_state = RIGHT;
 			}
 			if (key[LEFT]) {
-				if (prev_state != SDL_SCANCODE_LEFT)
+				if (prev_state != LEFT)
 					move_start = 0;
 				mx = -speed;
 				if (move_start < FRAME_SPEED / 2 * 4) {
-					frame_now = (int)(8 * 1 + move_start / (FRAME_SPEED / 2.0));
+					frame_now = (int)(8 * 1 + move_start / (FRAME_SPEED / 2.0f));
 					move_start++;
 				}
 				else {
 					frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 1 + 4;
 				}
-				prev_state = SDL_SCANCODE_LEFT;
+				prev_state = LEFT;
 			}
 		}
 
@@ -129,12 +134,14 @@ namespace NspPlayer {
 			mx /= 3.0f;
 			my /= 3.0f;
 			slow = true;
+			slow_center_rect.x = x - slow_center_size.w / 2.0f;
+			slow_center_rect.y = y - slow_center_size.h / 2.0f;
 		}
 		else
 			slow = false;
-		if (!(x + mx < (double)FX || x + mx>(double)FMX))
+		if (!(x + mx < (float)FX || x + mx>(float)FMX))
 			x += mx;
-		if (!(y + my< (double)FY || y + my>(double)FMY))
+		if (!(y + my< (float)FY || y + my>(float)FMY))
 			y += my;
 
 
@@ -153,14 +160,14 @@ namespace NspPlayer {
 
 	}
 	void Player::Render() {
+
 		if ((this->state == PLAYER_INVINCIBLE || this->state == PLAYER_INVINCIBLE_MOVE) ) {
-			if (this->invincible_cnt % 2 == 0)
+			if (this->invincible_cnt % 2 == 0)  // 无敌状态时闪烁
 				Unit::Render();
 		}else
-			Unit::Render();
-		if (slow) {
-			slow_center_rect = { (int)(x - slow_center_size.w / 2) , (int)(y - slow_center_size.h / 2), slow_center_size.w, slow_center_size.h };
-			SDL_RenderCopyEx(renderer, center, &slow_center_size, &slow_center_rect,(frame % 360) * 5.0, &slow_center_point, SDL_FLIP_NONE);
+			Unit::Render(); //正常显示
+		if (slow) { // 慢速移动时，显示中心贴图
+			SDL_RenderCopyExF(renderer, center, &slow_center_size, &slow_center_rect,(frame % 360) * 5.0, &slow_center_point, SDL_FLIP_NONE);
 		}
 	}
 	//一般射击的登录
@@ -172,7 +179,7 @@ namespace NspPlayer {
 			player_bullet_t temp;
 			temp.flag = true;
 			temp.cnt = 0;
-			temp.angle = -PI / 2;
+			temp.angle = -PI / 2.0f;
 			temp.spd = 20;
 			if (!this->slow) {
 				temp.x = this->x + cshot0pos_x[i];

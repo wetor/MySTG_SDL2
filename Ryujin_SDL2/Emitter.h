@@ -18,7 +18,7 @@ namespace NspEmitter {
 		//种类、计数器、发射的敌人的编号
 		int  enemy_id, knd, frame;
 		//基本角度、基本速度
-		double x, y, base_angle[1], base_spd[1];
+		float x, y, base_angle[1], base_spd[1];
 
 		int bullet_id_list[BULLET_MAX];
 

@@ -99,7 +99,7 @@ namespace NspEmitter {
 				bullet[i].y += sin(bullet[i].angle) * bullet[i].spd;
 				//printf("cnt %d bullet x %lf y %lf\n",cnt, bullet[i].x, bullet[i].y);
 				bullet[i].frame++;
-				if (bullet[i].x< (double)FX - 50 || bullet[i].x>(double)FMX + 50 || bullet[i].y< (double)FY - 50 || bullet[i].y>(double)FMY + 50) {//如果跑到画面外面的话
+				if (bullet[i].x< (float)FX - 50 || bullet[i].x>(float)FMX + 50 || bullet[i].y< (float)FY - 50 || bullet[i].y>(float)FMY + 50) {//如果跑到画面外面的话
 					if (bullet[i].till < bullet[i].frame) {//且比最低程度不会销毁的时间还要很长
 						bullet[i].flag = false;//销毁之
 						bullet[i].Free();

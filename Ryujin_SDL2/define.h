@@ -7,8 +7,8 @@
 
 //#define MUTEX		//ÊÇ·ñ¿ªÆô»¥³âËø
 
-#define PI			3.1415926535898
-#define PI2			( PI * 2 )
+#define PI			3.1415926535f
+#define PI2			( PI * 2.0f )
 
 #define	WINDOW_W	1152	//1920	* 0.6
 #define	WINDOW_H	648		//1080	* 0.6
@@ -64,7 +64,7 @@
 //Enemy
 #define ENEMY_MAX 30
 //Bullet
-#define BULLET_MAX 5000
+#define BULLET_MAX 3000
 
 //Emitter
 #define EMITTER_MAX 60

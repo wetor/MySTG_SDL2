@@ -17,6 +17,7 @@ namespace NspPlayer {
 	public:
 
 		int flag;       //flag
+		int bomb_flag;	//bomb flag
 		PLAYER_STATE state;		//×´Ì¬
 		int power;      //power
 		int point;      //µãÊý
@@ -30,8 +31,8 @@ namespace NspPlayer {
 		SDL_Texture* center;
 
 		SDL_Rect slow_center_size;
-		SDL_Rect slow_center_rect;
-		SDL_Point slow_center_point;
+		SDL_FRect slow_center_rect;
+		SDL_FPoint slow_center_point;
 
 
 	};

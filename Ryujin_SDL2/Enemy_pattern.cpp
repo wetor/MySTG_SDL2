@@ -5,8 +5,8 @@
 
 
 namespace NspEnemy {
-	double rang(double ang) {
-		return (-ang + ang * 2 * (rand() % 10000) / 10000.0);
+	float rang(double ang) {
+		return (float)(-ang + ang * 2 * (rand() % 10000) / 10000.0);
 	}
 
 	void enemy_pattern0(Enemy* _this) {
@@ -59,8 +59,8 @@ namespace NspEnemy {
 			_this->move_state = 0;
 		}
 		if (t < 100) {
-			_this->vx -= 5 / 100.0;
-			_this->vy -= 5 / 100.0;
+			_this->vx -= 5 / 100.0f;
+			_this->vy -= 5 / 100.0f;
 		}
 	}
 
@@ -74,8 +74,8 @@ namespace NspEnemy {
 			_this->move_state = 2;
 		}
 		if (t < 100) {
-			_this->vx += 5 / 100.0;
-			_this->vy -= 5 / 100.0;
+			_this->vx += 5 / 100.0f;
+			_this->vy -= 5 / 100.0f;
 		}
 	}
 
@@ -106,8 +106,8 @@ namespace NspEnemy {
 	void enemy_pattern7(Enemy* _this) {
 		int t = _this->frame;
 		if (t == _this->wait) {
-			_this->vx = -0.7;
-			_this->vy = -0.3;
+			_this->vx = -0.7f;
+			_this->vy = -0.3f;
 			_this->move_state = 0;
 		}
 	}
@@ -117,8 +117,8 @@ namespace NspEnemy {
 	void enemy_pattern8(Enemy* _this) {
 		int t = _this->frame;
 		if (t == _this->wait) {
-			_this->vx = +0.7;
-			_this->vy = -0.3;
+			_this->vx = +0.7f;
+			_this->vy = -0.3f;
 			_this->move_state = 2;
 		}
 	}
@@ -145,10 +145,10 @@ namespace NspEnemy {
 				_this->ang = rang(PI / 4) + PI * r;
 				_this->move_state = 2 - 2 * r;
 			}
-			_this->sp *= 0.95;
+			_this->sp *= 0.95f;
 		}
 		if (t >= 40 + _this->wait) {
-			_this->vy -= 0.05;
+			_this->vy -= 0.05f;
 		}
 	}
 

@@ -10,7 +10,7 @@ namespace NspWindow {
 	//为了进行平均计算,记录60次1个周期的时间
 	int f[FLAME];
 	//平均fps
-	double ave;
+	float ave;
 
 
 

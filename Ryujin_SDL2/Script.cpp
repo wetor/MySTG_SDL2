@@ -26,9 +26,9 @@ int Script::CreateEnemy(lua_State* L)
 	temp.cnt = (int)luaL_checknumber(L, 1);
 	temp.pattern = (int)luaL_checknumber(L, 2);
 	temp.knd = (int)luaL_checknumber(L, 3);
-	temp.x = (double)luaL_checknumber(L, 4);
-	temp.y = (double)luaL_checknumber(L, 5);
-	temp.sp = (double)luaL_checknumber(L, 6);
+	temp.x = (float)luaL_checknumber(L, 4);
+	temp.y = (float)luaL_checknumber(L, 5);
+	temp.sp = (float)luaL_checknumber(L, 6);
 	temp.bltime = (int)luaL_checknumber(L, 7);
 	temp.blknd = (int)luaL_checknumber(L, 8);
 	temp.col = (int)luaL_checknumber(L, 9);

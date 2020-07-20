@@ -11,7 +11,7 @@ void Sound::SoundInit() {
 void Sound::Load(SOUND_TYPE type, int volume,const char* file) {
 
 	Mix_Chunk* temp = Mix_LoadWAV(file);
-	Mix_VolumeChunk(temp, (int)(volume * (double)MIX_MAX_VOLUME / 100.0));
+	Mix_VolumeChunk(temp, (int)(volume * (float)MIX_MAX_VOLUME / 100.0));
 	sound_list[sound_num] = { type,temp ,volume ,0};
 	
 	sound_num++;

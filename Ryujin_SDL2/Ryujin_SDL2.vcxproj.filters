@@ -22,6 +22,15 @@
     <Filter Include="源文件\Game">
       <UniqueIdentifier>{aea399be-34aa-4975-bbad-9d6f7227ec67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Effect">
+      <UniqueIdentifier>{2e020f88-2d59-42c5-abeb-ceb778b80c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Effect">
+      <UniqueIdentifier>{7f76768f-7426-46ca-bf02-df7493b83250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Unit">
+      <UniqueIdentifier>{98606472-d3eb-48c3-8b7a-f22ae1817ef4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -39,22 +48,10 @@
     <ClInclude Include="struct.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Emitter.h">
@@ -66,14 +63,29 @@
     <ClInclude Include="Collider.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Environment.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>头文件\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>头文件\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>头文件\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>头文件\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>头文件\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="BombEffect.h">
+      <Filter>头文件\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +114,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Environment.cpp">
@@ -142,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="Tools.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>源文件\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BombEffect.cpp">
+      <Filter>源文件\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

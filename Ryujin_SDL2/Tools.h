@@ -28,7 +28,7 @@ struct TimerData {
 
 extern	void NumberShow(int x, int y, TimerData data);
 extern	void NumberShow(int x, int y, string info, int num);
-extern	void NumberShow(int x, int y, string info, double num);
+extern	void NumberShow(int x, int y, string info, float num);
 
 static char str[512];
 inline void LogA(const char* format, ...) {

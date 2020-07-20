@@ -59,23 +59,20 @@ namespace NspBullet {
 
 	void Bullet::Update() {
 		if (this->unit_type == UNIT_PLAYER_BULLET) {
-			
-			
-			double dranx = this->spd + 11.0 / 2.0, drany = this->spd + 55.0 / 2.0;
+			float dranx = this->spd + 10.0f, drany = this->spd + 35.0f;
 			this->x += cos(this->angle) * this->spd;
 			this->y += sin(this->angle) * this->spd;
-			if (this->x<-dranx || this->x>(double)FMX - 50 + dranx ||
-				this->y<-drany || this->y>(double)FMY - 50 + drany)//如果跑到画面外了的话
+			if (this->x<(float)FX - dranx || this->x>(float)FMX + dranx ||
+				this->y<-drany || this->y>(float)FMY + drany)//如果跑到画面外了的话
 				this->flag = 0;
 		}
+		else if (this->unit_type == UNIT_BULLET) {
+			// 由 Emitter 管理
+		}
 		Unit::Update();
-		
-		
 
-		
 	}
 	void Bullet::Free() {
 		Unit::Free();
-
 	}
 }

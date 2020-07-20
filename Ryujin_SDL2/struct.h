@@ -7,7 +7,7 @@ struct enemy_order_t {
 	//计数器、移动模式、敌人的种类
 	int cnt, pattern, knd;
 	//初始化坐标和移动速度
-	double x, y, sp;
+	float x, y, sp;
 	//弹幕开始时间、弹幕种类、颜色、体力、子弹的种类、停止时间、物品（6个种类）
 	int bltime, blknd, col, hp, blknd2, wait, item_n[6];
 };
@@ -17,16 +17,25 @@ struct bullet_t {
 	//flag、种类、计数器、颜色、状态、保证不消失的最短时间、效果的种类
 	int flag, knd, cnt, col, state, till, eff;
 	//坐标、角度、速度、基本角度、瞬间记忆速度
-	double x, y, angle, spd, base_angle[1], rem_spd[1];
+	float x, y, angle, spd, base_angle[1], rem_spd[1];
 };
-
 
 //特效
 struct effect_t {
-	int flag, wait, col, knd, eff;
-	double x, y, r=0, ang, spd, mvang, brt;
+	int flag, wait, col, knd, eff, brt;
+	float x, y, r=0, ang, spd, mvang;
+};
+//Boom的信息
+struct bom_t {
+	int flag, cnt, knd;
+	float x, y;
 };
 
+//咚！地晃动画面的信息
+struct dn_t {
+	int flag, cnt, time, size;
+	int x, y;
+};
 //画面亮度的信息
 struct bright_set_t {
 	unsigned char brt;
@@ -35,7 +44,7 @@ struct bright_set_t {
 //和角色射击相关的结构体
 struct player_bullet_t {
 	int flag, power, cnt, knd;//flag、power、计数器、种类
-	double x, y, angle, spd;//坐标、角度、速度
+	float x, y, angle, spd;//坐标、角度、速度
 };
 
 enum RESOURCES_TYPE {
@@ -92,7 +101,7 @@ struct sound_t {
 struct bullet_info_t {
 	std::string id;
 	int w, h, col_num;
-	double range;
+	float range;
 };
 enum PLAYER_STATE {
 	PLAYER_DEFAULT,		//默认状态

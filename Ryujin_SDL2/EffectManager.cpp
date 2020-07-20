@@ -6,8 +6,8 @@
 NspEffect::Effect effect[EFFECT_MAX];
 //NspEffect::Effect* effect = NULL;
 namespace NspEffect {
-	double rang(double ang) {
-		return (-ang + ang * 2 * (rand() % 10000) / 10000.0);
+	float rang(double ang) {
+		return (float)(-ang + ang * 2 * (rand() % 10000) / 10000.0);
 	}
 	inline int search_effect() {
 		for (int i = 0; i < EFFECT_MAX; i++) {

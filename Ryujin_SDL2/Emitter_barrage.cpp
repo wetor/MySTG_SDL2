@@ -5,16 +5,16 @@
 
 namespace NspEmitter {
 
-	double rang(double ang) {
-		return (-ang + ang * 2 * (rand() % 10000) / 10000.0);
+	float rang(double ang) {
+		return (float)(-ang + ang * 2 * (rand() % 10000) / 10000.0);
 	}
 
-	double shotatan2(int enemy_id) {
+	float shotatan2(int enemy_id) {
 
 		return atan2(player->y - enemy[enemy_id].y, player->x - enemy[enemy_id].x);
 	}
 
-	/*double rang(double max) {
+	/*float rang(float max) {
 		return (rand() % (int)(max * 1000)) / 1000.0;
 	}*/
 	//只发射一发，向自机直线移动
@@ -106,7 +106,7 @@ namespace NspEmitter {
 			temp.y = enemy[enemy_id].y;
 			temp.col = enemy[enemy_id].col;
 			temp.cnt = 0;
-			temp.spd = 1 + 5.0 / 100 * t;
+			temp.spd = 1 + 5.0f / 100 * t;
 			//se_flag[0] = 1;
 			bullet_id = NspBullet::BulletEnter(&temp);
 			_this->AddBulletID(bullet_id);
@@ -120,7 +120,7 @@ namespace NspEmitter {
 		int bullet_id = 0;
 		int t = _this->frame;
 		if (t >= 0 && t < 120 && t % 20 == 0) {
-			double angle = shotatan2(enemy_id);
+			float angle = shotatan2(enemy_id);
 			for (int i = 0; i < 20; i++) {
 				bullet_t temp;
 
@@ -185,8 +185,8 @@ namespace NspEmitter {
 			Sound::PlayMusic(0);
 		}
 		for (int id = 0; id < SHOT_BULLET_MAX; id++) {
-			if (bullet[_this->bullet_id_list[id]].spd > 1.5)//如果速度大于1.5的话
-				bullet[_this->bullet_id_list[id]].spd -= 0.04;//减速
+			if (bullet[_this->bullet_id_list[id]].spd > 1.5f)//如果速度大于1.5的话
+				bullet[_this->bullet_id_list[id]].spd -= 0.04f;//减速
 
 		}
 		/*
@@ -211,7 +211,7 @@ namespace NspEmitter {
 				temp.y = enemy[enemy_id].y + sin(PI / 2 + PI / 150 * t) * 100;
 				temp.col = 2;
 				temp.cnt = 0;
-				temp.spd = 1.2;
+				temp.spd = 1.2f;
 				bullet_id = NspBullet::BulletEnter(&temp);
 				_this->AddBulletID(bullet_id);
 			}
@@ -224,7 +224,7 @@ namespace NspEmitter {
 				temp.y = enemy[enemy_id].y + sin(PI / 2 - PI / 150 * t) * 100;
 				temp.col = 4;
 				temp.cnt = 0;
-				temp.spd = 1.2;
+				temp.spd = 1.2f;
 				bullet_id = NspBullet::BulletEnter(&temp);
 				_this->AddBulletID(bullet_id);
 				//se_flag[0] = 1;
@@ -239,7 +239,7 @@ namespace NspEmitter {
 		int bullet_id = 0;
 		int t = _this->frame;
 		if (t >= 0 && t < 1200 && t % 90 == 0) {
-			double angle = rang(PI);
+			float angle = rang(PI);
 			for (int j = 0; j < 2; j++) {//中途的时候就分裂为两部分
 				for (int i = 0; i < 60; i++) {//一次60个
 					bullet_t temp;
@@ -266,8 +266,8 @@ namespace NspEmitter {
 				int state = bullet[i].state;
 				int cnt = bullet[i].frame;
 				if (30 < cnt && cnt < 120) {//如果是30~120次计数
-					bullet[i].spd -= 1.2 / 90.0;//90次计数总共减去1.2
-					bullet[i].angle += (PI / 2) / 90.0 * (state ? -1 : 1);//90次计数总共倾斜90°
+					bullet[i].spd -= 1.2f / 90.0f;//90次计数总共减去1.2
+					bullet[i].angle += PI / 2.0f / 90.0f * (state ? -1 : 1);//90次计数总共倾斜90°
 				}
 			}
 		}
