@@ -44,7 +44,7 @@ namespace NspBullet {
 		this->knd = data->knd;
 
 		Unit::Load(player_bullet_image_list[this->knd]);
-		Unit::Init(UNIT_PLAYER_BULLET);
+		Unit::Init(UNIT_BULLET_PLAYER);
 		this->range = 6.0;
 		this->angle = data->angle;
 		this->flag = true;
@@ -58,7 +58,7 @@ namespace NspBullet {
 	}
 
 	void Bullet::Update() {
-		if (this->unit_type == UNIT_PLAYER_BULLET) {
+		if (this->unit_type == UNIT_BULLET_PLAYER) {
 			float dranx = this->spd + 10.0f, drany = this->spd + 35.0f;
 			this->x += cos(this->angle) * this->spd;
 			this->y += sin(this->angle) * this->spd;

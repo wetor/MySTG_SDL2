@@ -12,6 +12,7 @@ namespace NspEmitter {
 		int AddBulletID(int id);
 		void Init(int enemy_id);
 		void Update();
+		void Clear();
 	public:
 		bool flag;
 		EMITTER_STATE state;

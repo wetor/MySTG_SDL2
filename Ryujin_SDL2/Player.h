@@ -1,6 +1,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 #include "Unit.h"
+#include "Effect.h"
 namespace NspPlayer {
 	static bool key[7];
 	class Player :
@@ -15,6 +16,7 @@ namespace NspPlayer {
 		int GetControl();
 
 	public:
+		NspEffect::BombEffect *bomb;
 
 		int flag;       //flag
 		int bomb_flag;	//bomb flag

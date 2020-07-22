@@ -67,17 +67,8 @@ namespace NspEmitter {
 	*/
 	void Emitter::Update() {
 		int i;
-		
-		if (enemy[enemy_id].flag && enemy[enemy_id].emitter_state == EMITTER_CLEAR) { 
-			for (int id = 0; id < BULLET_MAX; id++) {
-				i = bullet_id_list[id];
-				if (i < 0) continue;
-				if (bullet[i].flag) {
-					bullet[i].flag = false;
-					bullet[i].Free();
-					bullet_id_list[id] = -1;
-				}
-			}
+		if (enemy[enemy_id].emitter_state == EMITTER_CLEAR) { 
+			this->Clear();
 			enemy[enemy_id].flag = false;
 			this->flag = false;//Ïú»Ù×ÔÉí
 			return;
@@ -123,5 +114,18 @@ namespace NspEmitter {
 
 		frame++;
 
+	}
+	void Emitter::Clear()
+	{
+		int i;
+		for (int id = 0; id < BULLET_MAX; id++) {
+			i = bullet_id_list[id];
+			if (i < 0) continue;
+			if (bullet[i].flag) {
+				bullet[i].flag = false;
+				bullet[i].Free();
+				bullet_id_list[id] = -1;
+			}
+		}
 	}
 }

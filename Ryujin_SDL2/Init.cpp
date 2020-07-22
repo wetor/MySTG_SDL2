@@ -108,7 +108,7 @@ void ResourcesInit() {
 	image_map["bom_title0"] = { 600,60,IMG_Load("../Ryujin_SDL2/dat/img/bullet/bom_title0.png") };
 	effect_image_list.push_back("eft0");
 	effect_image_list.push_back("bom0");
-	effect_image_list.push_back("bom0");
+	effect_image_list.push_back("bom1");
 	effect_image_list.push_back("body");
 	effect_image_list.push_back("bom_title0");
 

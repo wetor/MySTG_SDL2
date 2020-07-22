@@ -34,6 +34,13 @@ namespace NspEmitter {
 			}
 		}
 	}
+
+	void EmitterClear() {
+		for (int i = 0; i < EMITTER_MAX; i++) {
+			emitter[i].Clear();
+			
+		}
+	}
 #ifdef DEBUG
 	void EmitterNumberShow(int x, int y) {
 		int num = 0;

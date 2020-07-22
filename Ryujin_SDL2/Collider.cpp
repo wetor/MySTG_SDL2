@@ -61,14 +61,14 @@ void Collider::PlayerShotEnemy() {
 	}
 }
 void Collider::PlayerBombEnemy() {
-	if (player->bomb_flag != 1) return;
+	if (player->bomb->bom.flag != 1) return;
 	for (int e = 0; e < ENEMY_MAX; e++) {
 		if (enemy[e].isExist()) {
 			enemy[e].hp -= player->power / 20;
 			//Sound::PlayMusic(2);
 			if (enemy[e].Death()) {
 				NspEffect::DeathEnter(&enemy[e]);
-				enemy[e].Destroy(false);//µ¯Ä»Í£Ö¹·¢Éä£¬²»Çå¿Õ
+				enemy[e].Destroy(false);//µ¯Ä»Í£Ö¹·¢Éä£¬Çå¿Õ
 				Sound::PlayMusic(3);
 			}
 		}

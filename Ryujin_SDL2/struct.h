@@ -20,9 +20,16 @@ struct bullet_t {
 	float x, y, angle, spd, base_angle[1], rem_spd[1];
 };
 
+//消灭特效
+struct del_effect_t {
+	int flag, cnt, col;
+	float x, y;
+};
+
 //特效
 struct effect_t {
-	int flag, wait, col, knd, eff, brt;
+	int flag, wait=0, col=0, knd, eff, brt;
+	std::string img;
 	float x, y, r=0, ang, spd, mvang;
 };
 //Boom的信息
@@ -78,10 +85,12 @@ enum UNIT_TYPE{
 	UNIT_DEFAULT,
 	UNIT_ENV,
 	UNIT_BULLET,
-	UNIT_PLAYER_BULLET,
+	UNIT_BULLET_PLAYER,
 	UNIT_PLAYER,
 	UNIT_ENEMY,
 	UNIT_EFFECT,
+	UNIT_EFFECT_DEATH,
+	UNIT_EFFECT_BOMB,
 	UNIT_BOSS
 };
 
@@ -116,7 +125,7 @@ enum KEY_CONTROL {
 	LEFT,
 	RIGHT,
 	SHOT,
-	BOOM,
+	BOMB,
 	SLOW
 };
 #endif

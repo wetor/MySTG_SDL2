@@ -47,4 +47,8 @@ extern  vector<string> player_bullet_image_list;
 extern  vector<string> effect_image_list;
 
 extern bright_set_t bright_set; //»æÖÆµÄÁÁ¶È
+
+extern bom_t bom; 
+extern dn_t dn; 
+
 #endif

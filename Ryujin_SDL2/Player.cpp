@@ -23,6 +23,7 @@ namespace NspPlayer {
 		this->slow_center_size = { 0,0,0,0 };
 		this->slow_center_rect = { 0,0,0,0 };
 		this->slow_center_point = { 0,0 };
+		this->bomb = new NspEffect::BombEffect();
 	}
 	void Player::Init()
 	{
@@ -58,7 +59,7 @@ namespace NspPlayer {
 		if (key_state[SDL_SCANCODE_Z])
 			key[SHOT] = true, num++;
 		if (key_state[SDL_SCANCODE_X])
-			key[BOOM] = true, num++;
+			key[BOMB] = true, num++;
 		if (key_state[SDL_SCANCODE_LSHIFT])
 			key[SLOW] = true, num++;
 		return num;
@@ -86,7 +87,11 @@ namespace NspPlayer {
 		if (this->state == PLAYER_INVINCIBLE || this->state == PLAYER_INVINCIBLE_MOVE) {//如果无敌
 			this->invincible_cnt++;
 			if (this->invincible_cnt > 120)//如果已经2秒以上的话
+			{
 				this->state = PLAYER_DEFAULT;
+				this->invincible_cnt = 0;
+			}
+				
 		}
 
 		frame_now = (frame % (FRAME_SPEED * 8)) / FRAME_SPEED;
@@ -156,6 +161,11 @@ namespace NspPlayer {
 		else
 			this->shot_cnt = 0;
 
+		//当按下Bomb按钮的时候
+		if (key[BOMB]) {
+			bomb->Bomb();
+		}
+		bomb->Update();
 		Unit::Update();
 
 	}
