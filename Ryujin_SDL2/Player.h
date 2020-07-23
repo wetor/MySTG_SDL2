@@ -19,7 +19,6 @@ namespace NspPlayer {
 		NspEffect::BombEffect *bomb;
 
 		int flag;       //flag
-		int bomb_flag;	//bomb flag
 		PLAYER_STATE state;		//×´Ì¬
 		int power;      //power
 		int point;      //µãÊý

@@ -26,7 +26,7 @@ namespace NspBullet {
 	}
 
 	int BulletEnter(bullet_t* data) {
-
+		if (player->bomb->bom.flag) return -1;//Bomb释放过程中，禁止发射
 		int k = search_bullet();
 		if (k != -1)
 			bullet[k].Init(data);
@@ -39,6 +39,15 @@ namespace NspBullet {
 				bullet[i].Update();
 			}
 		}
+	}
+	void BulletClear() {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullet[i].isExist()) {
+				bullet[i].flag = false;
+				bullet[i].Free();
+			}
+		}
+
 	}
 #ifdef DEBUG
 	void BulletNumberShow(int x, int y) {

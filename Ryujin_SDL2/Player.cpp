@@ -8,7 +8,6 @@ namespace NspPlayer {
 	Player::Player() : Unit()
 	{
 		this->flag = 0;
-		this->bomb_flag = 0;
 		this->power = 500;
 		this->point = 0;
 		this->score = 0;

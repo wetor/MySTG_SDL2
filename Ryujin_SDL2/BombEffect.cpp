@@ -18,7 +18,8 @@ namespace NspEffect {
 		bom.cnt = 0;
 		bom.knd = 0;
 		player->state = PLAYER_INVINCIBLE;
-		NspEmitter::EmitterClear();
+		NspBullet::BulletClear();
+		//NspEmitter::EmitterClear();
 		Sound::PlayMusic(5);//播放确定声
 		//竖线
 		effect_t temp1, temp2, temp3;

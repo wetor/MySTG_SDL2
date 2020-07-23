@@ -20,7 +20,6 @@ namespace NspEmitter {
 	}
 
 	int EmitterEnter(int enemy_id) {
-
 		int k = search_emitter();
 		if (k != -1)
 			emitter[k].Init(enemy_id);
@@ -38,7 +37,6 @@ namespace NspEmitter {
 	void EmitterClear() {
 		for (int i = 0; i < EMITTER_MAX; i++) {
 			emitter[i].Clear();
-			
 		}
 	}
 #ifdef DEBUG

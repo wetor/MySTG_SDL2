@@ -68,6 +68,7 @@ namespace NspBullet {
 	extern	int  BulletEnter(bullet_t* data);
 	extern	void BulletUpdate();
 	extern	void BulletRender();
+	extern	void BulletClear();
 	extern	int  PlayerBulletEnter(player_bullet_t* data);
 	extern	void PlayerBulletUpdate();
 	extern	void PlayerBulletRender();

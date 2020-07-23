@@ -117,6 +117,7 @@ namespace NspEmitter {
 	}
 	void Emitter::Clear()
 	{
+		this->flag = false;
 		int i;
 		for (int id = 0; id < BULLET_MAX; id++) {
 			i = bullet_id_list[id];

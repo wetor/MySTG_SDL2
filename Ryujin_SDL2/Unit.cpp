@@ -9,7 +9,6 @@
 #include "Unit.h"
 
 
-
 Unit::Unit()
 {
 	this->unit_type = UNIT_DEFAULT;		//类型
@@ -43,6 +42,7 @@ void Unit::Load(string type) {
 		SDL_mutexP(loop_lock);			//锁定
 #endif
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
+		//printf("%s %ld\n", type.c_str(), texture);
 #ifdef MUTEX
 		SDL_mutexV(loop_lock);
 #endif
@@ -50,18 +50,40 @@ void Unit::Load(string type) {
 	}
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	// ************************************************
-	// 创建白色遮罩层
+	// 创建高亮遮罩层
 	// https://discourse.libsdl.org/t/how-to-make-a-color-pixel-transparent-sdl2-question/23367/3
 	SDL_LockSurface(surface);
+
 	Uint32* pixels = (Uint32*)surface->pixels;
 	int pixelCount = surface->h * surface->w;
-	Uint32 transparent = SDL_MapRGBA(surface->format, 0xFF, 0xFF, 0xFF, 0xFF); //白色
-	Uint32 alphaShift = surface->format->Ashift;
-	Uint32 alphaMask = surface->format->Amask;
-	for (int i = 0; i < pixelCount; ++i) {
-		if (((pixels[i] & alphaMask) >> alphaShift) != 0)
-			pixels[i] = transparent;
+	//printf("%s %ld %ld\n",type.c_str(), pixels,surface->pixels);
+	//Uint32 transparent = SDL_MapRGBA(surface->format, 0xFF, 0xFF, 0xFF, 0xFF); //白色遮罩
+	//Uint32 alphaShift = surface->format->Ashift;
+	//Uint32 alphaMask = surface->format->Amask;
+	//for (int i = 0; i < pixelCount; ++i) {
+	//	if (((pixels[i] & alphaMask) >> alphaShift) >=1)
+	//		pixels[i] = transparent;
+	//}
+
+	//亮度计算
+	//https://blog.csdn.net/grafx/article/details/71336855
+	int brightness = 255;
+	Uint8 lookupTable[256];
+	for (int i = 0; i < 256; i++)
+	{
+		lookupTable[i] = (Uint8)fmin(255, fmax(0, i + sin(PI * i / 255.0f) * brightness));
 	}
+	Uint8 r, g, b, a;
+	SDL_PixelFormat *format = surface->format;
+	for (int i = 0; i < pixelCount; ++i) {
+		a = ((pixels[i] & format->Amask) >> format->Ashift);
+		r = ((pixels[i] & format->Rmask) >> format->Rshift);
+		g = ((pixels[i] & format->Gmask) >> format->Gshift);
+		b = ((pixels[i] & format->Bmask) >> format->Bshift);
+		if(a>0)
+			pixels[i] = SDL_MapRGBA(format, lookupTable[r], lookupTable[g], lookupTable[b], a);
+	}
+	
 
 	if (image_map["mask_"+type].texture != NULL) {
 		mask_texture = image_map["mask_" + type].texture;
@@ -81,10 +103,11 @@ void Unit::Load(string type) {
 	SDL_UnlockSurface(surface);
 	SDL_SetTextureBlendMode(mask_texture, SDL_BLENDMODE_BLEND);
 	// ************************************************
-
 	this->type = type;
 	this->w = image_map[type].width;
 	this->h = image_map[type].height;
+	//printf("%s %ld\n", type.c_str(), texture);
+	//printf("%s %d %d\n",type.c_str(),w,h);
 }
 void Unit::Init(UNIT_TYPE unit_type) {
 
@@ -113,20 +136,26 @@ void Unit::Render(int bright)
 	// 使用renderCopy
 	
 	//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
-	if (bright_set.brt < 255)
+	if (bright == 0 && bright_set.brt < 255)
 	{
-
-		SDL_SetTextureColorMod(texture, bright_set.brt + bright, bright_set.brt + bright, bright_set.brt + bright);
-		SDL_SetTextureColorMod(mask_texture, bright_set.brt + bright, bright_set.brt + bright, bright_set.brt + bright);
+		SDL_SetTextureColorMod(texture, bright_set.brt, bright_set.brt, bright_set.brt);
+		SDL_SetTextureColorMod(mask_texture, bright_set.brt, bright_set.brt, bright_set.brt);
+	}
+	else {
+		SDL_SetTextureColorMod(texture, 255, 255, 255);
+		SDL_SetTextureColorMod(mask_texture, 255, 255, 255);
 	}
 	SDL_RenderCopyExF(renderer, texture, &frame_rect[frame_now], &draw_rect, draw_angle, &draw_center, SDL_FLIP_NONE);
-	if (bright_set.brt == 255 && bright > 0) {
+	if ( bright > 0) {
 		SDL_SetTextureAlphaMod(mask_texture, bright);
 		SDL_RenderCopyExF(renderer, mask_texture, &frame_rect[frame_now], &draw_rect, draw_angle, &draw_center, SDL_FLIP_NONE);
-
+		
 		//SDL_BlendMode SubBlendMode = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_SRC_ALPHA, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD, SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD);
 		//SDL_SetTextureBlendMode(texture, SubBlendMode);
 		//SDL_SetTextureAlphaMod(texture, 255);
+	}
+	else {
+		SDL_SetTextureAlphaMod(mask_texture, 255);
 	}
 	//SDL_RenderCopy(render, texture, &frame_rect[frame_now], temp_rect);
 
