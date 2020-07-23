@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Effect.h"
 #include "Sound.h"
+#include "Manager.h"
 
 namespace NspEffect {
 	float rang(double ang) {
@@ -43,15 +44,16 @@ namespace NspEffect {
 		this->frame_now = this->col;
 		this->knd = data->knd;
 		this->eff = data->eff;
-		this->brt = data->brt;
+		this->brt = (float)data->brt;
 		this->x = data->x;
 		this->y = data->y;
-		this->scale = data->r == 0 ? 1 : data->r;
+		this->scale = data->r;
 		this->angle = data->ang;
 		this->move_angle = data->mvang;
+		this->spd = data->spd;
 	}
 	void Effect::Update() {
-		Unit::Update();
+		
 		switch (this->knd) {//根据效果的种类进行分歧
 		case 0://0号的处理
 
@@ -100,7 +102,6 @@ namespace NspEffect {
 			if (this->frame > 130 - 51)
 				this->brt -= 4;
 			//计数器自增及消去计算
-			this->frame++;
 			if (this->frame >= 130)
 				this->flag = 0;
 			break;
@@ -114,19 +115,32 @@ namespace NspEffect {
 			if (this->frame > 130 - 51)
 				this->brt -= 2;
 			//计数器自增与消去计算
-			this->frame++;
 			if (this->frame >= 130)
+				this->flag = 0;
+			break;
+		case 4://决死特效
+						 //亮度计算
+			if (this->frame >= 6)
+				this->brt -= 255 / 6;
+			this->scale += 0.08f;
+			if (this->frame >= 12 || player->state != PLAYER_DEATH_BOMB)
 				this->flag = 0;
 			break;
 		default:
 			LogA("effect设定错误");
 			break;
 		}
+		Unit::Update();
 
 	}
 	void Effect::Render() {
-
-		Unit::Render(this->brt);
+		//if (this->knd == 2) {
+		//	printf("%d %d\n", this->x,this->y);
+		//}
+		if (this->eff == 1) //高亮
+			Unit::Render((int)this->brt,255,false);
+		else if(this->eff == 2) //透明
+			Unit::Render(0,(int)this->brt,false);
 
 	}
 }

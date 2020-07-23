@@ -30,7 +30,7 @@ struct del_effect_t {
 struct effect_t {
 	int flag, wait=0, col=0, knd, eff, brt;
 	std::string img;
-	float x, y, r=0, ang, spd, mvang;
+	float x=0, y=0, r=0, ang, spd, mvang;
 };
 //Boom的信息
 struct bom_t {
@@ -114,10 +114,11 @@ struct bullet_info_t {
 };
 enum PLAYER_STATE {
 	PLAYER_DEFAULT,		//默认状态
-	PLAYER_DUEL,		//决死
 	PLAYER_INVINCIBLE_MOVE,	//无敌并且上升
 	PLAYER_INVINCIBLE,	//无敌
-	PLAYER_DEATH		//死亡
+	PLAYER_DEATH,		//死亡
+	PLAYER_BOMB,		//BOMB
+	PLAYER_DEATH_BOMB,		//决死
 };
 enum KEY_CONTROL {
 	UP,

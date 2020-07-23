@@ -83,9 +83,10 @@ void Collider::EnemyShotPlayer() {
 				bullet[i].Free();
 				if (player->state == PLAYER_DEFAULT) {
 					//×´Ì¬ÎªÒ»°ã×´Ì¬£¬ÇÒ²»ÊÇÎŞµĞ×´Ì¬ÏÂ
-					player->state = PLAYER_DEATH;
+					player->state = PLAYER_DEATH_BOMB;
 					player->frame = 0;
 					Sound::PlayMusic(4);//»÷»ÙÉù
+					player->death_bomb->Init();
 					return;
 				}
 			}

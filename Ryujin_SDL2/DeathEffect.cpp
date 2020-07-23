@@ -23,7 +23,7 @@ namespace NspEffect {
 			temp.col = _enemy->back_col;//设置颜色
 			temp.eff = 1;// 1是发光效果。这里设置为光效果。
 			temp.knd = 0;//效果的种类是0号（消灭特效的knd一定是0）
-			temp.r = 0.5;
+			temp.r = 0;
 			temp.x = _enemy->x;//设置坐标
 			temp.y = _enemy->y;
 			effect_id[i] = EffectEnter(&temp);

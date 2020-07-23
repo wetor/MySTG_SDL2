@@ -17,6 +17,7 @@ namespace NspPlayer {
 
 	public:
 		NspEffect::BombEffect *bomb;
+		NspEffect::DeathBombEffect* death_bomb;//¾öËÀÌØĞ§
 
 		int flag;       //flag
 		PLAYER_STATE state;		//×´Ì¬

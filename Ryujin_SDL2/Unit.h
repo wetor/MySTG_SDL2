@@ -9,7 +9,7 @@ public:
 	Unit();
 	void Load(string type);
 	void Init(UNIT_TYPE unit_type = UNIT_DEFAULT);
-	void Render(int bright = 0);
+	void Render(int bright = 0, int alpha = 255, bool enable_bright = true);
 	void Update();
 	UNIT_TYPE GetType() {return unit_type;};
 	void Free();

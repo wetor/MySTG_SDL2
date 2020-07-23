@@ -128,7 +128,7 @@ void Unit::Init(UNIT_TYPE unit_type) {
 	
 	
 }
-void Unit::Render(int bright)
+void Unit::Render(int bright, int alpha, bool enable_bright)
 {
 	if (this->frame < 0) return;			//frame为负数即等待帧数
 	
@@ -136,7 +136,7 @@ void Unit::Render(int bright)
 	// 使用renderCopy
 	
 	//bright_set.brt = (unsigned char)((SDL_GetTicks() / 10) % 255);
-	if (bright == 0 && bright_set.brt < 255)
+	if (enable_bright && bright_set.brt < 255)
 	{
 		SDL_SetTextureColorMod(texture, bright_set.brt, bright_set.brt, bright_set.brt);
 		SDL_SetTextureColorMod(mask_texture, bright_set.brt, bright_set.brt, bright_set.brt);
@@ -145,6 +145,9 @@ void Unit::Render(int bright)
 		SDL_SetTextureColorMod(texture, 255, 255, 255);
 		SDL_SetTextureColorMod(mask_texture, 255, 255, 255);
 	}
+
+	SDL_SetTextureAlphaMod(texture, alpha);
+
 	SDL_RenderCopyExF(renderer, texture, &frame_rect[frame_now], &draw_rect, draw_angle, &draw_center, SDL_FLIP_NONE);
 	if ( bright > 0) {
 		SDL_SetTextureAlphaMod(mask_texture, bright);
@@ -200,7 +203,7 @@ void Unit::Update()
 	frame++;
 	draw_w = this->scale * this->w;
 	draw_h = this->scale * this->h;
-	draw_rect = { x - draw_w / 2.0f + 0.5f , y - draw_h / 2.0f + 0.5f, draw_w, draw_h };
+	draw_rect = { this->x - draw_w / 2.0f + 0.5f , this->y - draw_h / 2.0f + 0.5f, draw_w, draw_h };
 	draw_center = { draw_w / 2.0f, draw_h / 2.0f };
 	draw_angle = angle * 180 / PI;
 	if (unit_type == UNIT_BULLET || unit_type == UNIT_BULLET_PLAYER)	//需要更改朝向

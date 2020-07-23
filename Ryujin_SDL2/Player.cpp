@@ -23,6 +23,7 @@ namespace NspPlayer {
 		this->slow_center_rect = { 0,0,0,0 };
 		this->slow_center_point = { 0,0 };
 		this->bomb = new NspEffect::BombEffect();
+		this->death_bomb = new NspEffect::DeathBombEffect();
 	}
 	void Player::Init()
 	{
@@ -70,7 +71,16 @@ namespace NspPlayer {
 		float mx = 0.0, my = 0.0, speed = 4.5f;
 		int key_num = GetControl();
 
-		if (this->state == PLAYER_DEATH) { //刚死亡的瞬间
+		if (this->state == PLAYER_DEATH_BOMB) {//如果正在进行决死处理
+			bright_set.brt = 80;//变暗
+			if (this->frame > 20) {//0.33秒中进行决死处理
+				this->state = PLAYER_DEATH;    //1：正在进行决死处理 2：被击毁正在上浮中
+				this->frame = 0;
+				bright_set.brt = 255;
+			}
+		}
+
+		if (this->frame == 0 && this->state == PLAYER_DEATH) { //刚死亡的瞬间
 			this->state = PLAYER_INVINCIBLE_MOVE;//进入无敌状态
 			this->x = (float)FMX / 2.0f;//设置坐标
 			this->y = (float)FMY + this->h;
@@ -95,58 +105,62 @@ namespace NspPlayer {
 
 		frame_now = (frame % (FRAME_SPEED * 8)) / FRAME_SPEED;
 
-		if ((key[RIGHT] || key[LEFT]) && (key[DOWN] || key[UP]))
-			speed /= sqrt(2.0f);
-		if (!key[RIGHT] && !key[LEFT])
-			prev_state = 0;
-		if (!(key[RIGHT] && key[LEFT])) {
-			if (key[RIGHT]) {
-				if (prev_state != RIGHT)
-					move_start = 0;
-				mx = speed;
-				if (move_start < FRAME_SPEED / 2.0f * 4) {
-					frame_now = (int)(8 * 2 + move_start / (FRAME_SPEED / 2.0f));
-					move_start++;
-				}
-				else {
-					frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 2 + 4;
-				}
-				prev_state = RIGHT;
-			}
-			if (key[LEFT]) {
-				if (prev_state != LEFT)
-					move_start = 0;
-				mx = -speed;
-				if (move_start < FRAME_SPEED / 2 * 4) {
-					frame_now = (int)(8 * 1 + move_start / (FRAME_SPEED / 2.0f));
-					move_start++;
-				}
-				else {
-					frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 1 + 4;
-				}
-				prev_state = LEFT;
-			}
-		}
+		if (this->state != PLAYER_DEATH_BOMB) { // 非决死 可以移动
 
-		if (!(key[DOWN] && key[UP])) {
-			if (key[DOWN])
-				my = speed;
-			if (key[UP])
-				my = -speed;
+			if ((key[RIGHT] || key[LEFT]) && (key[DOWN] || key[UP]))
+				speed /= sqrt(2.0f);
+			if (!key[RIGHT] && !key[LEFT])
+				prev_state = 0;
+			if (!(key[RIGHT] && key[LEFT])) {
+				if (key[RIGHT]) {
+					if (prev_state != RIGHT)
+						move_start = 0;
+					mx = speed;
+					if (move_start < FRAME_SPEED / 2.0f * 4) {
+						frame_now = (int)(8 * 2 + move_start / (FRAME_SPEED / 2.0f));
+						move_start++;
+					}
+					else {
+						frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 2 + 4;
+					}
+					prev_state = RIGHT;
+				}
+				if (key[LEFT]) {
+					if (prev_state != LEFT)
+						move_start = 0;
+					mx = -speed;
+					if (move_start < FRAME_SPEED / 2 * 4) {
+						frame_now = (int)(8 * 1 + move_start / (FRAME_SPEED / 2.0f));
+						move_start++;
+					}
+					else {
+						frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 1 + 4;
+					}
+					prev_state = LEFT;
+				}
+			}
+
+			if (!(key[DOWN] && key[UP])) {
+				if (key[DOWN])
+					my = speed;
+				if (key[UP])
+					my = -speed;
+			}
+			if (key[SLOW]) {
+				mx /= 3.0f;
+				my /= 3.0f;
+				slow = true;
+				slow_center_rect.x = x - slow_center_size.w / 2.0f;
+				slow_center_rect.y = y - slow_center_size.h / 2.0f;
+			}
+			else
+				slow = false;
+			if (!(x + mx < (float)FX || x + mx>(float)FMX))
+				x += mx;
+			if (!(y + my< (float)FY || y + my>(float)FMY))
+				y += my;
+
 		}
-		if (key[SLOW]) {
-			mx /= 3.0f;
-			my /= 3.0f;
-			slow = true;
-			slow_center_rect.x = x - slow_center_size.w / 2.0f;
-			slow_center_rect.y = y - slow_center_size.h / 2.0f;
-		}
-		else
-			slow = false;
-		if (!(x + mx < (float)FX || x + mx>(float)FMX))
-			x += mx;
-		if (!(y + my< (float)FY || y + my>(float)FMY))
-			y += my;
 
 
 
@@ -160,8 +174,8 @@ namespace NspPlayer {
 		else
 			this->shot_cnt = 0;
 
-		//当按下Bomb按钮的时候
-		if (key[BOMB]) {
+		//当按下Bomb按钮的时候 决死 或者 普通时可用
+		if (key[BOMB] && (this->state == PLAYER_DEATH_BOMB || this->state == PLAYER_DEFAULT)) {
 			bomb->Bomb();
 		}
 		bomb->Update();

@@ -186,6 +186,7 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="DeathBombEffect.cpp" />
     <ClCompile Include="DeathEffect.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />

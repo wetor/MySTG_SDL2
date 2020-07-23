@@ -155,6 +155,9 @@
     <ClCompile Include="DeathEffect.cpp">
       <Filter>源文件\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="DeathBombEffect.cpp">
+      <Filter>源文件\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="note.md">

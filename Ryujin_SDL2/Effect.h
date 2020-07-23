@@ -24,7 +24,7 @@ namespace NspEffect {
 	extern int EffectEnter(effect_t* data);
 
 
-	class DeathEffect
+	class DeathEffect // 敌人死亡特效
 	{
 	public:
 		DeathEffect();
@@ -35,7 +35,7 @@ namespace NspEffect {
 		int effect_id[5];
 	};
 
-	class BombEffect
+	class BombEffect //Bomb特效
 	{
 	public:
 		BombEffect();
@@ -44,6 +44,16 @@ namespace NspEffect {
 	public:
 		int effect_id[3 + 4];//3个界面效果，4个动态效果
 		bom_t bom;
+	};
+
+	class DeathBombEffect //决死特效
+	{
+	public:
+		DeathBombEffect();
+		void Init();
+		void Update();
+	public:
+		int effect_id[10];
 	};
 }
 #endif
