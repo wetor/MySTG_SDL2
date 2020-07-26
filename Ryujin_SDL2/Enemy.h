@@ -1,5 +1,4 @@
-#ifndef __ENEMY_H__
-#define __ENEMY_H__
+#pragma once
 #include "Unit.h"
 namespace NspEnemy {
 	class Enemy :
@@ -50,4 +49,3 @@ namespace NspEnemy {
 	void enemy_pattern10(Enemy*);
 
 }
-#endif

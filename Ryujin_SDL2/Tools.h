@@ -1,5 +1,4 @@
-#ifndef __TOOLS_H__
-#define __TOOLS_H__
+#pragma once
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -59,5 +58,4 @@ private:
 
 
 
-#endif
 

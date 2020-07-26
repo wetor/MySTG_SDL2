@@ -3,8 +3,7 @@
 包括背景、不可判断单位的绘制、更新，不包括UI
 
 */
-#ifndef __ENVIRONMENT_H__
-#define __ENVIRONMENT_H__
+#pragma once
 #include "Unit.h"
 
 namespace NspEnvironment {
@@ -22,4 +21,3 @@ namespace NspEnvironment {
 	};
 
 }
-#endif

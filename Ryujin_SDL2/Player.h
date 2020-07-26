@@ -1,5 +1,4 @@
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#pragma once
 #include "Unit.h"
 #include "Effect.h"
 namespace NspPlayer {
@@ -43,4 +42,3 @@ namespace NspPlayer {
 
 
 }
-#endif

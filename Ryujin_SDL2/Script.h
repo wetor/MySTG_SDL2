@@ -1,5 +1,4 @@
-#ifndef __SCRIPT_H__
-#define __SCRIPT_H__
+#pragma once
 #include <lua.hpp>
 #include <lua.h>  
 #include <lualib.h>  
@@ -18,4 +17,3 @@ public:
 	static int LoadImage(lua_State* L);
 
 };
-#endif

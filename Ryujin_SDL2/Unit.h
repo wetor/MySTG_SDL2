@@ -1,5 +1,4 @@
-#ifndef __UNIT_H__
-#define __UNIT_H__
+#pragma once
 
 #include "global.h"
 
@@ -35,4 +34,3 @@ public:
 	float draw_w, draw_h;		//绘制的宽度、高度
 };
 
-#endif

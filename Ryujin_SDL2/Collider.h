@@ -1,5 +1,4 @@
-#ifndef __COLLIDER_H__
-#define __COLLIDER_H__
+#pragma once
 #include "Manager.h"
 class Collider
 {
@@ -10,4 +9,3 @@ public:
 	static void EnemyShotPlayer();
 };
 
-#endif

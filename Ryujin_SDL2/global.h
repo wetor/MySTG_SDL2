@@ -1,5 +1,4 @@
-#ifndef __GLOBAL_H__
-#define __GLOBAL_H__
+#pragma once
 
 #include "define.h"
 #include "struct.h"
@@ -51,4 +50,3 @@ extern bright_set_t bright_set; //ªÊ÷∆µƒ¡¡∂»
 extern bom_t bom; 
 extern dn_t dn; 
 
-#endif

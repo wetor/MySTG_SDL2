@@ -1,5 +1,4 @@
-#ifndef __EFFECT_H__
-#define __EFFECT_H__
+#pragma once
 #include "Unit.h"
 #include "Enemy.h"
 
@@ -56,4 +55,3 @@ namespace NspEffect {
 		int effect_id[10];
 	};
 }
-#endif

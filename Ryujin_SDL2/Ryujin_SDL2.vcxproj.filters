@@ -81,6 +81,9 @@
     <ClInclude Include="Effect.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>头文件\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="DeathBombEffect.cpp">
       <Filter>源文件\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

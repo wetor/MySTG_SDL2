@@ -1,5 +1,4 @@
-#ifndef __EMITTER_H__
-#define __EMITTER_H__
+#pragma once
 #include "define.h"
 #include "struct.h"
 #include <deque>
@@ -36,4 +35,3 @@ namespace NspEmitter {
 	void emitter_bullet_H007(Emitter* _this);
 	void emitter_bullet_H008(Emitter* _this);
 }
-#endif

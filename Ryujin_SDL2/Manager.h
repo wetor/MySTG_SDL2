@@ -1,5 +1,4 @@
-#ifndef __MANAGER_H__
-#define __MANAGER_H__
+#pragma once
 #include "Bullet.h"
 #include "Effect.h"
 #include "Emitter.h"
@@ -88,4 +87,3 @@ namespace NspEffect {
 	extern	void EffectRender();
 }
 
-#endif

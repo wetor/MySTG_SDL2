@@ -1,5 +1,4 @@
-#ifndef __STRUCT_H__
-#define __STRUCT_H__
+#pragma once
 #include <iostream>
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -129,4 +128,3 @@ enum KEY_CONTROL {
 	BOMB,
 	SLOW
 };
-#endif
