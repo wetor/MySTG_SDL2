@@ -81,6 +81,11 @@ bool WindowInit() {
 	
 	if (font_default == NULL)  return false;
 
+
+
+	boss->appear_count = 100;
+	boss->hp = 5000;
+
 	bright_set.brt = 255;
 
 	//SDL_SetWindowBrightness(window, 1.0);
@@ -115,7 +120,7 @@ void ResourcesInit() {
 
 	image_map["back0"] = { 522,952,IMG_Load("../Ryujin_SDL2/dat/img/back/0/back0.png") };
 
-	
+	image_map["boss"] = { 100,100,IMG_Load("../Ryujin_SDL2/dat/img/player/riria.png") };
 
 	//image_map["b0"] = { 76,76,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b0.png") };
 	//image_map["b1"] = { 22,22,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b1.png") };
@@ -157,12 +162,12 @@ void ResourcesInit() {
 	//bullet_image_list.push_back("b13");
 	//bullet_image_list.push_back("b14");
 
-	Sound::Load(SOUND_DEFAULT, 25, "../Ryujin_SDL2/dat/se/enemy_shot.wav");	//0
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/cshot.wav");		//1
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/hit.wav");		//2
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/enemy_death.wav");//3
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/char_death.wav");//4
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/bom0.wav");//5
-	Sound::Load(SOUND_DEFAULT, 50, "../Ryujin_SDL2/dat/se/bom1.wav");//6
+	Sound::Load(SOUND_TYPE::DEFAULT, 25, "../Ryujin_SDL2/dat/se/enemy_shot.wav");	//0
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/cshot.wav");		//1
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/hit.wav");		//2
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/enemy_death.wav");//3
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/char_death.wav");//4
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/bom0.wav");//5
+	Sound::Load(SOUND_TYPE::DEFAULT, 50, "../Ryujin_SDL2/dat/se/bom1.wav");//6
 
 }

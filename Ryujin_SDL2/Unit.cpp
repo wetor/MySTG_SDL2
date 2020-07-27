@@ -11,7 +11,7 @@
 
 Unit::Unit()
 {
-	this->unit_type = UNIT_DEFAULT;		//类型
+	this->unit_type = UNIT_TYPE::DEFAULT;		//类型
 	this->frame = 0;					//帧计数器
 	this->frame_num = 0;				//总帧数
 	this->frame_now = 0;				//当前动画帧/序号
@@ -203,17 +203,10 @@ void Unit::Update()
 	frame++;
 	draw_w = this->scale * this->w;
 	draw_h = this->scale * this->h;
-	draw_rect = { this->x - draw_w / 2.0f + 0.5f , this->y - draw_h / 2.0f + 0.5f, draw_w, draw_h };
+	draw_rect = { this->x + dn.x - draw_w / 2.0f + 0.5f , this->y + dn.y - draw_h / 2.0f + 0.5f, draw_w, draw_h };
 	draw_center = { draw_w / 2.0f, draw_h / 2.0f };
 	draw_angle = angle * 180 / PI;
-	if (unit_type == UNIT_BULLET || unit_type == UNIT_BULLET_PLAYER)	//需要更改朝向
+	if (unit_type == UNIT_TYPE::BULLET || unit_type == UNIT_TYPE::BULLET_PLAYER)	//需要更改朝向
 		draw_angle += 90;
-
-}
-void Unit::Free() {
-	surface = NULL;
-	texture = NULL;
-	//delete frame_rect;
-
 
 }

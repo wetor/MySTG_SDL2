@@ -44,7 +44,6 @@ namespace NspBullet {
 		for (int i = 0; i < BULLET_MAX; i++) {
 			if (bullet[i].isExist()) {
 				bullet[i].flag = false;
-				bullet[i].Free();
 			}
 		}
 

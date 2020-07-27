@@ -7,7 +7,7 @@ namespace NspEnvironment {
 
 	void Environment::Init() {
 		Unit::Load("back0");
-		Unit::Init(UNIT_ENV);
+		Unit::Init(UNIT_TYPE::ENV);
 		frame_now = 0;
 	}
 	void Environment::Update() {

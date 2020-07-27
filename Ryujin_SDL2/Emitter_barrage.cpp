@@ -13,7 +13,9 @@ namespace NspEmitter {
 
 		return atan2(player->y - enemy[enemy_id].y, player->x - enemy[enemy_id].x);
 	}
-
+	float bossatan2() {//自机和敌人所成的夹角
+		return atan2(player->y - boss->y, player->x - boss->x);
+	}
 	/*float rang(float max) {
 		return (rand() % (int)(max * 1000)) / 1000.0;
 	}*/
@@ -184,9 +186,12 @@ namespace NspEmitter {
 			//_this->bullet_id.push_back(bullet_id);
 			Sound::PlayMusic(0);
 		}
-		for (int id = 0; id < SHOT_BULLET_MAX; id++) {
-			if (bullet[_this->bullet_id_list[id]].spd > 1.5f)//如果速度大于1.5的话
-				bullet[_this->bullet_id_list[id]].spd -= 0.04f;//减速
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (_this->bullet_id[i]) {
+				if (bullet[i].spd > 1.5f)//如果速度大于1.5的话
+					bullet[i].spd -= 0.04f;//减速
+			}
+			
 
 		}
 		/*
@@ -260,18 +265,52 @@ namespace NspEmitter {
 			Sound::PlayMusic(0);
 		}
 
-		for (int id = 0; id < BULLET_MAX; id++) {
-			if (bullet[_this->bullet_id_list[id]].isExist()) {//如果有登录了的子弹
-				int i = _this->bullet_id_list[id];
-				int state = bullet[i].state;
-				int cnt = bullet[i].frame;
-				if (30 < cnt && cnt < 120) {//如果是30~120次计数
-					bullet[i].spd -= 1.2f / 90.0f;//90次计数总共减去1.2
-					bullet[i].angle += PI / 2.0f / 90.0f * (state ? -1 : 1);//90次计数总共倾斜90°
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (_this->bullet_id[i]) {
+				if (bullet[i].isExist()) {//如果有登录了的子弹
+					int state = bullet[i].state;
+					int cnt = bullet[i].frame;
+					if (30 < cnt && cnt < 120) {//如果是30~120次计数
+						bullet[i].spd -= 1.2f / 90.0f;//90次计数总共减去1.2
+						bullet[i].angle += PI / 2.0f / 90.0f * (state ? -1 : 1);//90次计数总共倾斜90°
+					}
 				}
 			}
+			
 		}
 
+	}
+
+
+
+	void boss_shot_bulletH000(Emitter* _this) {
+#define TM000 120
+		int i, k, t = boss->frame_shot % TM000;
+		int bullet_id = 0;
+		float angle;
+		if (t < 60 && t % 10 == 0) {
+			angle = bossatan2();
+			for (i = 0; i < 30; i++) {
+				bullet_t temp;
+
+				temp.col = 0;
+				temp.x = _this->x;
+				temp.y = _this->y;
+				temp.knd = 8;
+				temp.angle = angle + PI2 / 30 * i;
+				temp.flag = 1;
+				temp.cnt = 0;
+				temp.spd = 3;
+				bullet_id = NspBullet::BulletEnter(&temp);
+				_this->AddBulletID(bullet_id);
+			}
+		}
+		Sound::PlayMusic(0);
+		//for (i = 0; i < BOSS_BULLET_MAX; i++) {
+		//	if (boss_shot.bullet[i].flag > 0) {
+
+		//	}
+		//}
 	}
 
 

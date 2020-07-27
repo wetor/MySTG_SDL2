@@ -45,7 +45,6 @@ void Collider::PlayerShotEnemy() {
 					if (Judge(&player_bullet[i], &enemy[e])) {
 						//LogA("dis %d %d",i,e);
 						player_bullet[i].flag = false;
-						player_bullet[i].Free();
 						enemy[e].hp -= player_bullet[i].power;
 						Sound::PlayMusic(2);
 						if (enemy[e].Death()) {
@@ -80,10 +79,9 @@ void Collider::EnemyShotPlayer() {
 			
 			if (Judge(&bullet[i], player)) {
 				bullet[i].flag = false;
-				bullet[i].Free();
-				if (player->state == PLAYER_DEFAULT) {
+				if (player->state == PLAYER_STATE::DEFAULT) {
 					//×´Ì¬ÎªÒ»°ã×´Ì¬£¬ÇÒ²»ÊÇÎÞµÐ×´Ì¬ÏÂ
-					player->state = PLAYER_DEATH_BOMB;
+					player->state = PLAYER_STATE::DEATH_BOMB;
 					player->frame = 0;
 					Sound::PlayMusic(4);//»÷»ÙÉù
 					player->death_bomb->Init();

@@ -3,6 +3,7 @@
 #include "Effect.h"
 #include "Emitter.h"
 #include "Enemy.h"
+#include "Boss.h"
 #include "Environment.h"
 #include "Player.h"
 #include "Sound.h"
@@ -16,6 +17,9 @@ using namespace std;
 //extern  NspEnemy::Enemy* enemy;
 
 extern	NspPlayer::Player* player;
+
+extern	NspBoss::Boss* boss;
+
 extern	NspEnvironment::Environment* env;
 
 extern  NspEnemy::Enemy enemy[];
@@ -45,19 +49,27 @@ namespace NspPlayer {
 	extern  void PlayerRender();
 }
 
+namespace NspBoss {
+	extern  void BossInit();
+	extern	void BossEnter();
+	extern  void BossUpdate();
+	extern  void BossRender();
+}
+
 namespace NspEnemy {
 	extern  void EnemyInit();
 	extern  void EnemyEnter();
 	extern  void EnemyUpdate();
 	extern  void EnemyRender();
+	extern	void EnemyClear();
 #ifdef DEBUG
 	extern  void EnemyNumberShow(int x, int y);
 #endif
 }
 namespace NspEmitter {
 	extern	void EmitterInit();
-	extern	int	 EmitterEnter(int enemy_id);
-	extern	void EmitterClear();
+	extern	int	 EmitterEnter(int enemy_id, bool is_boss=false);
+	extern	void EmitterClear(bool clear_bullet = false);
 	extern	void EmitterUpdate();
 #ifdef DEBUG
 	extern  void EmitterNumberShow(int x, int y);

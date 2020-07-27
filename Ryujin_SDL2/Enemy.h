@@ -22,7 +22,7 @@ namespace NspEnemy {
 	public:
 
 		int emitter_id = -1;
-		EMITTER_STATE emitter_state = EMITTER_DEFAULT;
+		EMITTER_STATE emitter_state = EMITTER_STATE::DEFAULT;
 		void(*func_pattern)(Enemy*);
 
 		bool flag = false;

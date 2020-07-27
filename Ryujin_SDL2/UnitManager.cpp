@@ -9,6 +9,7 @@
 #include "Manager.h"
 
 NspPlayer::Player* player = new NspPlayer::Player();
+NspBoss::Boss* boss = new NspBoss::Boss();
 NspEnvironment::Environment* env = new NspEnvironment::Environment();
 NspEnemy::Enemy enemy[ENEMY_MAX];
 //list<Enemy*> enemy;
@@ -44,6 +45,31 @@ namespace NspPlayer {
 
 	}
 }
+
+namespace NspBoss {
+	void BossInit() {
+		//boss->Init();
+	}
+	void BossEnter() {
+		if (frame_total == boss->appear_count && !boss->isExist()) { //如果到了开始时间的话
+			boss->Init(0);
+			//enter_boss(0);//开始
+		}
+		if (boss->state == BOSS_STATE::SHOOTING && (boss->hp <= 0 || boss->endtime <= 0)) {//如果在弹幕中体力为0的话
+			boss->Init(1);//进入下一次弹幕
+		}
+	}
+	void BossUpdate() {
+		BossEnter();
+		boss->Update();
+
+	}
+	void BossRender() {
+		boss->Render();
+
+	}
+}
+
 namespace NspEnemy {
 	
 	void EnemyInit() {
@@ -57,6 +83,7 @@ namespace NspEnemy {
 		return -1;
 	}
 	void EnemyEnter() {
+		if (boss->isExist()) return;
 		int emitter_id;
 		for (auto _enemy_order = enemy_order.begin(); _enemy_order != enemy_order.end(); _enemy_order++) {
 			if (_enemy_order->cnt == frame_total) {
@@ -82,6 +109,13 @@ namespace NspEnemy {
 		for (int i = 0; i < ENEMY_MAX; i++) {
 			if (enemy[i].isExist()) {
 				enemy[i].Render();
+			}
+		}
+	}
+	void EnemyClear() {
+		for (int i = 0; i < ENEMY_MAX; i++) {
+			if (enemy[i].isExist()) {
+				enemy[i].Destroy();
 			}
 		}
 	}

@@ -17,7 +17,7 @@ namespace NspPlayer {
 		this->money = 0;
 		this->slow = false;
 		this->shot_cnt = 0;
-		this->state = PLAYER_DEFAULT;
+		this->state = PLAYER_STATE::DEFAULT;
 		this->center = NULL;
 		this->slow_center_size = { 0,0,0,0 };
 		this->slow_center_rect = { 0,0,0,0 };
@@ -28,7 +28,7 @@ namespace NspPlayer {
 	void Player::Init()
 	{
 		Unit::Load("player");
-		Unit::Init(UNIT_PLAYER);
+		Unit::Init(UNIT_TYPE::PLAYER);
 		center = SDL_CreateTextureFromSurface(renderer, image_map["center"].surface);
 		int t_w = image_map["center"].surface->w;
 		int t_h = image_map["center"].surface->h;
@@ -38,7 +38,7 @@ namespace NspPlayer {
 		x = (float)FX + FW / 2.0f;
 		y = (float)FY + FW - 50.0f;
 		this->range = 2.0f;
-		//player_bullet = new NspBullet::Bullet[PLAYER_BULLET_MAX];
+		//player_bullet = new NspBullet::Bullet[PLAYER_STATE::BULLET_MAX];
 
 		
 	}
@@ -49,19 +49,19 @@ namespace NspPlayer {
 		int num = 0;
 		memset(key, false, sizeof(bool) * 7);
 		if (key_state[SDL_SCANCODE_UP])
-			key[UP] = true, num++;
+			key[(int)KEY_CONTROL::UP] = true, num++;
 		if (key_state[SDL_SCANCODE_DOWN])
-			key[DOWN] = true, num++;
+			key[(int)KEY_CONTROL::DOWN] = true, num++;
 		if (key_state[SDL_SCANCODE_LEFT])
-			key[LEFT] = true, num++;
+			key[(int)KEY_CONTROL::LEFT] = true, num++;
 		if (key_state[SDL_SCANCODE_RIGHT])
-			key[RIGHT] = true, num++;
+			key[(int)KEY_CONTROL::RIGHT] = true, num++;
 		if (key_state[SDL_SCANCODE_Z])
-			key[SHOT] = true, num++;
+			key[(int)KEY_CONTROL::SHOT] = true, num++;
 		if (key_state[SDL_SCANCODE_X])
-			key[BOMB] = true, num++;
+			key[(int)KEY_CONTROL::BOMB] = true, num++;
 		if (key_state[SDL_SCANCODE_LSHIFT])
-			key[SLOW] = true, num++;
+			key[(int)KEY_CONTROL::SLOW] = true, num++;
 		return num;
 	}
 
@@ -71,33 +71,33 @@ namespace NspPlayer {
 		float mx = 0.0, my = 0.0, speed = 4.5f;
 		int key_num = GetControl();
 
-		if (this->state == PLAYER_DEATH_BOMB) {//如果正在进行决死处理
+		if (this->state == PLAYER_STATE::DEATH_BOMB) {//如果正在进行决死处理
 			bright_set.brt = 80;//变暗
 			if (this->frame > 20) {//0.33秒中进行决死处理
-				this->state = PLAYER_DEATH;    //1：正在进行决死处理 2：被击毁正在上浮中
+				this->state = PLAYER_STATE::DEATH;    //1：正在进行决死处理 2：被击毁正在上浮中
 				this->frame = 0;
 				bright_set.brt = 255;
 			}
 		}
 
-		if (this->frame == 0 && this->state == PLAYER_DEATH) { //刚死亡的瞬间
-			this->state = PLAYER_INVINCIBLE_MOVE;//进入无敌状态
+		if (this->frame == 0 && this->state == PLAYER_STATE::DEATH) { //刚死亡的瞬间
+			this->state = PLAYER_STATE::INVINCIBLE_MOVE;//进入无敌状态
 			this->x = (float)FMX / 2.0f;//设置坐标
 			this->y = (float)FMY + this->h;
 			this->invincible_cnt = 0;
 		}
 
-		if (this->state == PLAYER_INVINCIBLE_MOVE) {
+		if (this->state == PLAYER_STATE::INVINCIBLE_MOVE) {
 			this->y -= 1.5f;//将角色往上移动
 			if (this->invincible_cnt > 60 || ((this->y < (float)FMY) && key_num!=0)) {
-				this->state = PLAYER_INVINCIBLE;
+				this->state = PLAYER_STATE::INVINCIBLE;
 			}
 		}
-		if (this->state == PLAYER_INVINCIBLE || this->state == PLAYER_INVINCIBLE_MOVE) {//如果无敌
+		if (this->state == PLAYER_STATE::INVINCIBLE || this->state == PLAYER_STATE::INVINCIBLE_MOVE) {//如果无敌
 			this->invincible_cnt++;
 			if (this->invincible_cnt > 120)//如果已经2秒以上的话
 			{
-				this->state = PLAYER_DEFAULT;
+				this->state = PLAYER_STATE::DEFAULT;
 				this->invincible_cnt = 0;
 			}
 				
@@ -105,15 +105,15 @@ namespace NspPlayer {
 
 		frame_now = (frame % (FRAME_SPEED * 8)) / FRAME_SPEED;
 
-		if (this->state != PLAYER_DEATH_BOMB) { // 非决死 可以移动
+		if (this->state != PLAYER_STATE::DEATH_BOMB) { // 非决死 可以移动
 
-			if ((key[RIGHT] || key[LEFT]) && (key[DOWN] || key[UP]))
+			if ((key[(int)KEY_CONTROL::RIGHT] || key[(int)KEY_CONTROL::LEFT]) && (key[(int)KEY_CONTROL::DOWN] || key[(int)KEY_CONTROL::UP]))
 				speed /= sqrt(2.0f);
-			if (!key[RIGHT] && !key[LEFT])
+			if (!key[(int)KEY_CONTROL::RIGHT] && !key[(int)KEY_CONTROL::LEFT])
 				prev_state = 0;
-			if (!(key[RIGHT] && key[LEFT])) {
-				if (key[RIGHT]) {
-					if (prev_state != RIGHT)
+			if (!(key[(int)KEY_CONTROL::RIGHT] && key[(int)KEY_CONTROL::LEFT])) {
+				if (key[(int)KEY_CONTROL::RIGHT]) {
+					if (prev_state != (int)KEY_CONTROL::RIGHT)
 						move_start = 0;
 					mx = speed;
 					if (move_start < FRAME_SPEED / 2.0f * 4) {
@@ -123,10 +123,10 @@ namespace NspPlayer {
 					else {
 						frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 2 + 4;
 					}
-					prev_state = RIGHT;
+					prev_state = (int)KEY_CONTROL::RIGHT;
 				}
-				if (key[LEFT]) {
-					if (prev_state != LEFT)
+				if (key[(int)KEY_CONTROL::LEFT]) {
+					if (prev_state != (int)KEY_CONTROL::LEFT)
 						move_start = 0;
 					mx = -speed;
 					if (move_start < FRAME_SPEED / 2 * 4) {
@@ -136,17 +136,17 @@ namespace NspPlayer {
 					else {
 						frame_now = (frame % (FRAME_SPEED * 4)) / FRAME_SPEED + 8 * 1 + 4;
 					}
-					prev_state = LEFT;
+					prev_state = (int)KEY_CONTROL::LEFT;
 				}
 			}
 
-			if (!(key[DOWN] && key[UP])) {
-				if (key[DOWN])
+			if (!(key[(int)KEY_CONTROL::DOWN] && key[(int)KEY_CONTROL::UP])) {
+				if (key[(int)KEY_CONTROL::DOWN])
 					my = speed;
-				if (key[UP])
+				if (key[(int)KEY_CONTROL::UP])
 					my = -speed;
 			}
-			if (key[SLOW]) {
+			if (key[(int)KEY_CONTROL::SLOW]) {
 				mx /= 3.0f;
 				my /= 3.0f;
 				slow = true;
@@ -165,7 +165,7 @@ namespace NspPlayer {
 
 
 		//当按下射击按钮的时候
-		if (key[SHOT]) {
+		if (key[(int)KEY_CONTROL::SHOT]) {
 			this->shot_cnt++;
 			if (this->shot_cnt % 3 == 0) {//每3次计数射击一次
 				Shot();
@@ -175,7 +175,7 @@ namespace NspPlayer {
 			this->shot_cnt = 0;
 
 		//当按下Bomb按钮的时候 决死 或者 普通时可用
-		if (key[BOMB] && (this->state == PLAYER_DEATH_BOMB || this->state == PLAYER_DEFAULT)) {
+		if (key[(int)KEY_CONTROL::BOMB] && (this->state == PLAYER_STATE::DEATH_BOMB || this->state == PLAYER_STATE::DEFAULT)) {
 			bomb->Bomb();
 		}
 		bomb->Update();
@@ -184,7 +184,7 @@ namespace NspPlayer {
 	}
 	void Player::Render() {
 
-		if ((this->state == PLAYER_INVINCIBLE || this->state == PLAYER_INVINCIBLE_MOVE) ) {
+		if ((this->state == PLAYER_STATE::INVINCIBLE || this->state == PLAYER_STATE::INVINCIBLE_MOVE) ) {
 			if (this->invincible_cnt % 2 == 0)  // 无敌状态时闪烁
 				Unit::Render();
 		}else

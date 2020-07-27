@@ -17,7 +17,7 @@ namespace NspEffect {
 		bom.flag = 1;
 		bom.cnt = 0;
 		bom.knd = 0;
-		player->state = PLAYER_BOMB;
+		player->state = PLAYER_STATE::BOMB;
 		NspBullet::BulletClear();
 		//NspEmitter::EmitterClear();
 		Sound::PlayMusic(5);//播放确定声
@@ -90,7 +90,7 @@ namespace NspEffect {
 			if (bom.cnt > 90)
 				bright_set.brt = 255 - 40 * 5 + (bom.cnt - 90) * 5;//设定画面的的亮度（亮）
 			if (bom.cnt > 130) {
-				player->state = PLAYER_DEFAULT;
+				player->state = PLAYER_STATE::DEFAULT;
 				bom.flag = 0;
 				bright_set.brt = 255;
 			}

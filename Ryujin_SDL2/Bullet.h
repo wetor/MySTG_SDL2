@@ -13,7 +13,6 @@ namespace NspBullet {
 		void Init(bullet_t* data);
 		void Init(player_bullet_t* data);
 		void Update();
-		void Free();
 	public:
 		bool flag;
 

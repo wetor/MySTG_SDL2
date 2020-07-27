@@ -9,18 +9,20 @@ namespace NspEmitter {
 		Emitter();
 		bool isExist() { return flag; };
 		int AddBulletID(int id);
-		void Init(int enemy_id);
+		void Init(int enemy_id, int emitter_id, bool is_boss = false);
 		void Update();
-		void Clear();
+		void Clear(bool clear_bullet = false);
 	public:
-		bool flag;
+		bool flag = false;
+		int id;
+		bool is_boss = false; // 是否为boos
 		EMITTER_STATE state;
 		//种类、计数器、发射的敌人的编号
 		int  enemy_id, knd, frame;
 		//基本角度、基本速度
 		float x, y, base_angle[1], base_spd[1];
 
-		int bullet_id_list[BULLET_MAX];
+		bool bullet_id[BULLET_MAX];
 
 	};
 
@@ -34,4 +36,5 @@ namespace NspEmitter {
 	void emitter_bullet_H006(Emitter* _this);
 	void emitter_bullet_H007(Emitter* _this);
 	void emitter_bullet_H008(Emitter* _this);
+	void boss_shot_bulletH000(Emitter* _this);
 }

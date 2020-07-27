@@ -19,10 +19,10 @@ namespace NspEmitter {
 		return -1;
 	}
 
-	int EmitterEnter(int enemy_id) {
+	int EmitterEnter(int enemy_id, bool is_boss) {
 		int k = search_emitter();
 		if (k != -1)
-			emitter[k].Init(enemy_id);
+			emitter[k].Init(enemy_id, k, is_boss);
 		return k;
 	}
 
@@ -34,9 +34,9 @@ namespace NspEmitter {
 		}
 	}
 
-	void EmitterClear() {
+	void EmitterClear(bool clear_bullet) {
 		for (int i = 0; i < EMITTER_MAX; i++) {
-			emitter[i].Clear();
+			emitter[i].Clear(clear_bullet);
 		}
 	}
 #ifdef DEBUG

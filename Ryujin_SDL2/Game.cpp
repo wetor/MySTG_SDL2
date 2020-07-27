@@ -86,6 +86,10 @@ int UpdateLoop(void *data) {
 		NspEnemy::EnemyUpdate(); 
 		Timer::End("Update", "Enemy");
 
+		Timer::Start("Update", "Boss");
+		NspBoss::BossUpdate();
+		Timer::End("Update", "Boss");
+
 		Timer::Start("Update", "Emitter");
 		NspEmitter::EmitterUpdate(); 
 		Timer::End("Update", "Emitter");
@@ -108,8 +112,8 @@ int UpdateLoop(void *data) {
 		Sound::Update(); 
 		Timer::End("Update", "Sound");
 		
-
-		frame_total++;
+		if(!boss->isExist()) // Boss存在时，暂停
+			frame_total++;
 	}
 	return 0;
 }
@@ -142,6 +146,10 @@ int DrawLoop(void *data) {
 		Timer::Start("Draw", "Effect");
 		NspEffect::EffectRender(); 
 		Timer::End("Draw", "Effect");
+
+		Timer::Start("Draw", "Boss");
+		NspBoss::BossRender();
+		Timer::End("Draw", "Boss");
 
 		Timer::Start("Draw", "Enemy");
 		NspEnemy::EnemyRender(); 
@@ -201,13 +209,14 @@ int DrawLoop(void *data) {
 		SDL_RenderDrawRect(renderer, &rect);
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
-		NspEnemy::EnemyNumberShow(20, 40);
-		NspEmitter::EmitterNumberShow(20, 60);
-		NspBullet::BulletNumberShow(20, 80);
+		NumberShow(20,40,"Frame total", frame_total);
+		NspEnemy::EnemyNumberShow(20, 60);
+		NspEmitter::EmitterNumberShow(20, 80);
+		NspBullet::BulletNumberShow(20, 100);
 		//LogA("%d", Timer::Size());
 		for (int i = 0; i < Timer::Size(); i++) {
 			
-			NumberShow(20, 150 + i * 20, Timer::Get(i));
+			NumberShow(20, 170 + i * 20, Timer::Get(i));
 		}
 
 #endif
@@ -254,6 +263,7 @@ int main(int argc, char* argv[])
 			LogA("EnemyInit()");	NspEnemy::EnemyInit();
 			LogA("EmitterInit()");	NspEmitter::EmitterInit();
 			LogA("PlayerInit()");	NspPlayer::PlayerInit();
+			LogA("BossInit()");		NspBoss::BossInit();
 			LogA("EffectInit()");	NspEffect::EffectInit();
 
 			for(int i=0;i<100;i++)

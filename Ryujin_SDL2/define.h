@@ -68,7 +68,7 @@
 //Emitter
 #define EMITTER_MAX 60
 #define EMITTER_BARRAGE_MAX 9
-
+#define EMITTER_BOSS_BARRAGE_MAX 9
 
 //自机射击的子弹的登录最大数
 #define PLAYER_BULLET_MAX 200
@@ -78,3 +78,11 @@
 
 #define EFFECT_MAX 100
 
+#define V0 10.0
+//Boss的固定位置
+#define BOSS_POS_X (FX + FW/2.0f)
+#define BOSS_POS_Y 100.0f
+//Boss所有的子弹的最大数量
+#define BOSS_BULLET_MAX 3000
+//弹幕的最大数
+#define DANMAKU_MAX 50

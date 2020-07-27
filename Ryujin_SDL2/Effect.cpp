@@ -19,8 +19,6 @@ namespace NspEffect {
 	}
 	Effect::~Effect() {
 
-		Unit::Free();
-
 	}
 	void  Effect::Init(effect_t* data) {
 		/*
@@ -36,7 +34,7 @@ namespace NspEffect {
 			Unit::Load(effect_image_list[this->knd]);
 		}
 		
-		Unit::Init(UNIT_EFFECT);
+		Unit::Init(UNIT_TYPE::EFFECT);
 
 		this->flag = true;
 		this->frame = -data->wait;//等待帧数
@@ -123,12 +121,24 @@ namespace NspEffect {
 			if (this->frame >= 6)
 				this->brt -= 255 / 6;
 			this->scale += 0.08f;
-			if (this->frame >= 12 || player->state != PLAYER_DEATH_BOMB)
+			if (this->frame >= 12 || player->state != PLAYER_STATE::DEATH_BOMB)
 				this->flag = 0;
 			break;
 		default:
 			LogA("effect设定错误");
 			break;
+		}
+
+		// 屏幕晃动
+		if (dn.flag == 1) {
+			dn.x = (int)rang(dn.size);
+			dn.y = (int)rang(dn.size);
+			dn.cnt++;
+			if (dn.cnt > dn.time) {//如果超过了预设的时间的话就结束
+				dn.flag = 0;
+				dn.x = 0;
+				dn.y = 0;
+			}
 		}
 		Unit::Update();
 

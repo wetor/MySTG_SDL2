@@ -45,7 +45,7 @@ namespace NspEnemy {
 
 	void Enemy::Init(enemy_order_t _enemy_order) {
 		Unit::Load("enemy0");
-		Unit::Init(UNIT_ENEMY);
+		Unit::Init(UNIT_TYPE::ENEMY);
 
 		this->range = 16.0;
 
@@ -71,7 +71,7 @@ namespace NspEnemy {
 			this->item_n[j] = _enemy_order.item_n[j];
 
 		func_pattern = enemy_pattern[pattern];
-		this->emitter_state = EMITTER_DEFAULT;
+		this->emitter_state = EMITTER_STATE::DEFAULT;
 
 	}
 	void Enemy::Update() {
@@ -100,10 +100,9 @@ namespace NspEnemy {
 		//emitter[emitter_id].
 	}
 	void Enemy::Destroy(bool is_clear) {
-		Unit::Free();
 		this->flag = false;
 		if(is_clear)
-			this->emitter_state = EMITTER_CLEAR;
+			this->emitter_state = EMITTER_STATE::CLEAR;
 			
 		
 	}
