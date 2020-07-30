@@ -34,20 +34,22 @@ namespace NspEmitter {
 		}
 	}
 
-	void EmitterClear(bool clear_bullet) {
+	void EmitterClear() {
 		for (int i = 0; i < EMITTER_MAX; i++) {
-			emitter[i].Clear(clear_bullet);
+			emitter[i].Clear();
 		}
 	}
 #ifdef DEBUG
 	void EmitterNumberShow(int x, int y) {
-		int num = 0;
+		int num = 0,num2=0;
 		for (int i = 0; i < EMITTER_MAX; i++) {
 			if (emitter[i].isExist()) {
 				num++;
+				num2 += emitter[i].bullet_num;
 			}
-		}
+		}	
 		NumberShow(x, y, "Emitter num", num);
+		NumberShow(x, y+40, "Emitter Bullet num", num2);
 	}
 #endif
 }

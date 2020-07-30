@@ -15,6 +15,7 @@ NspEnemy::Enemy enemy[ENEMY_MAX];
 //list<Enemy*> enemy;
 list<enemy_order_t> enemy_order;
 bright_set_t bright_set; //绘制的亮度
+boss_t boss_data;
 
 namespace NspEnvironment {
 	void EnvInit() {
@@ -48,16 +49,30 @@ namespace NspPlayer {
 
 namespace NspBoss {
 	void BossInit() {
-		//boss->Init();
+		boss_data.sc_num = 2;
+		boss_data.sc_enter = new int[boss_data.sc_num] {100, -1};
+		boss_data.sc_hp = new int[boss_data.sc_num] {5000, 10000};
+		boss_data.sc_knd = new int[boss_data.sc_num] {0, 0};
+		boss_data.sc_bg = new int[boss_data.sc_num] {0, 1};
+
+
+		boss_data.hagoromo = 0;//是否扇状扩散的flag
+		boss_data.endtime = 99 * 60;//剩余时间
+		boss_data.graph_flag = 0;//恢复绘制flag
+		boss_data.wtime = 0;//初始化待机时间
+
+		boss_data.x = FX + FW / 2.0f;//设置Boss的初始坐标
+		boss_data.y = -30;
+		//boss_data.knd = 0;//弹幕的种类
+
+		boss->Init(boss_data);
 	}
 	void BossEnter() {
-		if (frame_total == boss->appear_count && !boss->isExist()) { //如果到了开始时间的话
-			boss->Init(0);
+		if (!boss->isExist() && frame_total == boss->get_enter(0)) { //如果到了开始时间的话
+			boss->Enter(0);
 			//enter_boss(0);//开始
 		}
-		if (boss->state == BOSS_STATE::SHOOTING && (boss->hp <= 0 || boss->endtime <= 0)) {//如果在弹幕中体力为0的话
-			boss->Init(1);//进入下一次弹幕
-		}
+
 	}
 	void BossUpdate() {
 		BossEnter();
@@ -115,7 +130,7 @@ namespace NspEnemy {
 	void EnemyClear() {
 		for (int i = 0; i < ENEMY_MAX; i++) {
 			if (enemy[i].isExist()) {
-				enemy[i].Destroy();
+				enemy[i].Clear();
 			}
 		}
 	}

@@ -49,4 +49,4 @@ extern bright_set_t bright_set; //»æÖÆµÄÁÁ¶È
 
 extern bom_t bom; 
 extern dn_t dn; 
-
+extern boss_t boss_data;

@@ -47,9 +47,9 @@ namespace NspEnemy {
 		Unit::Load("enemy0");
 		Unit::Init(UNIT_TYPE::ENEMY);
 
-		this->range = 16.0;
+		this->range = 16.0f;
 
-		this->flag = true;
+		
 		this->pattern = _enemy_order.pattern;
 		this->move_state = 1;
 		this->knd = _enemy_order.knd;
@@ -72,7 +72,7 @@ namespace NspEnemy {
 
 		func_pattern = enemy_pattern[pattern];
 		this->emitter_state = EMITTER_STATE::DEFAULT;
-
+		this->flag = true;
 	}
 	void Enemy::Update() {
 		if (!flag) return;
@@ -86,7 +86,7 @@ namespace NspEnemy {
 		frame_now = move_state * 3 + (frame % (FRAME_SPEED * 3)) / FRAME_SPEED;
 		//如果敌人跑到画面外面了就销毁
 		if (x < (float)FX - w * 2 || x >(float)FMX + w * 2 || y < (float)FY - h * 2 || y >(float)FMY + h * 2) {
-			Destroy();
+			this->flag = false;
 			
 			//printf("Enemy delete enemy_frame:%d game_frame:%d\n", frame,frame_total);
 			//将被销毁
@@ -99,10 +99,9 @@ namespace NspEnemy {
 		if (emitter_id == -1) return;
 		//emitter[emitter_id].
 	}
-	void Enemy::Destroy(bool is_clear) {
+	void Enemy::Clear() {
 		this->flag = false;
-		if(is_clear)
-			this->emitter_state = EMITTER_STATE::CLEAR;
+		this->emitter_state = EMITTER_STATE::CLEAR;
 			
 		
 	}

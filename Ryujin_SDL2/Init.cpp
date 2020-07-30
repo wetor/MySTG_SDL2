@@ -57,7 +57,8 @@ bool WindowInit() {
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 	//SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
-
+	//SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+	
 	//SDL_SetHint(SDL_HINT_RENDER_DIRECT3D_THREADSAFE, "0");
 
 	TTF_Init();
@@ -82,10 +83,6 @@ bool WindowInit() {
 	if (font_default == NULL)  return false;
 
 
-
-	boss->appear_count = 100;
-	boss->hp = 5000;
-
 	bright_set.brt = 255;
 
 	//SDL_SetWindowBrightness(window, 1.0);
@@ -98,6 +95,10 @@ void ResourcesInit() {
 
 	image_map["player"] = { 32,48,IMG_Load("../Ryujin_SDL2/dat/img/player/reimu.png") };
 	image_map["center"] = { 13,13,IMG_Load("../Ryujin_SDL2/dat/img/player/atari.png") };
+
+	image_map["ball"] = { 40,40,IMG_Load("../Ryujin_SDL2/dat/img/player/ball.png") };
+	image_map["hp"] = { 1,6,IMG_Load("../Ryujin_SDL2/dat/img/enemy/hp.png") };
+	image_map["hp_boss"] = { 1,6,IMG_Load("../Ryujin_SDL2/dat/img/enemy/hp_boss.png") };
 
 	image_map["enemy0"] = { 32,32,IMG_Load("../Ryujin_SDL2/dat/img/enemy/0.png") };
 

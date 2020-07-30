@@ -5,6 +5,7 @@
 namespace NspBoss {
 	Boss::Boss() : Unit()
 	{
+
 	}
 	void Boss::AddEmitter(int emitter_id)
 	{
@@ -15,26 +16,75 @@ namespace NspBoss {
 	{
 		this->emitter_id[emitter_id] = 0;
 	}
-	void Boss::Init(int num)
+	void Boss::Death()
+	{
+		flag = false;
+		for (int i = 0; i < EMITTER_MAX; i++) {
+			if (emitter_id[i] == 1) {
+				emitter_state[i] = EMITTER_STATE::CLEAR;
+				emitter_id[i] = 0;
+			}
+		}
+	}
+	void Boss::Init(boss_t _boss_data) 
 	{
 		Unit::Load("boss");
 		Unit::Init(UNIT_TYPE::BOSS);
-		if (num == 0) {//中路Boss开始时的情况
-			NspEmitter::EmitterClear(); // 后续会一起删除子弹，所以不需要在这里清除子弹
-			NspEnemy::EnemyClear();
-			NspBullet::BulletClear();
-			x = FX + FW / 2.0f;//设置Boss的初始坐标
-			y = -30;
-			knd = 0;//弹幕的种类
-
+		if(hp_surface == NULL)
+			hp_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, FW, 6, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+		if (hp_texture == NULL) {
+			SDL_Rect temp_size = { 0 , 0 ,1, 6 };
+			SDL_Rect temp_rect = { 0 , 0 ,1, 6 };
+			for (int i = 0; i < FW; i++) {
+				temp_rect.x = i;
+				SDL_BlitSurface(image_map["hp_boss"].surface, &temp_size, hp_surface, &temp_rect);
+			}
+			hp_texture = SDL_CreateTextureFromSurface(renderer, hp_surface);
 		}
+
+		sc_num = _boss_data.sc_num;
+
+		sc_enter = _boss_data.sc_enter;
+		sc_hp = _boss_data.sc_hp;
+		sc_knd = _boss_data.sc_knd;
+		sc_bg = _boss_data.sc_bg;
+
+		sc_index = -1;
+
+		range = 40.0f;
+
+		hagoromo = _boss_data.hagoromo;//是否扇状扩散的flag
+		endtime = _boss_data.endtime;//剩余时间
+
+		graph_flag = _boss_data.graph_flag;//恢复绘制flag
+		wtime = _boss_data.wtime;//初始化待机时间
+
+		x = _boss_data.x;//设置Boss的初始坐标
+		y = _boss_data.y;
+
+		//knd = 0;//弹幕的种类
+	}
+	void Boss::Enter(int num)
+	{
+		Death();
+		if (num >= sc_num) {
+			LogA("Boss死亡");
+			return;
+		}
+		LogA("Boss出现 弹幕 %d", num);
+		sc_index = num;
+		if (sc_index == 0) {//中路Boss开始时的情况
+			//NspEmitter::EmitterClear(); // 后续会一起删除子弹，所以不需要在这里清除子弹
+			NspEnemy::EnemyClear(); // enemy.clear -> emitter.clear -> bullet.clear
+			//NspBullet::BulletClear();
+		}
+		hp = sc_hp[sc_index];
+		hp_max = hp;
+
 		flag = true;
-		hagoromo = 0;//是否扇状扩散的flag
-		endtime = 99 * 60;//剩余时间
 		state = BOSS_STATE::WAITING;//设置状态为待机中
 		this->frame = 0;
-		graph_flag = 0;//恢复绘制flag
-		wtime = 0;//初始化待机时间
+
 		input_phy(60);//附加上60次计数在物理计算中回到固定位置
 	}
 	//进行物理计算的登录（在指定时间t内回到固定位置）
@@ -58,12 +108,45 @@ namespace NspBoss {
 	{
 		if (!flag)
 			return;
+
 		Unit::Render();
+		static SDL_Rect hp_size = { 0 , 0, FW, 6 };
+		SDL_FRect temp_rect = { 5.0f + FX + dn.x , 2.0f + FY + dn.y , FW * 0.98f * hp / hp_max, 6.0f };
+		SDL_RenderCopyF(renderer, hp_texture, &hp_size, &temp_rect);
+		//for (int i = 0; i < FW * 0.98f * hp / hp_max; i++) {
+		//	//temp_rect.x = 3 + FX + i + dn.x;
+		//	//temp_rect.y = 2 + FY + dn.y;
+		//	temp_rect.x = 3 + i;
+		//	if (sc_bg[sc_index] == 1) {
+		//		SDL_BlitSurface(image_map["hp_boss"].surface, &hp_rect, hp_surface, &temp_rect);
+		//		//SDL_RenderCopy(renderer, image_map["hp_boss"].texture, &hp_rect, &temp_rect);
+		//	}
+		//	else
+		//	{
+		//		SDL_BlitSurface(image_map["hp"].surface, &hp_rect, hp_surface, &temp_rect);
+		//		//SDL_RenderCopy(renderer, image_map["hp"].texture, &hp_rect, &temp_rect);
+		//	}
+		//}
+
 	}
 	void Boss::Update()
 	{
 		if (!flag)
 			return;
+
+		if (state == BOSS_STATE::SHOOTING) {//如果在弹幕中体力为0的话
+			if (endtime <= 0) { //boss结束
+				LogA("Boss逃走");
+				Death();
+				return;
+			}
+			else if (hp <= 0 || this->frame == get_enter(sc_index+1)) {
+				// 当前血量为零 或已经到达下一条生命出现的时间
+				Enter(sc_index + 1);//进入下一次弹幕
+				return;
+			}
+		}
+
 		if (this->phy.flag == 1) {//如果物理移动计算有效
 			//calc_phy();//进行物理计算
 			float t = phy.cnt;
@@ -95,7 +178,7 @@ namespace NspBoss {
 			//boss_shot_bullet[boss.knd]();//进入弹幕函数
 			//boss_shot_calc();//计算弹幕
 		}
-		
+		endtime--;
 		Unit::Update();
 	}
 }

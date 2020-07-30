@@ -29,7 +29,7 @@ namespace NspBullet {
 
 		
 		this->angle = data->angle;
-		this->flag = true;
+		
 		this->x = data->x;
 		this->y = data->y;
 		this->state = data->state;
@@ -37,6 +37,7 @@ namespace NspBullet {
 		frame_now = this->col;
 		this->frame = 0;
 		this->spd = data->spd;
+		this->flag = true;
 
 	}
 	void Bullet::Init(player_bullet_t* data) {
@@ -46,14 +47,14 @@ namespace NspBullet {
 		Unit::Init(UNIT_TYPE::BULLET_PLAYER);
 		this->range = 6.0;
 		this->angle = data->angle;
-		this->flag = true;
+		
 		this->x = data->x;
 		this->y = data->y;
 		this->power= data->power;
 		frame_now = 0;
 		this->frame = 0;
 		this->spd = data->spd;
-
+		this->flag = true;
 	}
 
 	void Bullet::Update() {
@@ -67,6 +68,16 @@ namespace NspBullet {
 		}
 		else if (this->unit_type == UNIT_TYPE::BULLET) {
 			// 由 Emitter 管理
+			this->x += cos(this->angle) * this->spd;
+			this->y += sin(this->angle) * this->spd;
+			//printf("cnt %d bullet x %lf y %lf angle %lf\n",frame, this->x, this->y, this->angle);
+			if (this->x< (float)FX - 50 || this->x>(float)FMX + 50 || this->y< (float)FY - 50 || this->y>(float)FMY + 50) {//如果跑到画面外面的话
+				if (this->till < this->frame) {//且比最低程度不会销毁的时间还要很长
+					this->flag = false;//销毁之
+					
+					//printf("bullet remove enemy_id:%d bullet_id:%d\n", enemy_id,i);
+				}
+			}
 		}
 		Unit::Update();
 

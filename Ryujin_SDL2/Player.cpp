@@ -30,11 +30,19 @@ namespace NspPlayer {
 		Unit::Load("player");
 		Unit::Init(UNIT_TYPE::PLAYER);
 		center = SDL_CreateTextureFromSurface(renderer, image_map["center"].surface);
+		ball = SDL_CreateTextureFromSurface(renderer, image_map["ball"].surface);
 		int t_w = image_map["center"].surface->w;
 		int t_h = image_map["center"].surface->h;
 		slow_center_size = { 0 , 0, t_w, t_h };
 		slow_center_point = { t_w / 2.0f, t_h / 2.0f};
 		slow_center_rect = { 0,0,(float)t_w, (float)t_h };
+
+		t_w = image_map["ball"].surface->w;
+		t_h = image_map["ball"].surface->h;
+		ball_size = { 0 , 0, t_w, t_h };
+		ball_point = { t_w / 2.0f, t_h / 2.0f };
+		ball_rect = { 0,0,(float)t_w, (float)t_h };
+
 		x = (float)FX + FW / 2.0f;
 		y = (float)FY + FW - 50.0f;
 		this->range = 2.0f;
@@ -69,6 +77,7 @@ namespace NspPlayer {
 		static int move_start = 0;
 		static int prev_state = 0;
 		float mx = 0.0, my = 0.0, speed = 4.5f;
+		float ny = (sin(2.0f * PI * (frame % 50) / 50) * 3);
 		int key_num = GetControl();
 
 		if (this->state == PLAYER_STATE::DEATH_BOMB) {//如果正在进行决死处理
@@ -150,11 +159,15 @@ namespace NspPlayer {
 				mx /= 3.0f;
 				my /= 3.0f;
 				slow = true;
-				slow_center_rect.x = x - slow_center_size.w / 2.0f;
-				slow_center_rect.y = y - slow_center_size.h / 2.0f;
+				slow_center_rect.x = x - slow_center_size.w / 2.0f + dn.x;
+				slow_center_rect.y = y - slow_center_size.h / 2.0f + dn.y;
+				ball_rect.y = y + 15 + ny - ball_size.h / 2.0f + dn.y;
 			}
-			else
+			else {
 				slow = false;
+				ball_rect.y = y + 30 + ny - ball_size.h / 2.0f + dn.y;
+			}
+				
 			if (!(x + mx < (float)FX || x + mx>(float)FMX))
 				x += mx;
 			if (!(y + my< (float)FY || y + my>(float)FMY))
@@ -184,13 +197,23 @@ namespace NspPlayer {
 	}
 	void Player::Render() {
 
+		if (slow)
+			ball_rect.x = x + dn.x - ball_size.w / 2.0f - 15;
+		else
+			ball_rect.x = x + dn.x - ball_size.w / 2.0f - 30;
+		SDL_RenderCopyExF(renderer, ball, &ball_size, &ball_rect, (frame % 360) * 5.0f, &ball_point, SDL_FLIP_NONE);
+		if (slow)
+			ball_rect.x = x + dn.x - ball_size.w / 2.0f + 15;
+		else
+			ball_rect.x = x + dn.x - ball_size.w / 2.0f + 30;
+		SDL_RenderCopyExF(renderer, ball, &ball_size, &ball_rect, -(frame % 360) * 5.0f, &ball_point, SDL_FLIP_NONE);
 		if ((this->state == PLAYER_STATE::INVINCIBLE || this->state == PLAYER_STATE::INVINCIBLE_MOVE) ) {
 			if (this->invincible_cnt % 2 == 0)  // 无敌状态时闪烁
 				Unit::Render();
 		}else
 			Unit::Render(); //正常显示
 		if (slow) { // 慢速移动时，显示中心贴图
-			SDL_RenderCopyExF(renderer, center, &slow_center_size, &slow_center_rect,(frame % 360) * 5.0, &slow_center_point, SDL_FLIP_NONE);
+			SDL_RenderCopyExF(renderer, center, &slow_center_size, &slow_center_rect,(frame % 360) * 5.0f, &slow_center_point, SDL_FLIP_NONE);
 		}
 	}
 	//一般射击的登录

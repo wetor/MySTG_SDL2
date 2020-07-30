@@ -40,6 +40,7 @@ bool Collider::Judge(NspBullet::Bullet* bullet, Unit* unit) {
 void Collider::PlayerShotEnemy() {
 	for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
 		if (player_bullet[i].isExist()) {
+			// ÆÕÍ¨µÐÈË
 			for (int e = 0; e < ENEMY_MAX; e++) {
 				if (enemy[e].isExist()) {
 					if (Judge(&player_bullet[i], &enemy[e])) {
@@ -49,11 +50,19 @@ void Collider::PlayerShotEnemy() {
 						Sound::PlayMusic(2);
 						if (enemy[e].Death()) {
 							NspEffect::DeathEnter(&enemy[e]);
-							enemy[e].Destroy(false);//µ¯Ä»Í£Ö¹·¢Éä£¬²»Çå¿Õ
 							Sound::PlayMusic(3);
 						}
-						
 					}
+				}
+			}
+
+			if (boss->isExist() && boss->graph_flag == 0 && boss->state == BOSS_STATE::SHOOTING) {
+				// Boss
+				if (Judge(&player_bullet[i], boss)) {
+					//LogA("dis %d %d",i,e);
+					player_bullet[i].flag = false;
+					boss->hp -= player_bullet[i].power;
+					Sound::PlayMusic(2);
 				}
 			}
 		}
@@ -67,11 +76,14 @@ void Collider::PlayerBombEnemy() {
 			//Sound::PlayMusic(2);
 			if (enemy[e].Death()) {
 				NspEffect::DeathEnter(&enemy[e]);
-				enemy[e].Destroy(false);//µ¯Ä»Í£Ö¹·¢Éä£¬Çå¿Õ
 				Sound::PlayMusic(3);
 			}
 		}
 	}
+	if (boss->isExist() && boss->graph_flag == 0 && boss->state == BOSS_STATE::SHOOTING) {
+		boss->hp -= player->power / 20;
+	}
+
 }
 void Collider::EnemyShotPlayer() {
 	for (int i = 0; i < BULLET_MAX; i++) {

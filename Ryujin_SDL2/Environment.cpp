@@ -18,7 +18,7 @@ namespace NspEnvironment {
 		if (this->frame < 0) return;			//frame为负数即等待帧数
 
 		
-		SDL_Rect temp_rect = { FX , frame % h,this->w, this->h };
+		SDL_Rect temp_rect = { FX + dn.x , frame % h + dn.y,this->w, this->h };
 		
 		if (bright_set.brt < 255)
 		{
@@ -29,11 +29,18 @@ namespace NspEnvironment {
 			SDL_SetTextureColorMod(texture, 255,255,255);
 			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 		}
-		//SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
-		SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], &temp_rect);
-		temp_rect.y -= h;
-		SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], &temp_rect);
-		//SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+		if (boss->isExist() && boss->get_bg() == 1) {
+			SDL_RenderClear(renderer);
+		}
+		else {
+			SDL_RenderClear(renderer);
+			//SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+			SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], &temp_rect);
+			temp_rect.y -= h;
+			SDL_RenderCopy(renderer, texture, &frame_rect[frame_now], &temp_rect);
+			//SDL_BlitSurface(surface, &frame_rect[frame_now], game_surface, &temp_rect);
+		}
+		
 		
 
 	}

@@ -63,7 +63,7 @@
 //Enemy
 #define ENEMY_MAX 30
 //Bullet
-#define BULLET_MAX 3000
+#define BULLET_MAX 10000
 
 //Emitter
 #define EMITTER_MAX 60
@@ -85,4 +85,4 @@
 //Boss所有的子弹的最大数量
 #define BOSS_BULLET_MAX 3000
 //弹幕的最大数
-#define DANMAKU_MAX 50
+#define SC_MAX 10

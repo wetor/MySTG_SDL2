@@ -30,10 +30,15 @@ namespace NspPlayer {
 		bool slow;       //是否缓慢移动
 		int shot_cnt;    //射击的计数器
 		SDL_Texture* center;
-
+		
 		SDL_Rect slow_center_size;
 		SDL_FRect slow_center_rect;
 		SDL_FPoint slow_center_point;
+
+		SDL_Texture* ball;
+		SDL_Rect ball_size;
+		SDL_FRect ball_rect;
+		SDL_FPoint ball_point;
 
 
 	};

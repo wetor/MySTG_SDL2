@@ -69,7 +69,7 @@ namespace NspEnemy {
 namespace NspEmitter {
 	extern	void EmitterInit();
 	extern	int	 EmitterEnter(int enemy_id, bool is_boss=false);
-	extern	void EmitterClear(bool clear_bullet = false);
+	extern	void EmitterClear();
 	extern	void EmitterUpdate();
 #ifdef DEBUG
 	extern  void EmitterNumberShow(int x, int y);

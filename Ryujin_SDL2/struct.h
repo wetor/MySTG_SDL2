@@ -2,6 +2,8 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include "define.h"
+
 struct enemy_order_t {
 	//计数器、移动模式、敌人的种类
 	int cnt, pattern, knd;
@@ -73,7 +75,9 @@ struct phy_t {
 struct boss_t {
 	int flag, cnt, knd, wtime, state, endtime, hagoromo, graph_flag;
 	int hp, hp_max;
-	int appear_count[2];//set_hp[DANMAKU_MAX];
+	int sc_num;
+	int *sc_enter,*sc_hp, *sc_knd, *sc_bg;
+
 	float x, y, ang, spd;
 	phy_t phy;
 };

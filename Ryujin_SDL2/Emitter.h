@@ -11,7 +11,7 @@ namespace NspEmitter {
 		int AddBulletID(int id);
 		void Init(int enemy_id, int emitter_id, bool is_boss = false);
 		void Update();
-		void Clear(bool clear_bullet = false);
+		void Clear();
 	public:
 		bool flag = false;
 		int id;
@@ -21,7 +21,7 @@ namespace NspEmitter {
 		int  enemy_id, knd, frame;
 		//基本角度、基本速度
 		float x, y, base_angle[1], base_spd[1];
-
+		int bullet_num;
 		bool bullet_id[BULLET_MAX];
 
 	};

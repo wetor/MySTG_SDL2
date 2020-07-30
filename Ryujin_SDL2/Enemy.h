@@ -12,7 +12,7 @@ namespace NspEnemy {
 		void Update();
 		void Shot();
 		bool isExist() { return flag; };
-		void Destroy(bool is_clear = false);
+		void Clear();
 		bool Death();
 		void SetEmitter(int emitter_id)
 		{

@@ -24,9 +24,7 @@ namespace NspEmitter {
 		int enemy_id = _this->enemy_id;
 		int bullet_id = 0;
 		int t = _this->frame;
-		for (int z = 0; z < 3; z++)
-		if (t > 10) {
-
+		if (t == 10) {
 			bullet_t temp;
 
 			temp.knd = enemy[enemy_id].blknd2;
@@ -288,7 +286,7 @@ namespace NspEmitter {
 		int i, k, t = boss->frame_shot % TM000;
 		int bullet_id = 0;
 		float angle;
-		if (t < 60 && t % 10 == 0) {
+		if (t < 60 && t%10 ==0) {
 			angle = bossatan2();
 			for (i = 0; i < 30; i++) {
 				bullet_t temp;
@@ -305,7 +303,7 @@ namespace NspEmitter {
 				_this->AddBulletID(bullet_id);
 			}
 		}
-		Sound::PlayMusic(0);
+		//Sound::PlayMusic(0);
 		//for (i = 0; i < BOSS_BULLET_MAX; i++) {
 		//	if (boss_shot.bullet[i].flag > 0) {
 

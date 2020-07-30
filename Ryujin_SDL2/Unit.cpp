@@ -145,8 +145,8 @@ void Unit::Render(int bright, int alpha, bool enable_bright)
 		SDL_SetTextureColorMod(texture, 255, 255, 255);
 		SDL_SetTextureColorMod(mask_texture, 255, 255, 255);
 	}
-
-	SDL_SetTextureAlphaMod(texture, alpha);
+	if(alpha!=-1)
+		SDL_SetTextureAlphaMod(texture, alpha);
 
 	SDL_RenderCopyExF(renderer, texture, &frame_rect[frame_now], &draw_rect, draw_angle, &draw_center, SDL_FLIP_NONE);
 	if ( bright > 0) {
