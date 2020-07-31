@@ -26,13 +26,14 @@ namespace NspBoss {
 		int get_bg() {
 			return sc_bg[sc_index];
 		}
+		int move_boss_pos(float x1, float y1, float x2, float y2, float dist, int t);
 	private:
 		void input_phy(int t);
 		void input_phy_pos(float x, float y, int t);
-		int move_boss_pos(float x1, float y1, float x2, float y2, float dist, int t);
+		
 	public:
 		bool flag = false;
-		int emitter_id[EMITTER_MAX];
+		bool emitter_id[EMITTER_MAX];
 		EMITTER_STATE emitter_state[EMITTER_MAX];
 		phy_t phy;
 		BOSS_STATE state;
@@ -41,6 +42,7 @@ namespace NspBoss {
 
 		NspEffect::BossEffect *bg_effect;
 		float dx, dy;
+		float base_angle;
 		int frame_shot;
 		int wtime, endtime, hagoromo, graph_flag;
 		int hp, hp_max;

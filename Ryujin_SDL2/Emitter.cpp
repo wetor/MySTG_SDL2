@@ -26,7 +26,9 @@ namespace NspEmitter {
 			emitter_bullet_H008
 	};
 	void(*EmitterBossBarrage[EMITTER_BOSS_BARRAGE_MAX])(Emitter*) = {
-			boss_shot_bulletH000
+			boss_shot_bulletH000,boss_shot_bulletH001,
+			boss_shot_bulletH002
+
 	};
 
 	Emitter::Emitter()
@@ -84,7 +86,7 @@ namespace NspEmitter {
 			if (!boss->isExist())
 				Clear(); //Boss死亡，清空子弹
 			else
-				EmitterBossBarrage[0](this);
+				EmitterBossBarrage[boss->get_knd()](this);
 		}
 		else if(state == EMITTER_STATE::DEFAULT){
 			if (enemy[enemy_id].emitter_state == EMITTER_STATE::CLEAR) {// 单位标记销毁此发射器

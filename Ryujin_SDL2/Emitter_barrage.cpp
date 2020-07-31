@@ -5,17 +5,15 @@
 
 namespace NspEmitter {
 
-	float rang(double ang) {
-		return (float)(-ang + ang * 2 * (rand() % 10000) / 10000.0);
+	float rang(float ang) {
+		return (-ang + ang * 2 * (rand() % 10000) / 10000.0f);
 	}
 
 	float shotatan2(int enemy_id) {
 
 		return atan2(player->y - enemy[enemy_id].y, player->x - enemy[enemy_id].x);
 	}
-	float bossatan2() {//自机和敌人所成的夹角
-		return atan2(player->y - boss->y, player->x - boss->x);
-	}
+
 	/*float rang(float max) {
 		return (rand() % (int)(max * 1000)) / 1000.0;
 	}*/
@@ -281,35 +279,7 @@ namespace NspEmitter {
 
 
 
-	void boss_shot_bulletH000(Emitter* _this) {
-#define TM000 120
-		int i, k, t = boss->frame_shot % TM000;
-		int bullet_id = 0;
-		float angle;
-		if (t < 60 && t%10 ==0) {
-			angle = bossatan2();
-			for (i = 0; i < 30; i++) {
-				bullet_t temp;
 
-				temp.col = 0;
-				temp.x = _this->x;
-				temp.y = _this->y;
-				temp.knd = 8;
-				temp.angle = angle + PI2 / 30 * i;
-				temp.flag = 1;
-				temp.cnt = 0;
-				temp.spd = 3;
-				bullet_id = NspBullet::BulletEnter(&temp);
-				_this->AddBulletID(bullet_id);
-			}
-		}
-		//Sound::PlayMusic(0);
-		//for (i = 0; i < BOSS_BULLET_MAX; i++) {
-		//	if (boss_shot.bullet[i].flag > 0) {
-
-		//	}
-		//}
-	}
 
 
 

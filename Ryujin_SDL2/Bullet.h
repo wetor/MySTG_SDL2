@@ -21,5 +21,7 @@ namespace NspBullet {
 		int  knd, col, state, till, eff;
 		//坐标、速度、基本角度、瞬间记忆速度
 		float  spd, base_angle[1], rem_spd[1];
+		//旋转
+		int rotate;
 	};
 }

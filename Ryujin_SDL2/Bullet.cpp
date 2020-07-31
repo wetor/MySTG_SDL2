@@ -14,6 +14,8 @@ namespace NspBullet {
 		this->base_angle[1] = 0;
 		this->rem_spd[1] = 0;
 		this->power = 0;
+		this->rotate = 0;
+		
 	}
 
 
@@ -33,6 +35,7 @@ namespace NspBullet {
 		this->x = data->x;
 		this->y = data->y;
 		this->state = data->state;
+		this->rotate = data->rotate;
 		this->col = data->col;
 		frame_now = this->col;
 		this->frame = 0;
@@ -77,6 +80,12 @@ namespace NspBullet {
 					
 					//printf("bullet remove enemy_id:%d bullet_id:%d\n", enemy_id,i);
 				}
+			}
+			if (this->rotate == 1) {
+				rotate_angle = 2.0f * PI * (frame % 120) / 120;
+			}
+			else {
+				rotate_angle = 0;
 			}
 		}
 		Unit::Update();

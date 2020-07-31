@@ -205,7 +205,7 @@ void Unit::Update()
 	draw_h = this->scale * this->h;
 	draw_rect = { this->x + dn.x - draw_w / 2.0f + 0.5f , this->y + dn.y - draw_h / 2.0f + 0.5f, draw_w, draw_h };
 	draw_center = { draw_w / 2.0f, draw_h / 2.0f };
-	draw_angle = angle * 180 / PI;
+	draw_angle = (angle + rotate_angle) * 180 / PI;
 	if (unit_type == UNIT_TYPE::BULLET || unit_type == UNIT_TYPE::BULLET_PLAYER)	//需要更改朝向
 		draw_angle += 90;
 

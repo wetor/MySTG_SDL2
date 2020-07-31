@@ -19,6 +19,8 @@ struct bullet_t {
 	int flag, knd, cnt, col, state, till, eff;
 	//坐标、角度、速度、基本角度、瞬间记忆速度
 	float x, y, angle, spd, base_angle[1], rem_spd[1];
+	//旋转
+	int rotate;
 };
 
 //消灭特效

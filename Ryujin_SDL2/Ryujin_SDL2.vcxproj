@@ -195,6 +195,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EmitterManager.cpp" />
     <ClCompile Include="Emitter_barrage.cpp" />
+    <ClCompile Include="Emitter_bossBarrage.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy_pattern.cpp" />
     <ClCompile Include="Environment.cpp" />

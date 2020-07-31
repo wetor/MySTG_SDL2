@@ -52,7 +52,7 @@ namespace NspBoss {
 		boss_data.sc_num = 2;
 		boss_data.sc_enter = new int[boss_data.sc_num] {100, -1};
 		boss_data.sc_hp = new int[boss_data.sc_num] {5000, 10000};
-		boss_data.sc_knd = new int[boss_data.sc_num] {0, 0};
+		boss_data.sc_knd = new int[boss_data.sc_num] {2, 2 };
 		boss_data.sc_bg = new int[boss_data.sc_num] {0, 1};
 
 

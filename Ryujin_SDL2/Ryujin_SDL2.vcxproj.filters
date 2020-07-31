@@ -167,6 +167,9 @@
     <ClCompile Include="BossEffect.cpp">
       <Filter>源文件\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Emitter_bossBarrage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="note.md">

@@ -9,20 +9,20 @@ namespace NspBoss {
 	}
 	void Boss::AddEmitter(int emitter_id)
 	{
-		this->emitter_id[emitter_id] = 1;
+		this->emitter_id[emitter_id] = true;
 		this->emitter_state[emitter_id] = EMITTER_STATE::DEFAULT;
 	}
 	void Boss::DestroyEmitter(int emitter_id)
 	{
-		this->emitter_id[emitter_id] = 0;
+		this->emitter_id[emitter_id] = false;
 	}
 	void Boss::Death()
 	{
 		flag = false;
 		for (int i = 0; i < EMITTER_MAX; i++) {
-			if (emitter_id[i] == 1) {
+			if (emitter_id[i]) {
 				emitter_state[i] = EMITTER_STATE::CLEAR;
-				emitter_id[i] = 0;
+				emitter_id[i] = false;
 			}
 		}
 		bg_effect->Clear();
@@ -165,7 +165,9 @@ namespace NspBoss {
 	}
 	void Boss::Update()
 	{
-
+		static float s_x = 0, s_y = 0;
+		x = s_x;
+		y = s_y;
 		if (state == BOSS_STATE::SHOOTING) {//如果在弹幕中体力为0的话
 			if (endtime <= 0) { //boss结束
 				LogA("Boss逃走");
@@ -213,9 +215,19 @@ namespace NspBoss {
 		}
 		this->dx = x;
 		this->dy = y + sin(PI2 / 130 * (frame % 130)) * 10;
-
+		s_x = x;
+		s_y = y;
+		x = dx;
+		y = dy;
 		endtime--;
+		for (int i = 0; i < EMITTER_MAX; i++) {
+			if (emitter_id[i]) {
+				emitter[i].x = x;
+				emitter[i].y = y;
+			}
+		}
 		bg_effect->Update();
 		Unit::Update();
+		
 	}
 }

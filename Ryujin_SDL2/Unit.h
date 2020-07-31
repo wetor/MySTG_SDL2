@@ -24,6 +24,7 @@ public:
 	SDL_Texture* mask_texture;	//遮罩，光
 	float x, y;				//坐标
 	float angle;				//角度
+	float rotate_angle;			//自旋角度
 	float scale;				//缩放
 	int w, h;					//帧宽高
 	string type;				//图像类型
