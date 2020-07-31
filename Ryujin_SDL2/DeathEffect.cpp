@@ -31,5 +31,6 @@ namespace NspEffect {
 	}
 	void DeathEffect::Update()
 	{
+		// 交给Effect内部处理
 	}
 }

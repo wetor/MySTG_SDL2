@@ -5,7 +5,7 @@
 namespace NspBoss {
 	Boss::Boss() : Unit()
 	{
-
+		bg_effect = new NspEffect::BossEffect();
 	}
 	void Boss::AddEmitter(int emitter_id)
 	{
@@ -25,6 +25,7 @@ namespace NspBoss {
 				emitter_id[i] = 0;
 			}
 		}
+		bg_effect->Clear();
 	}
 	void Boss::Init(boss_t _boss_data) 
 	{
@@ -42,6 +43,7 @@ namespace NspBoss {
 			hp_texture = SDL_CreateTextureFromSurface(renderer, hp_surface);
 		}
 
+		
 		sc_num = _boss_data.sc_num;
 
 		sc_enter = _boss_data.sc_enter;
@@ -84,6 +86,7 @@ namespace NspBoss {
 		flag = true;
 		state = BOSS_STATE::WAITING;//设置状态为待机中
 		this->frame = 0;
+		bg_effect->Init();
 
 		input_phy(60);//附加上60次计数在物理计算中回到固定位置
 	}
@@ -104,10 +107,41 @@ namespace NspBoss {
 		phy.ay = 2 * ymax_y / (t * t);//数值分量的加速度
 		phy.prey = y;//初始y坐标
 	}
+	//进行与某点的指定距离的物理计算的登录（在指定时间t内回到固定位置）
+	void Boss::input_phy_pos(float x1, float y1, int t)
+	{
+		double ymax_x, ymax_y;
+		if (t == 0)t = 1;
+		phy.flag = 1;//登录有效
+		phy.cnt = 0;//计时器初始化
+		phy.set_t = t;//设置移动附加时间
+		ymax_x = x - x1;//想要移动的水平距离
+		phy.v0x = 2 * ymax_x / t;//水平分量的初速度
+		phy.ax = 2 * ymax_x / (t * t);//水平分量的加速度
+		phy.prex = x;//初始x坐标
+		ymax_y = y - y1;//想要移动的水平距离
+		phy.v0y = 2 * ymax_y / t;//水平分量的初速度
+		phy.ay = 2 * ymax_y / (t * t);//水平分量的加速度
+		phy.prey = y;//初始y坐标
+	}
+	int Boss::move_boss_pos(float x1, float y1, float x2, float y2, float dist, int t)
+	{
+		int i = 0;
+		double t_x, t_y, angle;
+		for (i = 0; i < 1000; i++) {
+			t_x = x, t_y = y;//设置当前Boss的位置
+			angle = NspEffect::rang(PI);//適当地决定前进方向
+			t_x += cos(angle) * dist;//向着那个地方移动
+			t_y += sin(angle) * dist;
+			if (x1 <= t_x && t_x <= x2 && y1 <= t_y && t_y <= y2) {//如果那个点在移动可能的范围内的话
+				input_phy_pos(t_x, t_y, t);
+				return 0;
+			}
+		}
+		return -1;//1000如果1000次尝试都不能的话就返回错误
+	}
 	void Boss::Render()
 	{
-		if (!flag)
-			return;
 
 		Unit::Render();
 		static SDL_Rect hp_size = { 0 , 0, FW, 6 };
@@ -131,8 +165,6 @@ namespace NspBoss {
 	}
 	void Boss::Update()
 	{
-		if (!flag)
-			return;
 
 		if (state == BOSS_STATE::SHOOTING) {//如果在弹幕中体力为0的话
 			if (endtime <= 0) { //boss结束
@@ -142,6 +174,7 @@ namespace NspBoss {
 			}
 			else if (hp <= 0 || this->frame == get_enter(sc_index+1)) {
 				// 当前血量为零 或已经到达下一条生命出现的时间
+				bg_effect->Clear();
 				Enter(sc_index + 1);//进入下一次弹幕
 				return;
 			}
@@ -178,7 +211,11 @@ namespace NspBoss {
 			//boss_shot_bullet[boss.knd]();//进入弹幕函数
 			//boss_shot_calc();//计算弹幕
 		}
+		this->dx = x;
+		this->dy = y + sin(PI2 / 130 * (frame % 130)) * 10;
+
 		endtime--;
+		bg_effect->Update();
 		Unit::Update();
 	}
 }

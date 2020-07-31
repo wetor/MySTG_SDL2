@@ -1,5 +1,6 @@
 #pragma once
 #include "Unit.h"
+#include "Effect.h"
 namespace NspBoss {
 	class Boss : 
 		public Unit
@@ -27,6 +28,8 @@ namespace NspBoss {
 		}
 	private:
 		void input_phy(int t);
+		void input_phy_pos(float x, float y, int t);
+		int move_boss_pos(float x1, float y1, float x2, float y2, float dist, int t);
 	public:
 		bool flag = false;
 		int emitter_id[EMITTER_MAX];
@@ -35,6 +38,9 @@ namespace NspBoss {
 		BOSS_STATE state;
 		SDL_Surface* hp_surface;
 		SDL_Texture* hp_texture;
+
+		NspEffect::BossEffect *bg_effect;
+		float dx, dy;
 		int frame_shot;
 		int wtime, endtime, hagoromo, graph_flag;
 		int hp, hp_max;

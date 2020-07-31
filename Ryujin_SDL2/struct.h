@@ -29,7 +29,7 @@ struct del_effect_t {
 
 //ÌØĞ§
 struct effect_t {
-	int flag, wait=0, col=0, knd, eff, brt;
+	int flag, wait=0, col=0, knd, eff, brt=0;
 	std::string img;
 	float x=0, y=0, r=0, ang, spd, mvang;
 };

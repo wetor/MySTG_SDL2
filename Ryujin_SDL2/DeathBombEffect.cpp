@@ -29,5 +29,6 @@ namespace NspEffect {
 	}
 	void DeathBombEffect::Update()
 	{
+		// 交给Effect内部处理
 	}
 }

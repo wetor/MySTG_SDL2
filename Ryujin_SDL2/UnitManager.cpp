@@ -76,11 +76,13 @@ namespace NspBoss {
 	}
 	void BossUpdate() {
 		BossEnter();
-		boss->Update();
+		if (boss->isExist())
+			boss->Update();
 
 	}
 	void BossRender() {
-		boss->Render();
+		if(boss->isExist())
+			boss->Render();
 
 	}
 }

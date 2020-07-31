@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="BombEffect.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossEffect.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Collider.cpp" />

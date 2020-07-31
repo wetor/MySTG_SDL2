@@ -122,6 +122,9 @@ void ResourcesInit() {
 	image_map["back0"] = { 522,952,IMG_Load("../Ryujin_SDL2/dat/img/back/0/back0.png") };
 
 	image_map["boss"] = { 100,100,IMG_Load("../Ryujin_SDL2/dat/img/player/riria.png") };
+	image_map["boss_bg1"] = { 300,300,IMG_Load("../Ryujin_SDL2/dat/img/enemy/bossback.png") };
+	image_map["boss_bg2"] = { 200,200,IMG_Load("../Ryujin_SDL2/dat/img/enemy/bossback3.png") };
+	image_map["boss_bg3"] = { 110,110,IMG_Load("../Ryujin_SDL2/dat/img/enemy/bossback4.png") };
 
 	//image_map["b0"] = { 76,76,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b0.png") };
 	//image_map["b1"] = { 22,22,IMG_Load("../Ryujin_SDL2/dat/img/bullet/b1.png") };

@@ -65,6 +65,7 @@ namespace NspEffect {
 		static int n, k;
 		static float shot_angle[4] = { 0,PI,PI / 2,PI * 1.5f };//4发特效飞行的角度
 		if (bom.flag == 1) {//如果Boom已经被登录
+			// 登录
 			if (bom.cnt % 10 == 0) {//1/6秒一次
 				n = (bom.cnt / 10);
 				if (n < 4) {
@@ -94,6 +95,71 @@ namespace NspEffect {
 				bom.flag = 0;
 				bright_set.brt = 255;
 			}
+			// 更新
+			for (int i : effect_id) {
+				if (!(i >= 0 && effect[i].flag)) continue;
+				switch (effect[i].knd) {//根据效果的种类进行分歧
+				case 1:// Boom的特效
+					//坐标计算
+					effect[i].x += cos(effect[i].move_angle) * effect[i].spd;
+					effect[i].y += sin(effect[i].move_angle) * effect[i].spd;
+					//printf("%f %f\n", cos(effect[i].move_angle) * effect[i].spd, sin(effect[i].move_angle));
+					//速度计算
+					if (effect[i].frame < 60)
+						effect[i].spd -= (0.2f + effect[i].frame * effect[i].frame / 3000.0f);
+					if (effect[i].frame == 60) {
+						effect[i].spd = 0;
+						Sound::PlayMusic(6);
+						dn.flag = 1;
+						dn.cnt = 0;
+						dn.size = 11;
+						dn.time = 20;
+					}
+					//亮度和大小的计算
+					effect[i].scale += 0.015f;
+					if (effect[i].frame < 51)
+						effect[i].brt += 5;
+					if (effect[i].frame >= 60) {
+						effect[i].scale += 0.04f;
+						effect[i].brt -= 255 / 30.0f;
+					}
+					//计数器自增以及消去计算
+					if (effect[i].frame >= 90)
+						effect[i].flag = false;
+
+					break;
+				case 2:// Boom特效（角色）
+											//座標計算 坐标计算
+					effect[i].x += cos(effect[i].move_angle) * effect[i].spd;
+					effect[i].y += sin(effect[i].move_angle) * effect[i].spd;
+					//亮度计算
+					if (effect[i].frame < 51)
+						effect[i].brt += 4;
+					if (effect[i].frame > 130 - 51)
+						effect[i].brt -= 4;
+					//计数器自增及消去计算
+					if (effect[i].frame >= 130)
+						effect[i].flag = 0;
+					break;
+				case 3://Boom的特效（线）
+						//坐标计算
+					effect[i].x += cos(effect[i].move_angle) * effect[i].spd;
+					effect[i].y += sin(effect[i].move_angle) * effect[i].spd;
+					//亮度计算
+					if (effect[i].frame < 51)
+						effect[i].brt += 2;
+					if (effect[i].frame > 130 - 51)
+						effect[i].brt -= 2;
+					//计数器自增与消去计算
+					if (effect[i].frame >= 130)
+						effect[i].flag = 0;
+					break;
+				default:
+					LogA("effect设定错误");
+					break;
+				}
+			}
+
 		}
 
 	}

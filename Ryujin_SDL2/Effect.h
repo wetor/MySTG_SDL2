@@ -54,4 +54,17 @@ namespace NspEffect {
 	public:
 		int effect_id[10];
 	};
+
+	class BossEffect //BossÌØÐ§
+	{
+	public:
+		BossEffect();
+		void Init();
+		void Update();
+		void Clear();
+	public:
+		int effect_id[5];
+		bool flag = false;
+	};
+
 }
