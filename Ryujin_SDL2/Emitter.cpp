@@ -27,7 +27,8 @@ namespace NspEmitter {
 	};
 	void(*EmitterBossBarrage[EMITTER_BOSS_BARRAGE_MAX])(Emitter*) = {
 			boss_shot_bulletH000,boss_shot_bulletH001,
-			boss_shot_bulletH002
+			boss_shot_bulletH002,boss_shot_bulletH003,
+			boss_shot_bulletH004
 
 	};
 

@@ -27,9 +27,10 @@ namespace NspBoss {
 			return sc_bg[sc_index];
 		}
 		int move_boss_pos(float x1, float y1, float x2, float y2, float dist, int t);
+		void input_phy_pos(float x, float y, int t);
 	private:
 		void input_phy(int t);
-		void input_phy_pos(float x, float y, int t);
+		
 		
 	public:
 		bool flag = false;
@@ -42,7 +43,7 @@ namespace NspBoss {
 
 		NspEffect::BossEffect *bg_effect;
 		float dx, dy;
-		float base_angle;
+		float base_angle[2];
 		int frame_shot;
 		int wtime, endtime, hagoromo, graph_flag;
 		int hp, hp_max;

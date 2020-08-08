@@ -110,7 +110,7 @@ namespace NspBoss {
 	//进行与某点的指定距离的物理计算的登录（在指定时间t内回到固定位置）
 	void Boss::input_phy_pos(float x1, float y1, int t)
 	{
-		double ymax_x, ymax_y;
+		float ymax_x, ymax_y;
 		if (t == 0)t = 1;
 		phy.flag = 1;//登录有效
 		phy.cnt = 0;//计时器初始化

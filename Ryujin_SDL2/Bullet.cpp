@@ -15,6 +15,8 @@ namespace NspBullet {
 		this->rem_spd[1] = 0;
 		this->power = 0;
 		this->rotate = 0;
+		this->vx = 0;
+		this->vy = 0;
 		
 	}
 
@@ -34,6 +36,8 @@ namespace NspBullet {
 		
 		this->x = data->x;
 		this->y = data->y;
+		this->vx = data->vx;
+		this->vy = data->vy;
 		this->state = data->state;
 		this->rotate = data->rotate;
 		this->col = data->col;
@@ -73,6 +77,12 @@ namespace NspBullet {
 			// 由 Emitter 管理
 			this->x += cos(this->angle) * this->spd;
 			this->y += sin(this->angle) * this->spd;
+			if (this->spd == 0 && (vx != 0 || vy != 0)) {
+				//LogA("%f %f",vx,vy);
+				this->x += vx;
+				this->y += vy;
+				angle = atan2(vy, vx);
+			}
 			//printf("cnt %d bullet x %lf y %lf angle %lf\n",frame, this->x, this->y, this->angle);
 			if (this->x< (float)FX - 50 || this->x>(float)FMX + 50 || this->y< (float)FY - 50 || this->y>(float)FMY + 50) {//如果跑到画面外面的话
 				if (this->till < this->frame) {//且比最低程度不会销毁的时间还要很长

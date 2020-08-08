@@ -9,7 +9,7 @@ namespace NspEmitter {
 	}
 	void boss_shot_bulletH000(Emitter* _this) {
 #define TM000 120
-		int i, k, t = boss->frame_shot % TM000;
+        int i, k, t = (boss->frame_shot - 1) % TM000;
 		int bullet_id = 0;
 		float angle;
 		if (t < 60 && t % 10 == 0) {
@@ -40,21 +40,21 @@ namespace NspEmitter {
     //沉默的圣奈
     void boss_shot_bulletH001(Emitter* _this) {
 #define TM001 60
-        int i, k, t = boss->frame_shot % TM001, t2 = boss->frame_shot;
+        int i, k, t = (boss->frame_shot - 1) % TM001, t2 = (boss->frame_shot - 1);
         static int cnum;
         int bullet_id = 0;
-        double angle;
+        float angle;
         if (t2 == 0)//最开始的初始化
             cnum = 0;
         if (t == 0) {//每1次弹幕最开始的初始化
-            boss->base_angle = bossatan2();//自机与Boss的角度
+            boss->base_angle[0] = bossatan2();//自机与Boss的角度
             if (cnum % 4 == 3) {// 4次弹幕移动一次
                 boss->move_boss_pos(FX + 40, FY + 30, FMX - 40, FX + 120, 60, 60);
             }
         }
         //1次弹幕的最开始是自机狙，到了一半之后从自机狙错开
         if (t == TM001 / 2 - 1)
-            boss->base_angle += PI2 / 20 / 2;
+            boss->base_angle[0] += PI2 / 20 / 2;
         //1次弹幕发射10次圆形子弹
         if (t % (TM001 / 10) == 0) {
             angle = bossatan2();//自机-Boss之间的角度
@@ -66,7 +66,7 @@ namespace NspEmitter {
                 temp.y = _this->y;
                 temp.knd = 8;
                 //从基本角度开始旋转20次并发射
-                temp.angle = boss->base_angle + PI2 / 20 * i;
+                temp.angle = boss->base_angle[0] + PI2 / 20 * i;
                 temp.flag = 1;
                 temp.cnt = 0;
                 temp.spd = 2.7f;
@@ -100,8 +100,8 @@ namespace NspEmitter {
     //完美冻结
     void boss_shot_bulletH002(Emitter* _this) {
 #define TM002 650
-        int i, k, t = boss->frame_shot % TM002;
-        double angle;
+        int i, k, t = (boss->frame_shot - 1) % TM002;
+        float angle;
         int bullet_id = 0;
         if (t == 0 || t == 210) {
             //在40<x<FMX-40  50<y<150的范围内80次计数中移动到100单位远的地方
@@ -178,4 +178,158 @@ namespace NspEmitter {
         }
     }
 
+    //恋之迷路
+    void boss_shot_bulletH003(Emitter* _this) {
+#define TM003 600
+#define DF003 20 
+    
+        int i, j, k, t = (boss->frame_shot - 1) % TM003, t2 = (boss->frame_shot - 1);
+        static int tcnt, cnt, cnum;
+        float angle;
+        int bullet_id = 0;
+        if (t2 == 0) {
+            //在40<x<FMX-40  50<y<150的范围内80次计数中移动到100单位外的位置
+            boss->input_phy_pos(FX + FW/2, FY + FH/2, 50);
+            cnum = 0;
+        }
+        if (t == 0) {
+            boss->base_angle[0] = bossatan2();
+            cnt = 0;
+            tcnt = 2;
+        }
+        if (t < 540 && t % 3) {
+            angle = bossatan2();
+            if (tcnt - 2 == cnt || tcnt - 1 == cnt) {
+                if (tcnt - 1 == cnt) {
+                    boss->base_angle[1] = boss->base_angle[0] + PI2 / DF003 * cnt * (cnum ? -1 : 1) - PI2 / (DF003 * 6) * 3;
+                    tcnt += DF003 - 2;
+                }
+            }
+            else {
+                for (i = 0; i < 6; i++) {
+                    bullet_t temp;
+
+                    temp.col = cnum ? 1 : 4;
+                    temp.x = _this->x;
+                    temp.y = _this->y;
+                    temp.knd = 8;
+                    temp.angle = boss->base_angle[0] + PI2 / DF003 * cnt * (cnum ? -1 : 1) + PI2 / (DF003 * 6) * i * (cnum ? -1 : 1);
+                    temp.flag = 1;
+                    temp.cnt = 0;
+                    temp.spd = 2;
+                    bullet_id = NspBullet::BulletEnter(&temp);
+                    _this->AddBulletID(bullet_id);
+                    Sound::PlayMusic(0);
+                }
+            }
+            cnt++;
+        }
+        if (40 < t && t < 540 && t % 30 == 0) {
+            for (j = 0; j < 3; j++) {
+                angle = boss->base_angle[1] - PI2 / 36 * 4;
+                for (i = 0; i < 27; i++) {
+                    bullet_t temp;
+
+                    temp.col = cnum ? 6 : 0;
+                    temp.x = _this->x;
+                    temp.y = _this->y;
+                    temp.knd = 7;
+                    temp.angle = angle;
+                    temp.flag = 1;
+                    temp.cnt = 0;
+                    temp.spd = 4 - 1.6f / 3 * j;
+                    bullet_id = NspBullet::BulletEnter(&temp);
+                    _this->AddBulletID(bullet_id);
+                    Sound::PlayMusic(0);
+
+                    angle -= PI2 / 36;
+                }
+            }
+        }
+        //    for(i=0;i<BOSS_BULLET_MAX;i++){
+        //        if(boss_shot.bullet[i].flag>0){
+        //
+        //        }
+        //    }
+        if (t == TM003 - 1)
+            cnum++;
+    }
+
+    //小小青蛙不畏风雨
+    void boss_shot_bulletH004(Emitter* _this) {
+#define TM004 200
+        int i, j, k, n, t = (boss->frame_shot - 1) % TM004, t2 = (boss->frame_shot - 1);
+        static int tm;
+        float angle;
+        int bullet_id = 0;
+        //周期的最开始设置tm
+        if (t == 0)
+            tm = 190 + rang(30);
+        angle = PI * 1.5f + PI / 6 * sin(PI2 / tm * t2);
+        //每4次计数往8路射出子弹
+        if (t2 % 4 == 0) {
+            for (n = 0; n < 8; n++) {
+
+                bullet_t temp;
+                temp.state = 0;
+                temp.col = 0;
+                temp.x = _this->x;
+                temp.y = _this->y;
+                temp.vx = cos(angle - PI / 8 * 4 + PI / 8 * n + PI / 16) * 3;
+                temp.vy = sin(angle - PI / 8 * 4 + PI / 8 * n + PI / 16) * 3;
+                temp.knd = 4;
+                temp.angle = 0;
+                temp.flag = 1;
+                temp.cnt = 0;
+                temp.eff_detail = 1;
+                temp.spd = 0;
+                bullet_id = NspBullet::BulletEnter(&temp);
+                _this->AddBulletID(bullet_id);
+                
+            }
+            Sound::PlayMusic(0);
+        }
+        if (t % 1 == 0 && t2 > 80) {
+            int num = 1;
+            if (t % 2)
+                num = 2;
+            for (n = 0; n < num; n++) {
+                angle = PI * 1.5f - PI / 2 + PI / 12 * (t2 % 13) + rang(PI / 15);
+                bullet_t temp;
+                temp.state = 1;
+                temp.col = 4;
+                temp.x = _this->x;
+                temp.y = _this->y;
+                temp.vx = cos(angle) * 1.4f * 1.2f;
+                temp.vy = sin(angle) * 1.4f;
+                temp.knd = 8;
+                temp.angle = 0;
+                temp.flag = 1;
+                temp.cnt = 0;
+                temp.eff_detail = 0;
+                temp.spd = 0;
+                bullet_id = NspBullet::BulletEnter(&temp);
+                _this->AddBulletID(bullet_id);
+            }
+            Sound::PlayMusic(0); // 7
+        }
+        for (i = 0; i < BULLET_MAX; i++) {
+            if (_this->bullet_id[i]) {
+                if (bullet[i].state == 0) {
+                    if (bullet[i].frame < 150)
+                        bullet[i].vy += 0.03;
+                    //bullet[i].x += bullet[i].vx;
+                    //bullet[i].y += bullet[i].vy;
+                }
+                if (bullet[i].state == 1) {
+                    if (bullet[i].frame < 160)
+                        bullet[i].vy += 0.03;
+                    //bullet[i].x += bullet[i].vx;
+                    //bullet[i].y += bullet[i].vy;
+                    //bullet[i].angle = atan2(bullet[i].vy, bullet[i].vx);
+                }
+            }
+        }
+
+    }
 }

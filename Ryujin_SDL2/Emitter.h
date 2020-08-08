@@ -43,4 +43,7 @@ namespace NspEmitter {
 	void boss_shot_bulletH000(Emitter* _this);
 	void boss_shot_bulletH001(Emitter* _this);
 	void boss_shot_bulletH002(Emitter* _this);
+	void boss_shot_bulletH003(Emitter* _this);
+	void boss_shot_bulletH004(Emitter* _this);
+
 }

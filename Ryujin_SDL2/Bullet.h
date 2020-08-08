@@ -23,5 +23,7 @@ namespace NspBullet {
 		float  spd, base_angle[1], rem_spd[1];
 		//Ðý×ª
 		int rotate;
+
+		float vx, vy;
 	};
 }

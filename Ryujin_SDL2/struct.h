@@ -18,9 +18,10 @@ struct bullet_t {
 	//flag、种类、计数器、颜色、状态、保证不消失的最短时间、效果的种类
 	int flag, knd, cnt, col, state, till, eff;
 	//坐标、角度、速度、基本角度、瞬间记忆速度
-	float x, y, angle, spd, base_angle[1], rem_spd[1];
+	float x, y, angle, spd, base_angle[1], rem_spd[1], vx, vy;
 	//旋转
 	int rotate;
+	int eff_detail;
 };
 
 //消灭特效
